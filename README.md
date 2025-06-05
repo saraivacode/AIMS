@@ -162,7 +162,7 @@ If you use this code in your research, please cite:
 ```bibtex
 @article{saraiva2025aims,
   title={Adaptive and Intelligent Management of Slicing for Next-Generation ITS Networks},
-  author={Saraiva, Tiago do Vale and Campos, Carlos Alberto Vieira},
+  author={Saraiva, Tiago do Vale},
   journal={},
   year={2025},
   publisher={}
