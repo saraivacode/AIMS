@@ -1,0 +1,52 @@
+{
+  "best_params": {
+    "n_estimators": 300,
+    "max_depth": null,
+    "min_samples_leaf": 2,
+    "max_features": 0.5
+  },
+  "cv_score": 0.9636880730793023,
+  "holdout_metrics": {
+    "0": {
+      "precision": 0.9942528735632183,
+      "recall": 0.8826530612244898,
+      "f1-score": 0.9351351351351351,
+      "support": 196.0
+    },
+    "1": {
+      "precision": 0.987220447284345,
+      "recall": 0.939209726443769,
+      "f1-score": 0.9626168224299065,
+      "support": 329.0
+    },
+    "2": {
+      "precision": 0.9188679245283019,
+      "recall": 0.9898373983739838,
+      "f1-score": 0.9530332681017613,
+      "support": 492.0
+    },
+    "3": {
+      "precision": 0.9787234042553191,
+      "recall": 0.9787234042553191,
+      "f1-score": 0.9787234042553191,
+      "support": 141.0
+    },
+    "accuracy": 0.9559585492227979,
+    "macro avg": {
+      "precision": 0.9697661624077961,
+      "recall": 0.9476058975743904,
+      "f1-score": 0.9573771574805304,
+      "support": 1158.0
+    },
+    "weighted avg": {
+      "precision": 0.9583351547865845,
+      "recall": 0.9559585492227979,
+      "f1-score": 0.9558547400448982,
+      "support": 1158.0
+    }
+  },
+  "study_stats": {
+    "n_trials": 40,
+    "n_pruned": 0
+  }
+}

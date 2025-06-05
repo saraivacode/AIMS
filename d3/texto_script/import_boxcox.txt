@@ -1,0 +1,117 @@
+# substitui valores nulos/zero por epsilon (1e-6), assegurando que todos os valores de RTT sejam positivos p/ boxcox
+# clip(lower=1e-6) troca apenas zeros eventuais — não desloca a média.
+# boxcox devolve a série transformada e o λ ótimo; guardar o λ permite reverter ou aplicar em novos dados
+def apply_boxcox(df, col_in='rtt'):
+    # Make a copy to avoid modifying the original
+    rtt_values = df[col_in].copy()
+
+    # Replace NaN, inf, -inf with NaN (for easier identification)
+    rtt_values = rtt_values.replace([np.inf, -np.inf], np.nan)
+
+    # Print info about problematic values
+    n_nan = rtt_values.isna().sum()
+    n_zero_or_neg = (rtt_values <= 0).sum()
+
+    if n_nan > 0 or n_zero_or_neg > 0:
+        print(f"Found {n_nan} NaN values and {n_zero_or_neg} zero/negative values in {col_in}")
+
+    # 1) Replace NaN with a small positive value and ensure all values are positive
+    epsilon = 1e-6
+    rtt_values = rtt_values.fillna(epsilon)
+    rtt_pos = rtt_values.clip(lower=epsilon)
+
+    # Double-check for any remaining issues
+    if not np.all(np.isfinite(rtt_pos)) or not np.all(rtt_pos > 0):
+        problematic = ~np.isfinite(rtt_pos) | (rtt_pos <= 0)
+        print(f"Still have {problematic.sum()} problematic values after cleaning")
+        # Force replacement of any remaining issues
+        rtt_pos[problematic] = epsilon
+
+    # 2) Apply Box-Cox
+    try:
+        transformed, lam = boxcox(rtt_pos)
+        #df[col_out] = transformed
+        return transformed, lam
+    except Exception as e:
+        print(f"Error during Box-Cox transformation: {str(e)}")
+        print(f"Min value: {rtt_pos.min()}, Max value: {rtt_pos.max()}")
+        # As a last resort, print some problematic values
+        if len(rtt_pos) > 0:
+            print("Sample of values:", rtt_pos.head(10).values)
+        raise
+
+print("\n--- Final DataFrame Information ---")
+print(f"Shape of the final DataFrame: {df_original_v0.shape}")
+print("\nFirst 5 rows of the final DataFrame:")
+print(df_original_v0.head())
+
+--- Final DataFrame Information ---
+Shape of the final DataFrame: (5400, 16)
+
+First 5 rows of the final DataFrame:
+         timestamp_sec_str app cenario  carros_ativos  \
+0  1987-10-05 11:01:38 UTC   e      fn              2   
+1  1987-10-05 11:01:39 UTC   e      fn              2   
+2  1987-10-05 11:01:40 UTC   e      fn              2   
+3  1987-10-05 11:01:41 UTC   e      fn              2   
+4  1987-10-05 11:01:42 UTC   e      fn              2   
+
+   vazao_env_carro_total_bps  vazao_env_carro_media_bps  \
+0                     958720                   479360.0   
+1                     994672                   497336.0   
+2                    1006656                   503328.0   
+3                     970704                   485352.0   
+4                     994672                   497336.0   
+
+   vazao_rec_servidor_total_bps  vazao_rec_servidor_media_bps  rtt_medio_ms  \
+0                             0                           0.0   2266.666667   
+1                             0                           0.0   2275.250000   
+2                             0                           0.0   2274.250000   
+3                        503328                      251664.0   2268.250000   
+4                        503328                      251664.0   2262.500000   
+
+   rtt_medio_ms_interpolated  pdr_inst_pacotes  conf_inst_bits  \
+0                2266.666667          0.000000        0.000000   
+1                2275.250000          0.000000        0.000000   
+2                2274.250000          0.000000        0.000000   
+3                2268.250000          0.518519        0.518519   
+4                2262.500000          0.506024        0.506024   
+
+   pdr_cum_pacotes  conf_cum_bits            arquivo_origem categoria  
+0         0.000000       0.000000  metricas_v10_ci_e_fn.csv    mbmlhp  
+1         0.000000       0.000000  metricas_v10_ci_e_fn.csv    mbmlhp  
+2         0.000000       0.000000  metricas_v10_ci_e_fn.csv    mbmlhp  
+3         0.128049       0.128049  metricas_v10_ci_e_fn.csv    mbmlhp  
+4         0.204380       0.204380  metricas_v10_ci_e_fn.csv    mbmlhp 
+
+# Define the application identifiers and approach types
+# These will be used to load corresponding CSV files and create new features.
+apps = ['s', 'e', 'e2', 'g']
+cenarios = ['fs', 'fq', 'fn']
+df_tt = df_original_v0.copy()
+
+
+# substitui valores nulos/zero por epsilon (1e-6), assegurando que todos os valores de RTT sejam positivos p/ boxcox
+# clip(lower=1e-6) troca apenas zeros eventuais — não desloca a média.
+# boxcox devolve a série transformada e o λ ótimo; guardar o λ permite reverter ou aplicar em novos dados
+# Loop through each application identifier
+for app_id in apps:
+    # Loop through each approach type (e.g., fs, fq, fn)
+    for cenario in cenarios:
+      dmask = (df_tt["app"] == app_id) & (df_tt["cenario"] == cenario)
+      t, l = apply_boxcox(df_tt[dmask], col_in='rtt_medio_ms_interpolated')
+      df_tt.loc[dmask, "bc_rtt"] = t
+      print(f"λ escolhido no boxcox de {app_id.upper()}: {l}")
+
+λ escolhido no boxcox de S: -0.08967136188337019
+λ escolhido no boxcox de S: -0.15144759164913746
+λ escolhido no boxcox de S: -0.034839520703591254
+λ escolhido no boxcox de E: 0.9916052364380313
+λ escolhido no boxcox de E: 3.5372155198634756
+λ escolhido no boxcox de E: 4.631509452579471
+λ escolhido no boxcox de E2: 0.11618106727997139
+λ escolhido no boxcox de E2: 2.415920900704514
+λ escolhido no boxcox de E2: 4.636477468690569
+λ escolhido no boxcox de G: 0.9098813220343368
+λ escolhido no boxcox de G: 4.621287850110859
+λ escolhido no boxcox de G: 4.69835923884936

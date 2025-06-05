@@ -1,0 +1,994 @@
+feature,importance
+num__pdr,0.2660447108005756
+num__loss_ratio,0.18297523517575137
+num__lat_ms,0.15313059449060298
+num__vazao_rec_servidor_media_bps,0.11218240060588171
+num__lat_ms_mean3,0.08733438685879097
+num__pdr_mean3,0.05112160526906675
+num__lambda,0.03171103853760033
+cat__arquivo_origem_metricas_v10_ci_g_fn.csv,0.016605233557665064
+num__thr_util,0.011694364414857354
+num__throughput_kbps,0.01090271478450956
+num__throughput_bps,0.010688147626004245
+num__lat_ms_std3,0.010428228760041954
+cat__app_g,0.009140237474160146
+cat__categoria_lblllp,0.008915947759405993
+cat__app_s,0.006148409978782279
+num__throughput_kbps_mean3,0.005402639446257997
+cat__categoria_mbclcp,0.00468761079469427
+num__n_carros,0.0028130040976050985
+num__vazao_env_carro_total_bps,0.0024325935924740037
+num__lat_ms_delta,0.002114986301221946
+num__vazao_env_carro_media_bps,0.0012298864493203768
+cat__group_id_e2_0,0.0009421714512693158
+num__pdr_delta,0.0009201851471994355
+num__pdr_std3,0.0008844844674148685
+cat__arquivo_origem_metricas_v10_ci_e2_fn.csv,0.0008310343442003204
+num__time_block,0.0007927990144288444
+cat__cenario_fs,0.0006918879734295534
+cat__arquivo_origem_metricas_v10_ci_e2_fs.csv,0.0006307072510876834
+num__throughput_kbps_delta,0.0004730397968327823
+cat__arquivo_origem_metricas_v10_ci_s_fn.csv,0.00046917195089702973
+num__throughput_kbps_std3,0.00046101372230274715
+cat__arquivo_origem_metricas_v10_ci_e_fs.csv,0.00044597281430159343
+cat__app_e,0.00042146600276323165
+cat__categoria_mbmlhp,0.00036168307895838574
+cat__group_id_g_6,0.0003610542192626742
+cat__cenario_fn,0.00031157558177073805
+cat__group_id_g_7,0.0002482942236729768
+cat__group_id_s_7,0.00022934390650129226
+cat__group_id_e_6,0.00019722606621585186
+cat__app_e2,0.00017137890752196494
+cat__categoria_hbmlmp,0.00015865716650502064
+cat__group_id_s_4,0.0001523139519344515
+cat__cenario_fq,0.00014948505658694852
+cat__group_id_e2_3,0.00012079205339839686
+cat__arquivo_origem_metricas_v10_ci_s_fs.csv,0.00010242129035718586
+cat__group_id_g_0,0.00010043268944447843
+cat__group_id_e_5,7.545191111963692e-05
+cat__arquivo_origem_metricas_v10_ci_e2_fq.csv,5.9683522683068835e-05
+cat__timestamp_sec_str_1987-10-05 11:04:05 UTC,5.758463343990977e-05
+cat__arquivo_origem_metricas_v10_ci_e_fn.csv,5.746568156875387e-05
+cat__arquivo_origem_metricas_v10_ci_g_fs.csv,5.5266508145581754e-05
+cat__timestamp_sec_str_1987-10-05 11:01:44 UTC,5.1508007583626004e-05
+cat__timestamp_1987-10-05 11:07:23+00:00,4.719558257977006e-05
+cat__timestamp_1987-10-05 11:07:26+00:00,4.62216434753069e-05
+cat__timestamp_1987-10-05 11:04:05+00:00,4.118041622580633e-05
+cat__timestamp_sec_str_1987-10-05 11:02:43 UTC,3.8371540395195974e-05
+cat__timestamp_sec_str_1987-10-05 11:06:53 UTC,3.495235410532958e-05
+cat__timestamp_1987-10-05 11:06:34+00:00,3.3693015477720204e-05
+cat__timestamp_sec_str_1987-10-05 11:07:45 UTC,3.270119720326006e-05
+cat__timestamp_1987-10-05 11:06:00+00:00,3.2224069908984494e-05
+cat__group_id_g_5,3.103943314861891e-05
+cat__timestamp_1987-10-05 11:02:43+00:00,2.91128561041422e-05
+cat__timestamp_1987-10-05 11:07:35+00:00,2.8950848704708832e-05
+cat__group_id_g_2,2.7667696347335667e-05
+cat__timestamp_sec_str_1987-10-05 11:07:23 UTC,2.746805569752117e-05
+cat__timestamp_sec_str_1987-10-05 11:07:26 UTC,2.5863028849272238e-05
+cat__group_id_e_2,2.4027705445851195e-05
+cat__timestamp_sec_str_1987-10-05 11:07:21 UTC,2.300435960084518e-05
+cat__timestamp_sec_str_1987-10-05 11:07:37 UTC,2.2516588343995165e-05
+cat__timestamp_1987-10-05 11:07:45+00:00,2.227745843282497e-05
+cat__timestamp_1987-10-05 11:07:28+00:00,2.1171356152409804e-05
+cat__group_id_e_4,2.0488344790460944e-05
+cat__timestamp_sec_str_1987-10-05 11:06:34 UTC,2.036365652312383e-05
+cat__timestamp_1987-10-05 11:06:53+00:00,2.000533079271814e-05
+cat__timestamp_sec_str_1987-10-05 11:06:00 UTC,1.8808103004011404e-05
+cat__timestamp_1987-10-05 11:07:16+00:00,1.7943765301522296e-05
+cat__timestamp_1987-10-05 11:07:22+00:00,1.750865792693791e-05
+cat__group_id_e2_5,1.7396120381060058e-05
+cat__timestamp_sec_str_1987-10-05 11:07:41 UTC,1.6291907652291102e-05
+cat__timestamp_1987-10-05 11:06:30+00:00,1.6242951152940777e-05
+cat__timestamp_sec_str_1987-10-05 11:07:28 UTC,1.5788155866664765e-05
+cat__group_id_e2_4,1.5142064563028687e-05
+cat__timestamp_1987-10-05 11:01:40+00:00,1.4983847309972204e-05
+cat__timestamp_1987-10-05 11:01:38+00:00,1.4768869904699567e-05
+cat__group_id_e2_1,1.4750549832453489e-05
+cat__timestamp_sec_str_1987-10-05 11:06:30 UTC,1.4516038301159974e-05
+cat__timestamp_sec_str_1987-10-05 11:01:39 UTC,1.4492045165841474e-05
+cat__timestamp_1987-10-05 11:03:03+00:00,1.436877507091409e-05
+cat__timestamp_sec_str_1987-10-05 11:07:17 UTC,1.4254057976623976e-05
+cat__timestamp_1987-10-05 11:01:39+00:00,1.4220483923916224e-05
+cat__timestamp_1987-10-05 11:07:17+00:00,1.4089118133127675e-05
+cat__timestamp_1987-10-05 11:07:18+00:00,1.3107700195918128e-05
+cat__timestamp_1987-10-05 11:07:37+00:00,1.2991715249780915e-05
+cat__group_id_e2_6,1.2969066625455733e-05
+cat__timestamp_1987-10-05 11:01:44+00:00,1.2805580379155805e-05
+cat__timestamp_sec_str_1987-10-05 11:07:19 UTC,1.1856325681793682e-05
+cat__timestamp_1987-10-05 11:07:41+00:00,1.1326272620362355e-05
+cat__timestamp_1987-10-05 11:07:19+00:00,1.1245013634261551e-05
+cat__group_id_e_3,1.1102651088241282e-05
+cat__timestamp_sec_str_1987-10-05 11:01:40 UTC,1.0904012099768e-05
+cat__timestamp_sec_str_1987-10-05 11:07:35 UTC,1.0356252884562248e-05
+cat__timestamp_1987-10-05 11:07:21+00:00,9.815003348080514e-06
+cat__timestamp_sec_str_1987-10-05 11:07:18 UTC,9.307744720242333e-06
+cat__timestamp_1987-10-05 11:04:44+00:00,9.062120920751796e-06
+cat__timestamp_sec_str_1987-10-05 11:05:35 UTC,9.001530122100201e-06
+cat__timestamp_sec_str_1987-10-05 11:07:25 UTC,8.990274059168548e-06
+cat__timestamp_1987-10-05 11:06:09+00:00,8.756315359422897e-06
+cat__arquivo_origem_metricas_v10_ci_s_fq.csv,8.647545789416729e-06
+cat__timestamp_1987-10-05 11:06:51+00:00,8.20212267638784e-06
+cat__timestamp_1987-10-05 11:08:11+00:00,8.139057409603677e-06
+cat__timestamp_sec_str_1987-10-05 11:07:22 UTC,7.521713308483414e-06
+cat__timestamp_1987-10-05 11:05:41+00:00,7.34638100047772e-06
+cat__timestamp_sec_str_1987-10-05 11:08:00 UTC,6.994170051373095e-06
+cat__timestamp_sec_str_1987-10-05 11:08:51 UTC,6.959656755892559e-06
+cat__timestamp_sec_str_1987-10-05 11:04:26 UTC,6.6241370516601526e-06
+cat__timestamp_1987-10-05 11:08:00+00:00,6.2104924855917e-06
+cat__timestamp_1987-10-05 11:06:02+00:00,6.006513693239917e-06
+cat__timestamp_sec_str_1987-10-05 11:07:55 UTC,5.834767743019369e-06
+cat__timestamp_sec_str_1987-10-05 11:06:26 UTC,5.1362156726871844e-06
+cat__timestamp_1987-10-05 11:07:55+00:00,4.987226834250057e-06
+cat__timestamp_sec_str_1987-10-05 11:05:52 UTC,4.805441205273974e-06
+cat__timestamp_sec_str_1987-10-05 11:07:16 UTC,4.766447016141774e-06
+cat__timestamp_sec_str_1987-10-05 11:08:10 UTC,4.740851934808955e-06
+cat__timestamp_sec_str_1987-10-05 11:03:59 UTC,4.609821651639596e-06
+cat__timestamp_1987-10-05 11:06:12+00:00,4.421136153906503e-06
+cat__timestamp_sec_str_1987-10-05 11:06:51 UTC,4.382076400829324e-06
+cat__timestamp_1987-10-05 11:05:35+00:00,4.245128394433699e-06
+cat__timestamp_sec_str_1987-10-05 11:05:43 UTC,4.043428605961736e-06
+cat__timestamp_sec_str_1987-10-05 11:01:29 UTC,3.956147696775607e-06
+cat__group_id_e2_2,3.94994662231328e-06
+cat__timestamp_1987-10-05 11:04:00+00:00,3.80735575670513e-06
+cat__timestamp_sec_str_1987-10-05 11:01:38 UTC,3.7968669389578195e-06
+cat__timestamp_1987-10-05 11:06:55+00:00,3.680160696708573e-06
+cat__timestamp_sec_str_1987-10-05 11:06:12 UTC,3.611773058453766e-06
+cat__timestamp_sec_str_1987-10-05 11:04:30 UTC,3.338026669052967e-06
+cat__timestamp_sec_str_1987-10-05 11:08:45 UTC,3.104042502892172e-06
+cat__timestamp_sec_str_1987-10-05 11:05:55 UTC,2.998234657108241e-06
+cat__timestamp_1987-10-05 11:07:24+00:00,2.6643223973525684e-06
+cat__timestamp_sec_str_1987-10-05 11:07:20 UTC,2.445645862288058e-06
+cat__timestamp_sec_str_1987-10-05 11:06:02 UTC,2.4193743413295005e-06
+cat__timestamp_sec_str_1987-10-05 11:06:08 UTC,2.2944299174163167e-06
+cat__timestamp_1987-10-05 11:05:55+00:00,2.2560269316414615e-06
+cat__timestamp_sec_str_1987-10-05 11:05:46 UTC,2.210742708825228e-06
+cat__timestamp_sec_str_1987-10-05 11:06:11 UTC,2.1820013720428776e-06
+cat__group_id_g_3,2.1472066118954844e-06
+cat__timestamp_1987-10-05 11:04:01+00:00,2.0984865412894465e-06
+cat__timestamp_sec_str_1987-10-05 11:04:00 UTC,2.0974774265868383e-06
+cat__timestamp_1987-10-05 11:05:53+00:00,2.0758518900331555e-06
+cat__timestamp_sec_str_1987-10-05 11:06:47 UTC,2.0506757872659777e-06
+cat__timestamp_1987-10-05 11:07:25+00:00,1.93536387791963e-06
+cat__timestamp_1987-10-05 11:08:31+00:00,1.8152175119531851e-06
+cat__arquivo_origem_metricas_v10_ci_g_fq.csv,1.7373377653375189e-06
+cat__timestamp_sec_str_1987-10-05 11:03:03 UTC,1.6438345345766663e-06
+cat__timestamp_1987-10-05 11:08:04+00:00,1.610015999967044e-06
+cat__timestamp_1987-10-05 11:05:47+00:00,1.6023215009186076e-06
+cat__timestamp_1987-10-05 11:06:08+00:00,1.545156113802602e-06
+cat__timestamp_1987-10-05 11:05:46+00:00,1.5269807098767013e-06
+cat__timestamp_1987-10-05 11:08:51+00:00,1.4900541331465605e-06
+cat__timestamp_sec_str_1987-10-05 11:01:31 UTC,1.4402676904536898e-06
+cat__timestamp_1987-10-05 11:01:30+00:00,1.4099332196174067e-06
+cat__timestamp_1987-10-05 11:05:34+00:00,1.3619394164625906e-06
+cat__timestamp_sec_str_1987-10-05 11:06:28 UTC,1.361008161520355e-06
+cat__timestamp_1987-10-05 11:04:22+00:00,1.3563587319992716e-06
+cat__timestamp_sec_str_1987-10-05 11:05:53 UTC,1.3322751375540668e-06
+cat__timestamp_1987-10-05 11:05:44+00:00,1.2961194966661628e-06
+cat__timestamp_sec_str_1987-10-05 11:03:58 UTC,1.2199751299822046e-06
+cat__timestamp_1987-10-05 11:05:06+00:00,1.1452238627387027e-06
+cat__timestamp_1987-10-05 11:07:27+00:00,1.068859771277449e-06
+cat__timestamp_1987-10-05 11:06:04+00:00,1.051151021573005e-06
+cat__timestamp_sec_str_1987-10-05 11:06:55 UTC,9.819679218294378e-07
+cat__timestamp_sec_str_1987-10-05 11:06:16 UTC,8.189043654466316e-07
+cat__timestamp_1987-10-05 11:03:59+00:00,7.857697951187506e-07
+cat__timestamp_1987-10-05 11:01:45+00:00,5.786769959935144e-07
+cat__timestamp_1987-10-05 11:08:32+00:00,5.70332346205478e-07
+cat__timestamp_sec_str_1987-10-05 11:06:04 UTC,5.611490876854684e-07
+cat__timestamp_sec_str_1987-10-05 11:01:47 UTC,5.539370448830399e-07
+cat__timestamp_1987-10-05 11:04:30+00:00,5.26040161508658e-07
+cat__timestamp_1987-10-05 11:07:20+00:00,5.20310044908989e-07
+cat__timestamp_1987-10-05 11:01:49+00:00,5.200438624602597e-07
+cat__timestamp_1987-10-05 11:06:11+00:00,4.062006884950248e-07
+cat__timestamp_sec_str_1987-10-05 11:01:46 UTC,3.638525620638912e-07
+cat__timestamp_sec_str_1987-10-05 11:08:42 UTC,2.881157957545548e-07
+cat__timestamp_1987-10-05 11:06:16+00:00,2.7831667072269816e-07
+cat__timestamp_sec_str_1987-10-05 11:05:34 UTC,1.668463979449815e-07
+cat__timestamp_1987-10-05 11:01:46+00:00,8.750733468122476e-08
+cat__group_id_g_4,4.471008508694861e-08
+cat__timestamp_1987-10-05 11:05:09+00:00,2.135829223186608e-17
+cat__timestamp_1987-10-05 11:05:22+00:00,6.816612653231184e-18
+cat__timestamp_1987-10-05 11:05:20+00:00,3.763021272162236e-18
+cat__timestamp_1987-10-05 11:01:31+00:00,1.648517429501697e-18
+cat__timestamp_sec_str_1987-10-05 11:01:34 UTC,1.4363117784358496e-18
+cat__timestamp_sec_str_1987-10-05 11:08:15 UTC,1.083430240324821e-18
+cat__timestamp_sec_str_1987-10-05 11:06:32 UTC,1.0560185923244926e-18
+cat__timestamp_1987-10-05 11:01:35+00:00,1.0546417485203072e-18
+cat__timestamp_1987-10-05 11:05:26+00:00,8.289992431835181e-19
+cat__timestamp_1987-10-05 11:03:43+00:00,8.053151140951916e-19
+cat__timestamp_sec_str_1987-10-05 11:05:07 UTC,7.691307831006837e-19
+cat__timestamp_sec_str_1987-10-05 11:04:07 UTC,6.857252655706344e-19
+cat__timestamp_sec_str_1987-10-05 11:01:55 UTC,6.781360601955512e-19
+cat__timestamp_sec_str_1987-10-05 11:07:38 UTC,6.757238666431223e-19
+cat__timestamp_1987-10-05 11:02:22+00:00,6.456290380593498e-19
+cat__timestamp_sec_str_1987-10-05 11:05:17 UTC,6.389396108405503e-19
+cat__timestamp_1987-10-05 11:05:13+00:00,6.363481953713214e-19
+cat__timestamp_1987-10-05 11:03:55+00:00,6.244195595793306e-19
+cat__timestamp_1987-10-05 11:08:40+00:00,6.174795472330661e-19
+cat__timestamp_sec_str_1987-10-05 11:04:53 UTC,5.684963841023788e-19
+cat__timestamp_sec_str_1987-10-05 11:08:48 UTC,5.54707041848667e-19
+cat__timestamp_sec_str_1987-10-05 11:08:43 UTC,5.443665635481316e-19
+cat__timestamp_1987-10-05 11:07:43+00:00,5.406192874084501e-19
+cat__timestamp_sec_str_1987-10-05 11:07:08 UTC,5.362219832079369e-19
+cat__timestamp_sec_str_1987-10-05 11:07:02 UTC,5.258975510976548e-19
+cat__timestamp_1987-10-05 11:06:20+00:00,5.225672279905044e-19
+cat__timestamp_sec_str_1987-10-05 11:04:46 UTC,5.217156956165162e-19
+cat__timestamp_1987-10-05 11:07:44+00:00,5.19220915575136e-19
+cat__timestamp_sec_str_1987-10-05 11:03:49 UTC,5.166479278681157e-19
+cat__timestamp_sec_str_1987-10-05 11:08:08 UTC,5.152275543591963e-19
+cat__timestamp_sec_str_1987-10-05 11:07:40 UTC,5.137586567919035e-19
+cat__timestamp_1987-10-05 11:02:18+00:00,5.126911953352436e-19
+cat__timestamp_sec_str_1987-10-05 11:02:15 UTC,5.098562742848102e-19
+cat__timestamp_1987-10-05 11:05:40+00:00,5.084661297775989e-19
+cat__timestamp_sec_str_1987-10-05 11:05:23 UTC,5.062026984371082e-19
+cat__timestamp_sec_str_1987-10-05 11:03:47 UTC,4.939961278259984e-19
+cat__timestamp_sec_str_1987-10-05 11:03:34 UTC,4.891502137519979e-19
+cat__timestamp_1987-10-05 11:04:42+00:00,4.883974921161809e-19
+cat__timestamp_sec_str_1987-10-05 11:03:17 UTC,4.870113603120656e-19
+cat__timestamp_sec_str_1987-10-05 11:03:21 UTC,4.636162776727833e-19
+cat__timestamp_1987-10-05 11:05:51+00:00,4.3131723789663037e-19
+cat__timestamp_sec_str_1987-10-05 11:08:31 UTC,4.215331656637612e-19
+cat__timestamp_1987-10-05 11:07:08+00:00,4.159557629490294e-19
+cat__timestamp_1987-10-05 11:04:02+00:00,4.0951707170081303e-19
+cat__timestamp_sec_str_1987-10-05 11:06:42 UTC,4.092435525758046e-19
+cat__timestamp_1987-10-05 11:07:01+00:00,4.07271382794786e-19
+cat__timestamp_1987-10-05 11:06:42+00:00,4.0536192600147357e-19
+cat__timestamp_1987-10-05 11:04:41+00:00,4.025385525173796e-19
+cat__timestamp_sec_str_1987-10-05 11:04:59 UTC,4.0081612931504974e-19
+cat__timestamp_sec_str_1987-10-05 11:02:09 UTC,4.0049288715145586e-19
+cat__timestamp_1987-10-05 11:01:52+00:00,3.98244456462412e-19
+cat__timestamp_1987-10-05 11:03:10+00:00,3.9566759191711112e-19
+cat__timestamp_1987-10-05 11:04:16+00:00,3.9408430735802887e-19
+cat__timestamp_sec_str_1987-10-05 11:05:42 UTC,3.937510911794057e-19
+cat__timestamp_sec_str_1987-10-05 11:05:36 UTC,3.936050242252641e-19
+cat__timestamp_sec_str_1987-10-05 11:04:12 UTC,3.9326489001899775e-19
+cat__timestamp_sec_str_1987-10-05 11:04:31 UTC,3.8821544119827623e-19
+cat__timestamp_sec_str_1987-10-05 11:06:41 UTC,3.70997717318906e-19
+cat__timestamp_sec_str_1987-10-05 11:08:26 UTC,3.6403696401459116e-19
+cat__timestamp_sec_str_1987-10-05 11:08:18 UTC,3.6359675313172327e-19
+cat__timestamp_1987-10-05 11:08:42+00:00,3.302260270720545e-19
+cat__timestamp_sec_str_1987-10-05 11:03:53 UTC,3.3012859345001425e-19
+cat__timestamp_1987-10-05 11:04:37+00:00,3.290367738596366e-19
+cat__timestamp_sec_str_1987-10-05 11:05:56 UTC,3.2566131270204877e-19
+cat__timestamp_1987-10-05 11:05:05+00:00,3.221722796032412e-19
+cat__timestamp_1987-10-05 11:03:46+00:00,3.1946275518220216e-19
+cat__timestamp_1987-10-05 11:04:45+00:00,3.184623844759619e-19
+cat__timestamp_sec_str_1987-10-05 11:08:01 UTC,3.1728004417903957e-19
+cat__timestamp_sec_str_1987-10-05 11:08:02 UTC,3.1591671630781973e-19
+cat__timestamp_1987-10-05 11:04:26+00:00,3.149394699323906e-19
+cat__timestamp_1987-10-05 11:07:59+00:00,3.131528697596283e-19
+cat__timestamp_sec_str_1987-10-05 11:02:51 UTC,3.126879604104988e-19
+cat__timestamp_sec_str_1987-10-05 11:06:17 UTC,3.120211322925467e-19
+cat__timestamp_sec_str_1987-10-05 11:03:48 UTC,3.0693017258257107e-19
+cat__timestamp_sec_str_1987-10-05 11:04:04 UTC,3.0075097226745035e-19
+cat__timestamp_sec_str_1987-10-05 11:02:32 UTC,3.0003989038512094e-19
+cat__timestamp_1987-10-05 11:06:10+00:00,2.981628752785685e-19
+cat__timestamp_sec_str_1987-10-05 11:05:32 UTC,2.9727503046585455e-19
+cat__timestamp_sec_str_1987-10-05 11:05:19 UTC,2.952348782229619e-19
+cat__timestamp_1987-10-05 11:08:55+00:00,2.799367917311754e-19
+cat__timestamp_sec_str_1987-10-05 11:06:15 UTC,2.7610650730442584e-19
+cat__timestamp_sec_str_1987-10-05 11:06:50 UTC,2.73839178217363e-19
+cat__timestamp_sec_str_1987-10-05 11:06:05 UTC,2.523301817089795e-19
+cat__timestamp_1987-10-05 11:04:35+00:00,2.482920120605751e-19
+cat__timestamp_sec_str_1987-10-05 11:01:32 UTC,2.451389355865704e-19
+cat__timestamp_1987-10-05 11:04:28+00:00,2.444838969306717e-19
+cat__timestamp_sec_str_1987-10-05 11:04:25 UTC,2.294674898475731e-19
+cat__timestamp_1987-10-05 11:05:14+00:00,2.1737166331904913e-19
+cat__timestamp_sec_str_1987-10-05 11:05:08 UTC,2.0545765573462791e-19
+cat__timestamp_1987-10-05 11:04:25+00:00,2.0217205468773268e-19
+cat__timestamp_1987-10-05 11:03:51+00:00,1.998427502520284e-19
+cat__timestamp_sec_str_1987-10-05 11:05:16 UTC,1.8078898560727767e-19
+cat__timestamp_1987-10-05 11:05:30+00:00,1.6458592763528177e-19
+cat__timestamp_1987-10-05 11:06:07+00:00,1.63631090553725e-19
+cat__timestamp_sec_str_1987-10-05 11:05:57 UTC,1.6113482944050093e-19
+cat__timestamp_sec_str_1987-10-05 11:04:58 UTC,1.6040454119594833e-19
+cat__group_id_s_2,1.5939998309272702e-19
+cat__timestamp_1987-10-05 11:01:37+00:00,1.5862681453521968e-19
+cat__timestamp_1987-10-05 11:04:59+00:00,1.5746474128298632e-19
+cat__timestamp_1987-10-05 11:04:27+00:00,1.542623280473932e-19
+cat__timestamp_sec_str_1987-10-05 11:05:00 UTC,1.5298893686929753e-19
+cat__timestamp_sec_str_1987-10-05 11:05:10 UTC,1.5242602998730487e-19
+cat__timestamp_sec_str_1987-10-05 11:05:33 UTC,1.5229374873024004e-19
+cat__timestamp_1987-10-05 11:05:31+00:00,1.499786487557205e-19
+cat__timestamp_1987-10-05 11:04:40+00:00,1.4980875506670465e-19
+cat__timestamp_sec_str_1987-10-05 11:06:25 UTC,1.4936769482897968e-19
+cat__timestamp_sec_str_1987-10-05 11:06:33 UTC,1.4755861014112636e-19
+cat__timestamp_sec_str_1987-10-05 11:04:13 UTC,1.410696488187065e-19
+cat__timestamp_1987-10-05 11:05:12+00:00,1.242212427242127e-19
+cat__timestamp_sec_str_1987-10-05 11:08:41 UTC,1.2159215468720416e-19
+cat__timestamp_1987-10-05 11:08:54+00:00,1.1912749459219781e-19
+cat__timestamp_sec_str_1987-10-05 11:04:33 UTC,1.1447132539098467e-19
+cat__timestamp_sec_str_1987-10-05 11:05:04 UTC,1.0120015256457271e-19
+cat__timestamp_1987-10-05 11:03:38+00:00,7.160032232010699e-20
+cat__timestamp_sec_str_1987-10-05 11:05:59 UTC,6.996158457028745e-20
+cat__timestamp_1987-10-05 11:03:42+00:00,6.385573784364671e-20
+cat__timestamp_sec_str_1987-10-05 11:08:49 UTC,3.8903752468033666e-20
+cat__timestamp_1987-10-05 11:06:14+00:00,2.1903938594843753e-20
+cat__timestamp_1987-10-05 11:06:52+00:00,1.7967130677170056e-20
+cat__timestamp_1987-10-05 11:08:33+00:00,1.609882862830432e-20
+cat__timestamp_1987-10-05 11:08:37+00:00,1.4318193570298656e-20
+cat__timestamp_sec_str_1987-10-05 11:01:36 UTC,1.044034947834277e-20
+cat__timestamp_1987-10-05 11:07:15+00:00,9.577686503507609e-21
+cat__timestamp_sec_str_1987-10-05 11:08:50 UTC,4.441783448644535e-21
+cat__timestamp_sec_str_1987-10-05 11:04:10 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:11 UTC,0.0
+cat__timestamp_1987-10-05 11:05:02+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:14 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:15 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:16 UTC,0.0
+cat__timestamp_1987-10-05 11:05:00+00:00,0.0
+cat__timestamp_1987-10-05 11:04:58+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:17 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:19 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:20 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:09 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:21 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:22 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:23 UTC,0.0
+cat__timestamp_1987-10-05 11:04:56+00:00,0.0
+cat__timestamp_1987-10-05 11:04:57+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:18 UTC,0.0
+cat__timestamp_1987-10-05 11:04:46+00:00,0.0
+cat__timestamp_1987-10-05 11:04:48+00:00,0.0
+cat__timestamp_1987-10-05 11:04:49+00:00,0.0
+cat__timestamp_1987-10-05 11:04:50+00:00,0.0
+cat__timestamp_1987-10-05 11:04:51+00:00,0.0
+cat__timestamp_1987-10-05 11:04:52+00:00,0.0
+cat__timestamp_1987-10-05 11:04:53+00:00,0.0
+cat__timestamp_1987-10-05 11:04:54+00:00,0.0
+cat__timestamp_1987-10-05 11:04:55+00:00,0.0
+cat__timestamp_1987-10-05 11:05:01+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:54 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:55 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:02 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:08 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:51 UTC,0.0
+cat__timestamp_1987-10-05 11:05:37+00:00,0.0
+cat__timestamp_1987-10-05 11:05:38+00:00,0.0
+cat__timestamp_1987-10-05 11:05:39+00:00,0.0
+cat__timestamp_1987-10-05 11:05:42+00:00,0.0
+cat__timestamp_1987-10-05 11:05:43+00:00,0.0
+cat__timestamp_1987-10-05 11:05:45+00:00,0.0
+cat__timestamp_1987-10-05 11:05:48+00:00,0.0
+cat__timestamp_1987-10-05 11:05:49+00:00,0.0
+cat__timestamp_1987-10-05 11:05:50+00:00,0.0
+cat__timestamp_1987-10-05 11:04:47+00:00,0.0
+cat__timestamp_1987-10-05 11:05:54+00:00,0.0
+cat__timestamp_1987-10-05 11:05:56+00:00,0.0
+cat__timestamp_1987-10-05 11:05:57+00:00,0.0
+cat__timestamp_1987-10-05 11:05:58+00:00,0.0
+cat__timestamp_1987-10-05 11:05:59+00:00,0.0
+cat__timestamp_1987-10-05 11:06:01+00:00,0.0
+cat__timestamp_1987-10-05 11:06:03+00:00,0.0
+cat__timestamp_1987-10-05 11:06:05+00:00,0.0
+cat__timestamp_1987-10-05 11:06:06+00:00,0.0
+cat__timestamp_1987-10-05 11:06:13+00:00,0.0
+cat__timestamp_1987-10-05 11:05:52+00:00,0.0
+cat__timestamp_1987-10-05 11:05:03+00:00,0.0
+cat__timestamp_1987-10-05 11:05:04+00:00,0.0
+cat__timestamp_1987-10-05 11:05:07+00:00,0.0
+cat__timestamp_1987-10-05 11:05:08+00:00,0.0
+cat__timestamp_1987-10-05 11:05:10+00:00,0.0
+cat__timestamp_1987-10-05 11:05:11+00:00,0.0
+cat__timestamp_1987-10-05 11:05:15+00:00,0.0
+cat__timestamp_1987-10-05 11:05:16+00:00,0.0
+cat__timestamp_1987-10-05 11:05:17+00:00,0.0
+cat__timestamp_1987-10-05 11:05:36+00:00,0.0
+cat__timestamp_1987-10-05 11:05:19+00:00,0.0
+cat__timestamp_1987-10-05 11:05:21+00:00,0.0
+cat__timestamp_1987-10-05 11:05:23+00:00,0.0
+cat__timestamp_1987-10-05 11:05:24+00:00,0.0
+cat__timestamp_1987-10-05 11:05:25+00:00,0.0
+cat__timestamp_1987-10-05 11:05:27+00:00,0.0
+cat__timestamp_1987-10-05 11:05:28+00:00,0.0
+cat__timestamp_1987-10-05 11:05:29+00:00,0.0
+cat__timestamp_1987-10-05 11:05:32+00:00,0.0
+cat__timestamp_1987-10-05 11:05:33+00:00,0.0
+cat__timestamp_1987-10-05 11:05:18+00:00,0.0
+cat__timestamp_1987-10-05 11:03:45+00:00,0.0
+cat__timestamp_1987-10-05 11:03:47+00:00,0.0
+cat__timestamp_1987-10-05 11:03:48+00:00,0.0
+cat__timestamp_1987-10-05 11:03:49+00:00,0.0
+cat__timestamp_1987-10-05 11:03:50+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:28 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:29 UTC,0.0
+cat__timestamp_1987-10-05 11:04:39+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:34 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:35 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:36 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:37 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:38 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:40 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:41 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:42 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:43 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:32 UTC,0.0
+cat__timestamp_1987-10-05 11:03:20+00:00,0.0
+cat__timestamp_1987-10-05 11:03:21+00:00,0.0
+cat__timestamp_1987-10-05 11:03:22+00:00,0.0
+cat__timestamp_1987-10-05 11:03:23+00:00,0.0
+cat__timestamp_1987-10-05 11:03:24+00:00,0.0
+cat__timestamp_1987-10-05 11:03:25+00:00,0.0
+cat__timestamp_1987-10-05 11:03:26+00:00,0.0
+cat__timestamp_1987-10-05 11:03:27+00:00,0.0
+cat__timestamp_1987-10-05 11:03:28+00:00,0.0
+cat__timestamp_1987-10-05 11:03:29+00:00,0.0
+cat__timestamp_1987-10-05 11:03:44+00:00,0.0
+cat__timestamp_1987-10-05 11:03:31+00:00,0.0
+cat__timestamp_1987-10-05 11:03:32+00:00,0.0
+cat__timestamp_1987-10-05 11:03:33+00:00,0.0
+cat__timestamp_1987-10-05 11:03:34+00:00,0.0
+cat__timestamp_1987-10-05 11:03:35+00:00,0.0
+cat__timestamp_1987-10-05 11:03:36+00:00,0.0
+cat__timestamp_1987-10-05 11:03:37+00:00,0.0
+cat__timestamp_1987-10-05 11:03:39+00:00,0.0
+cat__timestamp_1987-10-05 11:03:40+00:00,0.0
+cat__timestamp_1987-10-05 11:03:41+00:00,0.0
+cat__timestamp_1987-10-05 11:03:30+00:00,0.0
+cat__timestamp_1987-10-05 11:04:11+00:00,0.0
+cat__timestamp_1987-10-05 11:04:12+00:00,0.0
+cat__timestamp_1987-10-05 11:04:13+00:00,0.0
+cat__timestamp_1987-10-05 11:04:14+00:00,0.0
+cat__timestamp_1987-10-05 11:04:15+00:00,0.0
+cat__timestamp_1987-10-05 11:04:17+00:00,0.0
+cat__timestamp_1987-10-05 11:04:18+00:00,0.0
+cat__timestamp_1987-10-05 11:04:19+00:00,0.0
+cat__timestamp_1987-10-05 11:04:20+00:00,0.0
+cat__timestamp_1987-10-05 11:04:21+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:44 UTC,0.0
+cat__timestamp_1987-10-05 11:04:24+00:00,0.0
+cat__timestamp_1987-10-05 11:04:29+00:00,0.0
+cat__timestamp_1987-10-05 11:04:31+00:00,0.0
+cat__timestamp_1987-10-05 11:04:32+00:00,0.0
+cat__timestamp_1987-10-05 11:04:33+00:00,0.0
+cat__timestamp_1987-10-05 11:04:34+00:00,0.0
+cat__timestamp_1987-10-05 11:04:36+00:00,0.0
+cat__timestamp_1987-10-05 11:04:38+00:00,0.0
+cat__timestamp_1987-10-05 11:06:15+00:00,0.0
+cat__timestamp_1987-10-05 11:04:43+00:00,0.0
+cat__timestamp_1987-10-05 11:04:23+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:45 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:47 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:48 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:49 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:50 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:51 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:54 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:55 UTC,0.0
+cat__timestamp_1987-10-05 11:03:52+00:00,0.0
+cat__timestamp_1987-10-05 11:04:10+00:00,0.0
+cat__timestamp_1987-10-05 11:03:54+00:00,0.0
+cat__timestamp_1987-10-05 11:03:56+00:00,0.0
+cat__timestamp_1987-10-05 11:03:57+00:00,0.0
+cat__timestamp_1987-10-05 11:03:58+00:00,0.0
+cat__timestamp_1987-10-05 11:04:03+00:00,0.0
+cat__timestamp_1987-10-05 11:04:04+00:00,0.0
+cat__timestamp_1987-10-05 11:04:06+00:00,0.0
+cat__timestamp_1987-10-05 11:04:07+00:00,0.0
+cat__timestamp_1987-10-05 11:04:08+00:00,0.0
+cat__timestamp_1987-10-05 11:04:09+00:00,0.0
+cat__timestamp_1987-10-05 11:03:53+00:00,0.0
+cat__timestamp_1987-10-05 11:07:39+00:00,0.0
+cat__timestamp_1987-10-05 11:08:46+00:00,0.0
+cat__timestamp_1987-10-05 11:08:47+00:00,0.0
+cat__timestamp_1987-10-05 11:08:48+00:00,0.0
+cat__timestamp_1987-10-05 11:08:49+00:00,0.0
+cat__timestamp_1987-10-05 11:08:50+00:00,0.0
+cat__timestamp_1987-10-05 11:08:52+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:47 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:30 UTC,0.0
+cat__timestamp_1987-10-05 11:06:18+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:50 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:53 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:54 UTC,0.0
+cat__timestamp_1987-10-05 11:07:57+00:00,0.0
+cat__timestamp_1987-10-05 11:07:58+00:00,0.0
+cat__timestamp_1987-10-05 11:08:01+00:00,0.0
+cat__timestamp_1987-10-05 11:08:02+00:00,0.0
+cat__timestamp_1987-10-05 11:08:03+00:00,0.0
+cat__timestamp_1987-10-05 11:08:05+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:49 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:58 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:59 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:00 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:02 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:04 UTC,0.0
+cat__timestamp_1987-10-05 11:07:38+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:07 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:08 UTC,0.0
+cat__timestamp_1987-10-05 11:07:29+00:00,0.0
+cat__timestamp_1987-10-05 11:07:30+00:00,0.0
+cat__timestamp_1987-10-05 11:07:31+00:00,0.0
+cat__timestamp_1987-10-05 11:07:32+00:00,0.0
+cat__timestamp_1987-10-05 11:07:33+00:00,0.0
+cat__timestamp_1987-10-05 11:07:34+00:00,0.0
+cat__timestamp_1987-10-05 11:07:36+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:05 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:55 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:58 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:59 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:00 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:02 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:04 UTC,0.0
+cat__timestamp_1987-10-05 11:08:06+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:07 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:08 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:09 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:10 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:11 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:12 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:13 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:14 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:15 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:05 UTC,0.0
+cat__timestamp_1987-10-05 11:08:07+00:00,0.0
+cat__timestamp_1987-10-05 11:08:08+00:00,0.0
+cat__timestamp_1987-10-05 11:08:09+00:00,0.0
+cat__timestamp_1987-10-05 11:08:10+00:00,0.0
+cat__timestamp_1987-10-05 11:08:12+00:00,0.0
+cat__timestamp_1987-10-05 11:08:13+00:00,0.0
+cat__timestamp_1987-10-05 11:08:14+00:00,0.0
+cat__timestamp_1987-10-05 11:08:15+00:00,0.0
+cat__timestamp_1987-10-05 11:08:16+00:00,0.0
+cat__timestamp_1987-10-05 11:08:17+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:33 UTC,0.0
+cat__timestamp_1987-10-05 11:07:40+00:00,0.0
+cat__timestamp_1987-10-05 11:07:42+00:00,0.0
+cat__timestamp_1987-10-05 11:07:46+00:00,0.0
+cat__timestamp_1987-10-05 11:07:47+00:00,0.0
+cat__timestamp_1987-10-05 11:07:48+00:00,0.0
+cat__timestamp_1987-10-05 11:08:53+00:00,0.0
+cat__timestamp_1987-10-05 11:08:56+00:00,0.0
+cat__timestamp_1987-10-05 11:08:30+00:00,0.0
+cat__timestamp_1987-10-05 11:08:58+00:00,0.0
+cat__timestamp_1987-10-05 11:08:59+00:00,0.0
+cat__timestamp_1987-10-05 11:08:18+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:28 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:29 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:30 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:31 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:32 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:33 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:35 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:36 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:54 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:38 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:40 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:41 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:42 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:43 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:44 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:45 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:46 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:50 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:37 UTC,0.0
+cat__timestamp_1987-10-05 11:06:17+00:00,0.0
+cat__timestamp_1987-10-05 11:03:19+00:00,0.0
+cat__timestamp_1987-10-05 11:06:19+00:00,0.0
+cat__timestamp_1987-10-05 11:06:21+00:00,0.0
+cat__timestamp_1987-10-05 11:06:22+00:00,0.0
+cat__timestamp_1987-10-05 11:06:23+00:00,0.0
+cat__timestamp_1987-10-05 11:06:24+00:00,0.0
+cat__timestamp_1987-10-05 11:06:25+00:00,0.0
+cat__timestamp_1987-10-05 11:06:26+00:00,0.0
+cat__timestamp_1987-10-05 11:06:27+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:26 UTC,0.0
+cat__timestamp_1987-10-05 11:06:29+00:00,0.0
+cat__timestamp_1987-10-05 11:06:31+00:00,0.0
+cat__timestamp_1987-10-05 11:06:32+00:00,0.0
+cat__timestamp_1987-10-05 11:06:33+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:19 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:20 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:22 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:23 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:25 UTC,0.0
+cat__timestamp_1987-10-05 11:06:28+00:00,0.0
+cat__timestamp_1987-10-05 11:07:04+00:00,0.0
+cat__timestamp_1987-10-05 11:07:05+00:00,0.0
+cat__timestamp_1987-10-05 11:07:06+00:00,0.0
+cat__timestamp_1987-10-05 11:07:07+00:00,0.0
+cat__timestamp_1987-10-05 11:07:09+00:00,0.0
+cat__timestamp_1987-10-05 11:07:10+00:00,0.0
+cat__timestamp_1987-10-05 11:07:11+00:00,0.0
+cat__timestamp_1987-10-05 11:07:12+00:00,0.0
+cat__timestamp_1987-10-05 11:07:13+00:00,0.0
+cat__timestamp_1987-10-05 11:06:35+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:41 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:42 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:43 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:45 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:48 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:49 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:50 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:51 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:53 UTC,0.0
+cat__timestamp_1987-10-05 11:07:14+00:00,0.0
+cat__timestamp_1987-10-05 11:06:36+00:00,0.0
+cat__timestamp_1987-10-05 11:06:37+00:00,0.0
+cat__timestamp_1987-10-05 11:06:38+00:00,0.0
+cat__timestamp_1987-10-05 11:06:39+00:00,0.0
+cat__timestamp_1987-10-05 11:06:40+00:00,0.0
+cat__timestamp_1987-10-05 11:06:41+00:00,0.0
+cat__timestamp_1987-10-05 11:06:43+00:00,0.0
+cat__timestamp_1987-10-05 11:06:44+00:00,0.0
+cat__timestamp_1987-10-05 11:06:45+00:00,0.0
+cat__timestamp_1987-10-05 11:06:46+00:00,0.0
+cat__timestamp_1987-10-05 11:07:03+00:00,0.0
+cat__timestamp_1987-10-05 11:06:48+00:00,0.0
+cat__timestamp_1987-10-05 11:06:49+00:00,0.0
+cat__timestamp_1987-10-05 11:06:50+00:00,0.0
+cat__timestamp_1987-10-05 11:06:54+00:00,0.0
+cat__timestamp_1987-10-05 11:06:56+00:00,0.0
+cat__timestamp_1987-10-05 11:06:57+00:00,0.0
+cat__timestamp_1987-10-05 11:06:58+00:00,0.0
+cat__timestamp_1987-10-05 11:06:59+00:00,0.0
+cat__timestamp_1987-10-05 11:07:00+00:00,0.0
+cat__timestamp_1987-10-05 11:07:02+00:00,0.0
+cat__timestamp_1987-10-05 11:06:47+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:51 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:54 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:58 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:09 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:10 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:11 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:12 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:13 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:14 UTC,0.0
+cat__timestamp_1987-10-05 11:03:17+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:29 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:30 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:31 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:32 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:33 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:34 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:36 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:15 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:00 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:04 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:05 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:07 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:28 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:29 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:30 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:50 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:37 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:38 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:40 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:41 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:44 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:45 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:47 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:48 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:49 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:31 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:12 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:13 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:14 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:16 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:17 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:19 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:20 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:21 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:22 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:42 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:25 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:28 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:29 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:30 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:32 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:33 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:34 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:35 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:23 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:43 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:44 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:46 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:47 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:48 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:49 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:50 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:51 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:53 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:11 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:58 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:59 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:04 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:05 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:07 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:09 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:07:54 UTC,0.0
+cat__timestamp_1987-10-05 11:07:52+00:00,0.0
+cat__timestamp_1987-10-05 11:07:53+00:00,0.0
+cat__timestamp_1987-10-05 11:07:54+00:00,0.0
+cat__timestamp_1987-10-05 11:08:34+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:35 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:37 UTC,0.0
+cat__timestamp_1987-10-05 11:09:01+00:00,0.0
+cat__timestamp_1987-10-05 11:09:02+00:00,0.0
+cat__timestamp_1987-10-05 11:09:03+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:59 UTC,0.0
+cat__timestamp_1987-10-05 11:09:06+00:00,0.0
+cat__timestamp_1987-10-05 11:09:07+00:00,0.0
+cat__group_id_e2_7,0.0
+cat__group_id_s_1,0.0
+cat__group_id_s_3,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:42 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:44 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:45 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:46 UTC,0.0
+cat__timestamp_1987-10-05 11:08:21+00:00,0.0
+cat__timestamp_1987-10-05 11:09:05+00:00,0.0
+cat__timestamp_1987-10-05 11:08:36+00:00,0.0
+cat__timestamp_1987-10-05 11:08:38+00:00,0.0
+cat__timestamp_1987-10-05 11:08:39+00:00,0.0
+cat__timestamp_1987-10-05 11:08:41+00:00,0.0
+cat__timestamp_1987-10-05 11:08:43+00:00,0.0
+cat__timestamp_1987-10-05 11:08:44+00:00,0.0
+cat__timestamp_1987-10-05 11:08:45+00:00,0.0
+cat__timestamp_1987-10-05 11:08:57+00:00,0.0
+cat__timestamp_1987-10-05 11:08:19+00:00,0.0
+cat__timestamp_1987-10-05 11:07:56+00:00,0.0
+cat__timestamp_1987-10-05 11:07:51+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:48 UTC,0.0
+cat__timestamp_1987-10-05 11:08:28+00:00,0.0
+cat__timestamp_1987-10-05 11:09:04+00:00,0.0
+cat__timestamp_1987-10-05 11:09:00+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:26 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:01:28 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:18 UTC,0.0
+cat__timestamp_1987-10-05 11:07:49+00:00,0.0
+cat__timestamp_1987-10-05 11:07:50+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:03:16 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:29 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:31 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:35 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:36 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:37 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:38 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:40 UTC,0.0
+cat__timestamp_1987-10-05 11:08:22+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:44 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:45 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:46 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:48 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:49 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:54 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:58 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:43 UTC,0.0
+cat__timestamp_1987-10-05 11:08:23+00:00,0.0
+cat__timestamp_1987-10-05 11:08:24+00:00,0.0
+cat__timestamp_1987-10-05 11:08:25+00:00,0.0
+cat__timestamp_1987-10-05 11:08:26+00:00,0.0
+cat__timestamp_1987-10-05 11:08:27+00:00,0.0
+cat__timestamp_1987-10-05 11:08:29+00:00,0.0
+cat__timestamp_1987-10-05 11:08:20+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:09 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:10 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:13 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:14 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:18 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:19 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:20 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:21 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:22 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:23 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:06:07 UTC,0.0
+cat__timestamp_1987-10-05 11:02:11+00:00,0.0
+cat__timestamp_1987-10-05 11:02:12+00:00,0.0
+cat__timestamp_1987-10-05 11:02:13+00:00,0.0
+cat__timestamp_1987-10-05 11:02:14+00:00,0.0
+cat__timestamp_1987-10-05 11:02:15+00:00,0.0
+cat__timestamp_1987-10-05 11:02:16+00:00,0.0
+cat__timestamp_1987-10-05 11:02:17+00:00,0.0
+cat__timestamp_1987-10-05 11:02:19+00:00,0.0
+cat__timestamp_1987-10-05 11:02:20+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:36 UTC,0.0
+cat__timestamp_1987-10-05 11:02:23+00:00,0.0
+cat__timestamp_1987-10-05 11:02:24+00:00,0.0
+cat__timestamp_1987-10-05 11:02:25+00:00,0.0
+cat__timestamp_1987-10-05 11:02:26+00:00,0.0
+cat__timestamp_1987-10-05 11:02:27+00:00,0.0
+cat__timestamp_1987-10-05 11:02:28+00:00,0.0
+cat__timestamp_1987-10-05 11:02:29+00:00,0.0
+cat__timestamp_1987-10-05 11:02:30+00:00,0.0
+cat__timestamp_1987-10-05 11:02:31+00:00,0.0
+cat__timestamp_1987-10-05 11:02:32+00:00,0.0
+cat__timestamp_1987-10-05 11:02:21+00:00,0.0
+cat__timestamp_1987-10-05 11:01:47+00:00,0.0
+cat__timestamp_1987-10-05 11:01:48+00:00,0.0
+cat__timestamp_1987-10-05 11:01:50+00:00,0.0
+cat__timestamp_1987-10-05 11:01:51+00:00,0.0
+cat__timestamp_1987-10-05 11:01:53+00:00,0.0
+cat__timestamp_1987-10-05 11:01:54+00:00,0.0
+cat__timestamp_1987-10-05 11:01:55+00:00,0.0
+cat__timestamp_1987-10-05 11:01:56+00:00,0.0
+cat__timestamp_1987-10-05 11:01:57+00:00,0.0
+cat__timestamp_1987-10-05 11:01:58+00:00,0.0
+cat__timestamp_1987-10-05 11:02:10+00:00,0.0
+cat__timestamp_1987-10-05 11:02:00+00:00,0.0
+cat__timestamp_1987-10-05 11:02:01+00:00,0.0
+cat__timestamp_1987-10-05 11:02:02+00:00,0.0
+cat__timestamp_1987-10-05 11:02:03+00:00,0.0
+cat__timestamp_1987-10-05 11:02:04+00:00,0.0
+cat__timestamp_1987-10-05 11:02:05+00:00,0.0
+cat__timestamp_1987-10-05 11:02:06+00:00,0.0
+cat__timestamp_1987-10-05 11:02:07+00:00,0.0
+cat__timestamp_1987-10-05 11:02:08+00:00,0.0
+cat__timestamp_1987-10-05 11:02:09+00:00,0.0
+cat__timestamp_1987-10-05 11:01:59+00:00,0.0
+cat__timestamp_1987-10-05 11:02:57+00:00,0.0
+cat__timestamp_1987-10-05 11:02:58+00:00,0.0
+cat__timestamp_1987-10-05 11:02:59+00:00,0.0
+cat__timestamp_1987-10-05 11:03:00+00:00,0.0
+cat__timestamp_1987-10-05 11:03:01+00:00,0.0
+cat__timestamp_1987-10-05 11:03:02+00:00,0.0
+cat__timestamp_1987-10-05 11:03:04+00:00,0.0
+cat__timestamp_1987-10-05 11:03:05+00:00,0.0
+cat__timestamp_1987-10-05 11:03:06+00:00,0.0
+cat__timestamp_1987-10-05 11:02:33+00:00,0.0
+cat__timestamp_1987-10-05 11:03:08+00:00,0.0
+cat__timestamp_1987-10-05 11:03:09+00:00,0.0
+cat__timestamp_1987-10-05 11:03:11+00:00,0.0
+cat__timestamp_1987-10-05 11:03:12+00:00,0.0
+cat__timestamp_1987-10-05 11:03:13+00:00,0.0
+cat__timestamp_1987-10-05 11:03:14+00:00,0.0
+cat__timestamp_1987-10-05 11:03:15+00:00,0.0
+cat__timestamp_1987-10-05 11:03:16+00:00,0.0
+cat__timestamp_1987-10-05 11:08:35+00:00,0.0
+cat__timestamp_1987-10-05 11:03:18+00:00,0.0
+cat__timestamp_1987-10-05 11:03:07+00:00,0.0
+cat__timestamp_1987-10-05 11:02:34+00:00,0.0
+cat__timestamp_1987-10-05 11:02:35+00:00,0.0
+cat__timestamp_1987-10-05 11:02:36+00:00,0.0
+cat__timestamp_1987-10-05 11:02:37+00:00,0.0
+cat__timestamp_1987-10-05 11:02:38+00:00,0.0
+cat__timestamp_1987-10-05 11:02:39+00:00,0.0
+cat__timestamp_1987-10-05 11:02:40+00:00,0.0
+cat__timestamp_1987-10-05 11:02:41+00:00,0.0
+cat__timestamp_1987-10-05 11:02:42+00:00,0.0
+cat__timestamp_1987-10-05 11:02:44+00:00,0.0
+cat__timestamp_1987-10-05 11:02:56+00:00,0.0
+cat__timestamp_1987-10-05 11:02:46+00:00,0.0
+cat__timestamp_1987-10-05 11:02:47+00:00,0.0
+cat__timestamp_1987-10-05 11:02:48+00:00,0.0
+cat__timestamp_1987-10-05 11:02:49+00:00,0.0
+cat__timestamp_1987-10-05 11:02:50+00:00,0.0
+cat__timestamp_1987-10-05 11:02:51+00:00,0.0
+cat__timestamp_1987-10-05 11:02:52+00:00,0.0
+cat__timestamp_1987-10-05 11:02:53+00:00,0.0
+cat__timestamp_1987-10-05 11:02:54+00:00,0.0
+cat__timestamp_1987-10-05 11:02:55+00:00,0.0
+cat__timestamp_1987-10-05 11:02:45+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:21 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:22 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:25 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:26 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:52 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:53 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:54 UTC,0.0
+cat__timestamp_1987-10-05 11:01:43+00:00,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:58 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:59 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:00 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:02 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:04 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:05 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:55 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:37 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:38 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:40 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:44 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:46 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:08:47 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:56 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:04:57 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:01 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:20 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:03 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:05 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:09 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:11 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:12 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:13 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:14 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:15 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:18 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:05:02 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:35 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:36 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:37 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:38 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:39 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:40 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:41 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:06 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:09:07 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:10 UTC,0.0
+cat__timestamp_1987-10-05 11:01:26+00:00,0.0
+cat__timestamp_1987-10-05 11:01:27+00:00,0.0
+cat__timestamp_1987-10-05 11:01:28+00:00,0.0
+cat__timestamp_1987-10-05 11:01:29+00:00,0.0
+cat__timestamp_1987-10-05 11:01:32+00:00,0.0
+cat__timestamp_1987-10-05 11:01:33+00:00,0.0
+cat__timestamp_1987-10-05 11:01:34+00:00,0.0
+cat__timestamp_1987-10-05 11:01:36+00:00,0.0
+cat__timestamp_1987-10-05 11:01:41+00:00,0.0
+cat__timestamp_1987-10-05 11:01:42+00:00,0.0
+cat__arquivo_origem_metricas_v10_ci_e_fq.csv,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:11 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:12 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:13 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:14 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:16 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:17 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:18 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:19 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:20 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:21 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:34 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:23 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:24 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:25 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:26 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:27 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:28 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:29 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:30 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:31 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:33 UTC,0.0
+cat__timestamp_sec_str_1987-10-05 11:02:22 UTC,0.0

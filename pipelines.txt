@@ -1,0 +1,55 @@
+================================================== Pipeline Inspection: CatBoost
+GENERAL STRUCTURE:
+Step 1: prep → ColumnTransformer
+Step 2: cb → CatBoostClassifier
+
+PREPROCESSING DETAILS:
+
+prep (ColumnTransformer):
+
+num: Transformer: StandardScaler() Columns: Index(['n_carros', 'vazao_env_carro_total_bps', 'vazao_env_carro_media_bps', 'vazao_rec_servidor_media_bps', 'lat_ms', 'pdr', 'throughput_kbps', 'lat_ms_mean3', 'lat_ms_std3', 'lat_ms_delta', 'pdr_mean3', 'pdr_std3', 'pdr_delta', 'throughput_kbps_mean3', 'throughput_kbps_std3', 'throughput_kbps_delta', 'loss_ratio', 'thr_util', 'time_block'], dtype='object')
+cat: Transformer: OneHotEncoder(handle_unknown='ignore', sparse_output=False) Columns: ['categoria']
+EXPECTED FEATURES (20):
+['n_carros', 'vazao_env_carro_total_bps', 'vazao_env_carro_media_bps', 'vazao_rec_servidor_media_bps', 'lat_ms', 'pdr', 'throughput_kbps', 'lat_ms_mean3', 'lat_ms_std3', 'lat_ms_delta', 'pdr_mean3', 'pdr_std3', 'pdr_delta', 'throughput_kbps_mean3', 'throughput_kbps_std3', 'throughput_kbps_delta', 'loss_ratio', 'thr_util', 'time_block', 'categoria']
+
+FINAL MODEL: CatBoostClassifier
+
+================================================== Pipeline Inspection: Random Forest
+GENERAL STRUCTURE:
+Step 1: prep → ColumnTransformer
+Step 2: rf → RandomForestClassifier
+
+PREPROCESSING DETAILS:
+
+prep (ColumnTransformer):
+
+num: Transformer: StandardScaler() Columns: ['n_carros', 'vazao_env_carro_total_bps', 'vazao_env_carro_media_bps', 'vazao_rec_servidor_media_bps', 'lat_ms', 'pdr', 'throughput_kbps', 'lat_ms_mean3', 'lat_ms_std3', 'lat_ms_delta', 'pdr_mean3', 'pdr_std3', 'pdr_delta', 'throughput_kbps_mean3', 'throughput_kbps_std3', 'throughput_kbps_delta', 'loss_ratio', 'thr_util', 'time_block']
+cat: Transformer: OneHotEncoder(handle_unknown='ignore', sparse_output=False) Columns: ['categoria']
+EXPECTED FEATURES (20):
+['n_carros', 'vazao_env_carro_total_bps', 'vazao_env_carro_media_bps', 'vazao_rec_servidor_media_bps', 'lat_ms', 'pdr', 'throughput_kbps', 'lat_ms_mean3', 'lat_ms_std3', 'lat_ms_delta', 'pdr_mean3', 'pdr_std3', 'pdr_delta', 'throughput_kbps_mean3', 'throughput_kbps_std3', 'throughput_kbps_delta', 'loss_ratio', 'thr_util', 'time_block', 'categoria']
+
+FINAL MODEL: RandomForestClassifier
+
+n_estimators: 700
+max_depth: 20
+Type of loaded object (best_pipe_tb): <class 'tuple'>
+Element 0 of tuple: <class 'sklearn.compose._column_transformer.ColumnTransformer'>
+Element 1 of tuple: <class 'pytorch_tabnet.tab_model.TabNetClassifier'>
+
+TabNet Pipeline successfully reconstructed!
+
+================================================== Pipeline Inspection: Tabnet (Reconstruído)
+GENERAL STRUCTURE:
+Step 1: prep → ColumnTransformer
+Step 2: tabnet_model → TabNetClassifier
+
+PREPROCESSING DETAILS:
+
+prep (ColumnTransformer):
+
+num: Transformer: StandardScaler() Columns: ['n_carros', 'vazao_env_carro_total_bps', 'vazao_env_carro_media_bps', 'vazao_rec_servidor_media_bps', 'lat_ms', 'pdr', 'throughput_kbps', 'lat_ms_mean3', 'lat_ms_std3', 'lat_ms_delta', 'pdr_mean3', 'pdr_std3', 'pdr_delta', 'throughput_kbps_mean3', 'throughput_kbps_std3', 'throughput_kbps_delta', 'loss_ratio', 'thr_util', 'time_block']
+cat: Transformer: OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1) Columns: ['categoria']
+EXPECTED FEATURES (20):
+['n_carros', 'vazao_env_carro_total_bps', 'vazao_env_carro_media_bps', 'vazao_rec_servidor_media_bps', 'lat_ms', 'pdr', 'throughput_kbps', 'lat_ms_mean3', 'lat_ms_std3', 'lat_ms_delta', 'pdr_mean3', 'pdr_std3', 'pdr_delta', 'throughput_kbps_mean3', 'throughput_kbps_std3', 'throughput_kbps_delta', 'loss_ratio', 'thr_util', 'time_block', 'categoria']
+
+FINAL MODEL: TabNetClassifier

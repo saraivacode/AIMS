@@ -1,0 +1,57 @@
+Originals weigths: 
+         s    e   e2    g
+lat   0.5  0.4  0.4  0.3
+loss  0.3  0.3  0.2  0.3
+thr   0.2  0.3  0.4  0.4 
+
+Weights in use: 
+         s    e   e2    g
+lat   0.5  0.3  0.2  0.3
+loss  0.3  0.4  0.3  0.3
+thr   0.2  0.3  0.5  0.4
+
+
+General impact‑label distribution:
+ impact_label
+0     768
+1    1013
+2    2715
+3     904
+Name: count, dtype: int64
+----------------------------------------------
+categoria mbmlhp / App e
+impact_label
+1     182
+2    1143
+3      25
+Name: count, dtype: int64
+----------------------------------------------
+categoria hbmlmp / App e2
+impact_label
+0      59
+1     183
+2    1093
+3      15
+Name: count, dtype: int64
+----------------------------------------------
+categoria lblllp / App g
+impact_label
+1    158
+2    328
+3    864
+Name: count, dtype: int64
+----------------------------------------------
+categoria mbclcp / App s
+impact_label
+0    709
+1    490
+2    151
+Name: count, dtype: int64
+----------------------------------------------
+Class‑weights: {0: 1.7578125, 1: 1.332675222112537, 2: 0.4972375690607735, 3: 1.4933628318584071}
+(5400, 20)
+2    2715
+1    1013
+3     904
+0     768
+Name: count, dtype: int64

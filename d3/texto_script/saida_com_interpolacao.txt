@@ -1,0 +1,1597 @@
+=== TRATAMENTO DE DADOS COM INTERPOLAÇÃO ===  2025-05-29 14:38:10  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 1: App E - Cenário FS ---  2025-05-29 14:38:11  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fs_5003_tt.txt
+  Srv: server_etf_car_fs_tt.txt
+  RTT: delay_e_fs_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 482x4"
+[1] "Srv: 480x3"
+[1] "RTT: 480x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        479360              1          40
+2 1987-10-05 11:01:27        503328              1          42
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        527296          44
+2 1987-10-05 11:01:32        491344          41
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     6.73            1
+2 1987-10-05 11:00:01     0.282           1
+Timeline canónica criada com 571 segundos.
+Dimensões df_merged (após join com timeline): 571x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     6.73 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.282
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            479360          1          40                    0           0     23313
+2 1987-10-05 11:01:27            503328          1          42                    0           0     23318
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 5 Lim Inf: 0 Lim Sup: 10715.88 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_e_fs.csv 
+--- Fim do Processamento para App E - Cenário FS ---  2025-05-29 14:38:18  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 2: App S - Cenário FS ---  2025-05-29 14:38:18  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fs_5002_tt.txt
+  Srv: server_stf_car_fs_tt.txt
+  RTT: delay_s_fs_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 482x4"
+[1] "Srv: 480x3"
+[1] "RTT: 480x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        479360              1          40
+2 1987-10-05 11:01:27        491344              1          41
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        515312          43
+2 1987-10-05 11:01:32        491344          41
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00      5.02           1
+2 1987-10-05 11:00:01      0.38           1
+Timeline canónica criada com 571 segundos.
+Dimensões df_merged (após join com timeline): 571x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA      5.02
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA      0.38
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            479360          1          40                    0           0     12.3 
+2 1987-10-05 11:01:27            491344          1          41                    0           0      3.78
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 592 Lim Inf: 0 Lim Sup: 57.71 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_s_fs.csv 
+--- Fim do Processamento para App S - Cenário FS ---  2025-05-29 14:38:25  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 3: App E2 - Cenário FS ---  2025-05-29 14:38:25  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fs_5004_tt.txt
+  Srv: server_e2tf_car_fs_tt.txt
+  RTT: delay_e2_fs_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 482x4"
+[1] "Srv: 480x3"
+[1] "RTT: 480x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        946736              1          79
+2 1987-10-05 11:01:27        994672              1          83
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31       1018640          85
+2 1987-10-05 11:01:32        994672          83
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     6.12            1
+2 1987-10-05 11:00:01     0.389           1
+Timeline canónica criada com 571 segundos.
+Dimensões df_merged (após join com timeline): 571x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     6.12 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.389
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            946736          1          79                    0           0      25.5
+2 1987-10-05 11:01:27            994672          1          83                    0           0      22.8
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 682 Lim Inf: 0 Lim Sup: 995.69 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_e2_fs.csv 
+--- Fim do Processamento para App E2 - Cenário FS ---  2025-05-29 14:38:34  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 4: App G - Cenário FS ---  2025-05-29 14:38:34  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fs_5005_tt.txt
+  Srv: server_gtf_car_fs_tt.txt
+  RTT: delay_g_fs_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 482x4"
+[1] "Srv: 480x3"
+[1] "RTT: 305x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        479360              1          40
+2 1987-10-05 11:01:27        503328              1          42
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        527296          44
+2 1987-10-05 11:01:32        503328          42
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     6.49            1
+2 1987-10-05 11:00:01     0.429           1
+Timeline canónica criada com 571 segundos.
+Dimensões df_merged (após join com timeline): 571x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     6.49 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.429
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            479360          1          40                    0           0     23817
+2 1987-10-05 11:01:27            503328          1          42                    0           0        NA
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 44 Lim Inf: 787 Lim Sup: 37867 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_g_fs.csv 
+--- Fim do Processamento para App G - Cenário FS ---  2025-05-29 14:38:38  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 5: App E - Cenário FQ ---  2025-05-29 14:38:38  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fq_5003_tt.txt
+  Srv: server_etf_car_fq_tt.txt
+  RTT: delay_e_fq_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 578x4"
+[1] "Srv: 575x3"
+[1] "RTT: 571x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        491344              1          41
+2 1987-10-05 11:01:27        491344              1          41
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        503328          42
+2 1987-10-05 11:01:32        503328          42
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     3.26            1
+2 1987-10-05 11:00:01     0.364           1
+Timeline canónica criada com 666 segundos.
+Dimensões df_merged (após join com timeline): 666x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     3.26 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.364
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            491344          1          41                    0           0     15121
+2 1987-10-05 11:01:27            491344          1          41                    0           0     15126
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 870 Lim Inf: 6733.5 Lim Sup: 8065.5 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_e_fq.csv 
+--- Fim do Processamento para App E - Cenário FQ ---  2025-05-29 14:38:45  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 6: App S - Cenário FQ ---  2025-05-29 14:38:45  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fq_5002_tt.txt
+  Srv: server_stf_car_fq_tt.txt
+  RTT: delay_s_fq_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 578x4"
+[1] "Srv: 575x3"
+[1] "RTT: 574x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        491344              1          41
+2 1987-10-05 11:01:27        491344              1          41
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        503328          42
+2 1987-10-05 11:01:32        503328          42
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     0.49            1
+2 1987-10-05 11:00:01     0.364           1
+Timeline canónica criada com 666 segundos.
+Dimensões df_merged (após join com timeline): 666x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     0.49 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.364
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            491344          1          41                    0           0      5.85
+2 1987-10-05 11:01:27            491344          1          41                    0           0      2.93
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 720 Lim Inf: 0 Lim Sup: 152.52 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_s_fq.csv 
+--- Fim do Processamento para App S - Cenário FQ ---  2025-05-29 14:38:53  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 7: App E2 - Cenário FQ ---  2025-05-29 14:38:53  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fq_5004_tt.txt
+  Srv: server_e2tf_car_fq_tt.txt
+  RTT: delay_e2_fq_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 578x4"
+[1] "Srv: 575x3"
+[1] "RTT: 570x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        958720              1          80
+2 1987-10-05 11:01:27        994672              1          83
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        994672          83
+2 1987-10-05 11:01:32        994672          83
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00      3.47           1
+2 1987-10-05 11:00:01      0.33           1
+Timeline canónica criada com 666 segundos.
+Dimensões df_merged (após join com timeline): 666x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA      3.47
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA      0.33
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            958720          1          80                    0           0      7622
+2 1987-10-05 11:01:27            994672          1          83                    0           0        NA
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 1004 Lim Inf: 3699.62 Lim Sup: 3932.62 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_e2_fq.csv 
+--- Fim do Processamento para App E2 - Cenário FQ ---  2025-05-29 14:39:05  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 8: App G - Cenário FQ ---  2025-05-29 14:39:05  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fq_5005_tt.txt
+  Srv: server_gtf_car_fq_tt.txt
+  RTT: delay_g_fq_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 578x4"
+[1] "Srv: 575x3"
+[1] "RTT: 296x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:26        479360              1          40
+2 1987-10-05 11:01:27        503328              1          42
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:31        503328          42
+2 1987-10-05 11:01:32        503328          42
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     3.34            1
+2 1987-10-05 11:00:01     0.411           1
+Timeline canónica criada com 666 segundos.
+Dimensões df_merged (após join com timeline): 666x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     3.34 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.411
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:26 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:26            479360          1          40                    0           0        NA
+2 1987-10-05 11:01:27            503328          1          42                    0           0     43638
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 98 Lim Inf: 27357.88 Lim Sup: 54230.88 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_g_fq.csv 
+--- Fim do Processamento para App G - Cenário FQ ---  2025-05-29 14:39:11  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 9: App E - Cenário FN ---  2025-05-29 14:39:11  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fn_5003_tt.txt
+  Srv: server_etf_car_fn_tt.txt
+  RTT: delay_e_fn_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 505x4"
+[1] "Srv: 502x3"
+[1] "RTT: 488x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:38        958720              2          80
+2 1987-10-05 11:01:39        994672              2          83
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:41        503328          42
+2 1987-10-05 11:01:42        503328          42
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     4.19            1
+2 1987-10-05 11:00:01     0.303           1
+Timeline canónica criada com 603 segundos.
+Dimensões df_merged (após join com timeline): 603x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     4.19 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.303
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:38 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:38            958720          2          80                    0           0      6800
+2 1987-10-05 11:01:39            994672          2          83                    0           0      9101
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 591 Lim Inf: 2220 Lim Sup: 2332 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_e_fn.csv 
+--- Fim do Processamento para App E - Cenário FN ---  2025-05-29 14:39:17  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 10: App S - Cenário FN ---  2025-05-29 14:39:17  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fn_5002_tt.txt
+  Srv: server_stf_car_fn_tt.txt
+  RTT: delay_s_fn_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 505x4"
+[1] "Srv: 502x3"
+[1] "RTT: 491x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:38        958720              2          80
+2 1987-10-05 11:01:39        994672              2          83
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:41        503328          42
+2 1987-10-05 11:01:42        503328          42
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     0.515           1
+2 1987-10-05 11:00:01     0.353           1
+Timeline canónica criada com 603 segundos.
+Dimensões df_merged (após join com timeline): 603x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     0.515
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.353
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:38 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:38            958720          2          80                    0           0      4.67
+2 1987-10-05 11:01:39            994672          2          83                    0           0      4.15
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 559 Lim Inf: 0 Lim Sup: 51.3 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_s_fn.csv 
+--- Fim do Processamento para App S - Cenário FN ---  2025-05-29 14:39:23  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 11: App E2 - Cenário FN ---  2025-05-29 14:39:24  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fn_5004_tt.txt
+  Srv: server_e2tf_car_fn_tt.txt
+  RTT: delay_e2_fn_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 505x4"
+[1] "Srv: 502x3"
+[1] "RTT: 488x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:38       1893472              2         158
+2 1987-10-05 11:01:39       1977360              2         165
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:41        994672          83
+2 1987-10-05 11:01:42        994672          83
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     5.01            1
+2 1987-10-05 11:00:01     0.283           1
+Timeline canónica criada com 603 segundos.
+Dimensões df_merged (após join com timeline): 603x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     5.01 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.283
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:38 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:38           1893472          2         158                    0           0      4529
+2 1987-10-05 11:01:39           1977360          2         165                    0           0      2276
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 549 Lim Inf: 2216.5 Lim Sup: 2332.5 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_e2_fn.csv 
+--- Fim do Processamento para App E2 - Cenário FN ---  2025-05-29 14:39:34  (America/Sao_Paulo) - RJ
+
+
+--- Processamento 12: App G - Cenário FN ---  2025-05-29 14:39:34  (America/Sao_Paulo) - RJ
+
+Ficheiros:
+  Car: cartf_fn_5005_tt.txt
+  Srv: server_gtf_car_fn_tt.txt
+  RTT: delay_g_fn_tt.txt
+Dimensões agregadas (após agg_per_sec):
+[1] "Car: 505x4"
+[1] "Srv: 502x3"
+[1] "RTT: 487x3"
+# A tibble: 2 × 4
+  t_sec               sum_size_bits n_distinct_ori packets_car
+  <dttm>                      <dbl>          <int>       <dbl>
+1 1987-10-05 11:01:38        958720              2          80
+2 1987-10-05 11:01:39        982688              2          82
+# A tibble: 2 × 3
+  t_sec               sum_size_bits packets_srv
+  <dttm>                      <dbl>       <dbl>
+1 1987-10-05 11:01:41        503328          42
+2 1987-10-05 11:01:42        515312          43
+# A tibble: 2 × 3
+  t_sec               sum_delay count_delay
+  <dttm>                  <dbl>       <int>
+1 1987-10-05 11:00:00     5.54            1
+2 1987-10-05 11:00:01     0.362           1
+Timeline canónica criada com 603 segundos.
+Dimensões df_merged (após join com timeline): 603x8 
+# A tibble: 2 × 8
+  t_sec               sum_size_bits.x n_distinct_ori packets_car sum_size_bits.y packets_srv sum_delay
+  <dttm>                        <dbl>          <int>       <dbl>           <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:00:00              NA             NA          NA              NA          NA     5.54 
+2 1987-10-05 11:00:01              NA             NA          NA              NA          NA     0.362
+# ℹ 1 more variable: count_delay <int>
+Aplicando interpolação linear para rtt_avg_ms...
+Dados limitados a 450 segundos, começando em: 1987-10-05 11:01:38 
+# A tibble: 2 × 20
+  t_sec               tt_throughput_car ncars_vehi packets_car tt_throughput_server packets_srv sum_delay
+  <dttm>                          <dbl>      <int>       <dbl>                <dbl>       <dbl>     <dbl>
+1 1987-10-05 11:01:38            958720          2          80                    0           0      4541
+2 1987-10-05 11:01:39            982688          2          82                    0           0        NA
+# ℹ 13 more variables: count_delay <int>, mean_throughput_car <dbl>, mean_throughput_server <dbl>,
+#   rtt_avg_ms <dbl>, rtt_avg_ms_interpolated <dbl>, pdr_inst_pacotes <dbl>, conf_inst_bits <dbl>,
+#   cumulative_packets_sent <dbl>, cumulative_packets_received <dbl>, cumulative_bits_sent <dbl>,
+#   cumulative_bits_received <dbl>, pdr_cum_pacotes <dbl>, conf_cum_bits <dbl>
+Analisando RTTs individuais...
+  Outliers RTT: 554 Lim Inf: 2213.5 Lim Sup: 2337.5 
+Gerando gráficos de RTT...
+Consolidando resultados para o ficheiro CSV...
+Salvando resultados em: C:/Users/sarai/Documents/experimentos/framework_its_sdn-master/results/metricas_v10_ci_g_fn.csv 
+--- Fim do Processamento para App G - Cenário FN ---  2025-05-29 14:39:40  (America/Sao_Paulo) - RJ
+
+
+Todos os processamentos concluídos.  2025-05-29 14:39:40  (America/Sao_Paulo) - RJ
+
+ === ANALISE DOS DADOS ===  2025-05-29 14:39:40  (America/Sao_Paulo) - RJ
+
+=== ARQUIVOS ENCONTRADOS  - Dados com interpolacao ===
+ [1] "metricas_v10_ci_e_fn.csv"  "metricas_v10_ci_e_fq.csv"  "metricas_v10_ci_e_fs.csv" 
+ [4] "metricas_v10_ci_e2_fn.csv" "metricas_v10_ci_e2_fq.csv" "metricas_v10_ci_e2_fs.csv"
+ [7] "metricas_v10_ci_g_fn.csv"  "metricas_v10_ci_g_fq.csv"  "metricas_v10_ci_g_fs.csv" 
+[10] "metricas_v10_ci_s_fn.csv"  "metricas_v10_ci_s_fq.csv"  "metricas_v10_ci_s_fs.csv" 
+
+ === LENDO E COMBINANDO ARQUIVOS ===  2025-05-29 14:39:40  (America/Sao_Paulo) - RJ
+
+Lendo: metricas_v10_ci_e_fn.csv 
+Lendo: metricas_v10_ci_e_fq.csv 
+Lendo: metricas_v10_ci_e_fs.csv 
+Lendo: metricas_v10_ci_e2_fn.csv 
+Lendo: metricas_v10_ci_e2_fq.csv 
+Lendo: metricas_v10_ci_e2_fs.csv 
+Lendo: metricas_v10_ci_g_fn.csv 
+Lendo: metricas_v10_ci_g_fq.csv 
+Lendo: metricas_v10_ci_g_fs.csv 
+Lendo: metricas_v10_ci_s_fn.csv 
+Lendo: metricas_v10_ci_s_fq.csv 
+Lendo: metricas_v10_ci_s_fs.csv 
+Dataset combinado criado com sucesso!
+Dimensões finais: 5400 linhas x 15 colunas
+
+ === COMBINAÇÕES DE APP E CENÁRIO ===  2025-05-29 14:39:41  (America/Sao_Paulo) - RJ
+
+# A tibble: 12 × 4
+   app   cenario arquivo_origem            n_obs
+   <chr> <chr>   <chr>                     <int>
+ 1 e     fn      metricas_v10_ci_e_fn.csv    450
+ 2 e     fq      metricas_v10_ci_e_fq.csv    450
+ 3 e     fs      metricas_v10_ci_e_fs.csv    450
+ 4 e2    fn      metricas_v10_ci_e2_fn.csv   450
+ 5 e2    fq      metricas_v10_ci_e2_fq.csv   450
+ 6 e2    fs      metricas_v10_ci_e2_fs.csv   450
+ 7 g     fn      metricas_v10_ci_g_fn.csv    450
+ 8 g     fq      metricas_v10_ci_g_fq.csv    450
+ 9 g     fs      metricas_v10_ci_g_fs.csv    450
+10 s     fn      metricas_v10_ci_s_fn.csv    450
+11 s     fq      metricas_v10_ci_s_fq.csv    450
+12 s     fs      metricas_v10_ci_s_fs.csv    450
+
+=== Salva DF Completo ===
+
+ === Salva DF Completo ===  2025-05-29 14:39:41  (America/Sao_Paulo) - RJ
+
+
+ === ANÁLISE DE NAs POR COLUNA ===  2025-05-29 14:39:41  (America/Sao_Paulo) - RJ
+
+# A tibble: 12 × 6
+   app   cenario total_obs coluna       quantidade_nas percentual_nas
+   <chr> <chr>       <int> <chr>                 <int>          <dbl>
+ 1 e     fn            450 rtt_medio_ms             55          12.2 
+ 2 e     fq            450 rtt_medio_ms              4           0.89
+ 3 e     fs            450 rtt_medio_ms             55          12.2 
+ 4 e2    fn            450 rtt_medio_ms             55          12.2 
+ 5 e2    fq            450 rtt_medio_ms              5           1.11
+ 6 e2    fs            450 rtt_medio_ms             55          12.2 
+ 7 g     fn            450 rtt_medio_ms             51          11.3 
+ 8 g     fq            450 rtt_medio_ms            211          46.9 
+ 9 g     fs            450 rtt_medio_ms            191          42.4 
+10 s     fn            450 rtt_medio_ms             57          12.7 
+11 s     fq            450 rtt_medio_ms              2           0.44
+12 s     fs            450 rtt_medio_ms             55          12.2 
+
+ === RESUMO DE NAs POR APP E CENÁRIO ===  2025-05-29 14:39:41  (America/Sao_Paulo) - RJ
+
+# A tibble: 12 × 6
+   app   cenario total_nas colunas_com_nas max_nas_coluna max_percentual_nas
+   <chr> <chr>       <int>           <int>          <int>              <dbl>
+ 1 e     fn             55               1             55              12.2 
+ 2 e     fq              4               1              4               0.89
+ 3 e     fs             55               1             55              12.2 
+ 4 e2    fn             55               1             55              12.2 
+ 5 e2    fq              5               1              5               1.11
+ 6 e2    fs             55               1             55              12.2 
+ 7 g     fn             51               1             51              11.3 
+ 8 g     fq            211               1            211              46.9 
+ 9 g     fs            191               1            191              42.4 
+10 s     fn             57               1             57              12.7 
+11 s     fq              2               1              2               0.44
+12 s     fs             55               1             55              12.2 
+
+ === ANÁLISE DE DESEMPENHO DAS MÉTRICAS ===  2025-05-29 14:39:42  (America/Sao_Paulo) - RJ
+
+
+--- APP: e | CENÁRIO: fn ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4872641.1378 | Mediana: 5440736.0000 | Desvio Padrão: 2091128.9322
+  Min: 958720.0000 | Max: 7525952.0000
+  Percentis - P25: 2480688.0000 | P75: 7394128.0000 | P90: 7442064.0000 | P95: 7466032.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495585.1565 | Mediana: 496137.6000 | Desvio Padrão: 4050.1376
+  Min: 432345.8462 | Max: 503328.0000
+  Percentis - P25: 493740.8000 | P75: 497336.0000 | P90: 498534.4000 | P95: 500059.6364
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 2363351.3244 | Mediana: 2444736.0000 | Desvio Padrão: 1069023.5173
+  Min: 0.0000 | Max: 4577888.0000
+  Percentis - P25: 1318240.0000 | P75: 3394468.0000 | P90: 3894800.0000 | P95: 4021231.2000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 243470.9873 | Mediana: 244473.6000 | Desvio Padrão: 52071.6334
+  Min: 0.0000 | Max: 503328.0000
+  Percentis - P25: 222902.4000 | P75: 263648.0000 | P90: 282822.4000 | P95: 301996.8000
+
+rtt_medio_ms:
+  Observações: 395
+  Média: 2166.0888 | Mediana: 2273.5000 | Desvio Padrão: 321.3652
+  Min: 256.9800 | Max: 2816.2000
+  Percentis - P25: 2237.6000 | P75: 2282.4167 | P90: 2319.3667 | P95: 2399.5600
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 2194.0256 | Mediana: 2275.5333 | Desvio Padrão: 314.5003
+  Min: 256.9800 | Max: 2816.2000
+  Percentis - P25: 2260.7500 | P75: 2290.0417 | P90: 2440.0000 | P95: 2440.0000
+
+bc_rtt:
+  Observações: 450
+  Média: 836509537244836.5000 | Mediana: 876968406037146.5000 | Desvio Padrão: 336579455690970.0625
+  Min: 34560411698.0912 | Max: 2363101059594742.0000
+  Percentis - P25: 850788029647782.7500 | P75: 903272559362732.2500 | P90: 1213136695290587.0000 | P95: 1213136695290587.0000
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.4912 | Mediana: 0.4927 | Desvio Padrão: 0.1043
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.4505 | P75: 0.5299 | P90: 0.5722 | P95: 0.6117
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.4912 | Mediana: 0.4927 | Desvio Padrão: 0.1043
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.4505 | P75: 0.5299 | P90: 0.5722 | P95: 0.6117
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.4895 | Mediana: 0.4833 | Desvio Padrão: 0.0529
+  Min: 0.0000 | Max: 0.6687
+  Percentis - P25: 0.4764 | P75: 0.5144 | P90: 0.5211 | P95: 0.5269
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.4895 | Mediana: 0.4833 | Desvio Padrão: 0.0529
+  Min: 0.0000 | Max: 0.6687
+  Percentis - P25: 0.4764 | P75: 0.5144 | P90: 0.5211 | P95: 0.5269
+-------------------------------------------------- 
+
+--- APP: e | CENÁRIO: fq ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4742601.4222 | Mediana: 5440736.0000 | Desvio Padrão: 2039672.5386
+  Min: 491344.0000 | Max: 7513968.0000
+  Percentis - P25: 2480688.0000 | P75: 5497660.0000 | P90: 7442064.0000 | P95: 7454048.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495914.8872 | Mediana: 496137.6000 | Desvio Padrão: 2767.7759
+  Min: 476963.2000 | Max: 503328.0000
+  Percentis - P25: 494389.9333 | P75: 497735.4667 | P90: 498970.1818 | P95: 500931.2000
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 2763084.3022 | Mediana: 3079888.0000 | Desvio Padrão: 1227822.7385
+  Min: 0.0000 | Max: 4793600.0000
+  Percentis - P25: 1569904.0000 | P75: 3163776.0000 | P90: 4673760.0000 | P95: 4728287.2000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 290552.9072 | Mediana: 304793.0667 | Desvio Padrão: 53017.8988
+  Min: 0.0000 | Max: 503328.0000
+  Percentis - P25: 282168.7273 | P75: 312382.9333 | P90: 316377.6000 | P95: 317176.5333
+
+rtt_medio_ms:
+  Observações: 446
+  Média: 6620.1828 | Mediana: 7510.5556 | Desvio Padrão: 1356.1666
+  Min: 9.2800 | Max: 8213.0000
+  Percentis - P25: 5740.0625 | P75: 7536.0000 | P90: 7554.4167 | P95: 7562.6667
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 6628.2544 | Mediana: 7511.3333 | Desvio Padrão: 1352.8060
+  Min: 9.2800 | Max: 8213.0000
+  Percentis - P25: 5762.6736 | P75: 7536.0000 | P90: 7554.3500 | P95: 7562.4000
+
+bc_rtt:
+  Observações: 450
+  Média: 12048512616140.3926 | Mediana: 16164680534573.8984 | Desvio Padrão: 5786044652871.0547
+  Min: 766.3150 | Max: 22194896184812.8008
+  Percentis - P25: 6309385717982.3301 | P75: 16353917617812.9004 | P90: 16495723178128.0000 | P95: 16558210578288.7734
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.5857 | Mediana: 0.6133 | Desvio Padrão: 0.1061
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.5692 | P75: 0.6298 | P90: 0.6381 | P95: 0.6408
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.5857 | Mediana: 0.6133 | Desvio Padrão: 0.1061
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.5692 | P75: 0.6298 | P90: 0.6381 | P95: 0.6408
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.5652 | Mediana: 0.5790 | Desvio Padrão: 0.0759
+  Min: 0.0000 | Max: 0.6106
+  Percentis - P25: 0.5732 | P75: 0.5857 | P90: 0.6039 | P95: 0.6078
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.5652 | Mediana: 0.5790 | Desvio Padrão: 0.0759
+  Min: 0.0000 | Max: 0.6106
+  Percentis - P25: 0.5732 | P75: 0.5857 | P90: 0.6039 | P95: 0.6078
+-------------------------------------------------- 
+
+--- APP: e | CENÁRIO: fs ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4762814.4356 | Mediana: 5440736.0000 | Desvio Padrão: 2077022.9992
+  Min: 479360.0000 | Max: 7501984.0000
+  Percentis - P25: 2480688.0000 | P75: 6950720.0000 | P90: 7442064.0000 | P95: 7466032.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495868.6431 | Mediana: 496137.6000 | Desvio Padrão: 3333.2053
+  Min: 458388.0000 | Max: 503328.0000
+  Percentis - P25: 494539.7333 | P75: 497735.4667 | P90: 498534.4000 | P95: 500931.2000
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 3870246.1156 | Mediana: 4116504.0000 | Desvio Padrão: 1607411.7487
+  Min: 0.0000 | Max: 6639136.0000
+  Percentis - P25: 2480688.0000 | P75: 5114172.0000 | P90: 5897326.4000 | P95: 6034543.2000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 409566.4291 | Mediana: 418895.2727 | Desvio Padrão: 86372.7900
+  Min: 0.0000 | Max: 550174.5455
+  Percentis - P25: 368235.6364 | P75: 493740.8000 | P90: 498534.4000 | P95: 498534.4000
+
+rtt_medio_ms:
+  Observações: 395
+  Média: 3646.1603 | Mediana: 3866.0167 | Desvio Padrão: 1338.9503
+  Min: 19.8500 | Max: 7356.0000
+  Percentis - P25: 2561.5376 | P75: 4640.9250 | P90: 4931.3420 | P95: 5415.3664
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 3239.3852 | Mediana: 3656.4856 | Desvio Padrão: 1662.5808
+  Min: 19.8500 | Max: 7356.0000
+  Percentis - P25: 1876.4302 | P75: 4635.3000 | P90: 4892.9336 | P95: 5279.8779
+
+bc_rtt:
+  Observações: 450
+  Média: 3238.3852 | Mediana: 3655.4856 | Desvio Padrão: 1662.5808
+  Min: 18.8500 | Max: 7355.0000
+  Percentis - P25: 1875.4302 | P75: 4634.3000 | P90: 4891.9336 | P95: 5278.8779
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.8243 | Mediana: 0.8454 | Desvio Padrão: 0.1722
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.7429 | P75: 0.9904 | P90: 1.0000 | P95: 1.0000
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.8243 | Mediana: 0.8454 | Desvio Padrão: 0.1722
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.7429 | P75: 0.9904 | P90: 1.0000 | P95: 1.0000
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.7773 | Mediana: 0.8303 | Desvio Padrão: 0.1460
+  Min: 0.0000 | Max: 0.8850
+  Percentis - P25: 0.8135 | P75: 0.8417 | P90: 0.8590 | P95: 0.8733
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.7773 | Mediana: 0.8303 | Desvio Padrão: 0.1460
+  Min: 0.0000 | Max: 0.8850
+  Percentis - P25: 0.8135 | P75: 0.8417 | P90: 0.8590 | P95: 0.8733
+-------------------------------------------------- 
+
+--- APP: e2 | CENÁRIO: fn ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 9680755.0933 | Mediana: 10821552.0000 | Desvio Padrão: 4150063.3377
+  Min: 1893472.0000 | Max: 14872144.0000
+  Percentis - P25: 4937408.0000 | P75: 14692384.0000 | P90: 14788256.0000 | P95: 14812224.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 984909.0657 | Mediana: 985351.1111 | Desvio Padrão: 7871.9499
+  Min: 851785.8462 | Max: 999465.6000
+  Percentis - P25: 982688.0000 | P75: 987481.6000 | P90: 989878.4000 | P95: 992155.3600
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 4823906.2044 | Mediana: 5081216.0000 | Desvio Padrão: 2131193.4126
+  Min: 0.0000 | Max: 8844192.0000
+  Percentis - P25: 2696400.0000 | P75: 7097524.0000 | P90: 7825552.0000 | P95: 8005312.0000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 497085.2910 | Mediana: 500931.2000 | Desvio Padrão: 93824.2515
+  Min: 0.0000 | Max: 994672.0000
+  Percentis - P25: 467376.0000 | P75: 527296.0000 | P90: 560132.1600 | P95: 584819.2000
+
+rtt_medio_ms:
+  Observações: 395
+  Média: 2163.6853 | Mediana: 2272.7500 | Desvio Padrão: 315.7369
+  Min: 456.0000 | Max: 2823.0000
+  Percentis - P25: 2226.3000 | P75: 2281.3333 | P90: 2320.9000 | P95: 2384.3125
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 2190.9949 | Mediana: 2274.0000 | Desvio Padrão: 312.6262
+  Min: 456.0000 | Max: 2823.0000
+  Percentis - P25: 2257.8636 | P75: 2287.7667 | P90: 2442.0000 | P95: 2442.0000
+
+bc_rtt:
+  Observações: 450
+  Média: 831669806544740.6250 | Mediana: 874223925071689.0000 | Desvio Padrão: 338168556231297.6250
+  Min: 497431822842.7370 | Max: 2389750881595769.0000
+  Percentis - P25: 845748817505159.5000 | P75: 899107425284655.7500 | P90: 1217767457794081.0000 | P95: 1217767457794081.0000
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.5046 | Mediana: 0.5077 | Desvio Padrão: 0.0944
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.4734 | P75: 0.5354 | P90: 0.5680 | P95: 0.5938
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.5046 | Mediana: 0.5077 | Desvio Padrão: 0.0944
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.4734 | P75: 0.5354 | P90: 0.5680 | P95: 0.5938
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.5043 | Mediana: 0.4983 | Desvio Padrão: 0.0536
+  Min: 0.0000 | Max: 0.6680
+  Percentis - P25: 0.4939 | P75: 0.5286 | P90: 0.5393 | P95: 0.5428
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.5043 | Mediana: 0.4983 | Desvio Padrão: 0.0536
+  Min: 0.0000 | Max: 0.6680
+  Percentis - P25: 0.4939 | P75: 0.5286 | P90: 0.5393 | P95: 0.5428
+-------------------------------------------------- 
+
+--- APP: e2 | CENÁRIO: fq ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 9424084.4444 | Mediana: 10809568.0000 | Desvio Padrão: 4049705.9447
+  Min: 958720.0000 | Max: 14872144.0000
+  Percentis - P25: 4937408.0000 | P75: 10893456.0000 | P90: 14788256.0000 | P95: 14812224.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 985740.5508 | Mediana: 985920.0485 | Desvio Padrão: 4804.9068
+  Min: 941942.4000 | Max: 995761.4545
+  Percentis - P25: 983777.4545 | P75: 988135.2727 | P90: 989878.4000 | P95: 992275.2000
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 5519430.9333 | Mediana: 6195728.0000 | Desvio Padrão: 2446223.1790
+  Min: 0.0000 | Max: 9479344.0000
+  Percentis - P25: 3127824.0000 | P75: 6291600.0000 | P90: 9323552.0000 | P95: 9371488.0000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 580604.9477 | Mediana: 611184.0000 | Desvio Padrão: 105656.3973
+  Min: 0.0000 | Max: 994672.0000
+  Percentis - P25: 564609.8182 | P75: 623168.0000 | P90: 627961.6000 | P95: 630358.4000
+
+rtt_medio_ms:
+  Observações: 445
+  Média: 3556.0052 | Mediana: 3800.6000 | Desvio Padrão: 716.3459
+  Min: 7.2533 | Max: 4965.7143
+  Percentis - P25: 3457.7500 | P75: 3809.5000 | P90: 3999.0000 | P95: 4565.3733
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 3558.8174 | Mediana: 3800.8333 | Desvio Padrão: 712.8414
+  Min: 7.2533 | Max: 4965.7143
+  Percentis - P25: 3488.5000 | P75: 3809.5000 | P90: 3999.0000 | P95: 4561.0900
+
+bc_rtt:
+  Observações: 450
+  Média: 147823384.7808 | Mediana: 162741360.1680 | Desvio Padrão: 55610449.7084
+  Min: 48.0094 | Max: 309132669.5699
+  Percentis - P25: 132471272.3082 | P75: 163633381.1030 | P90: 183853595.3875 | P95: 252090248.3053
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.5889 | Mediana: 0.6197 | Desvio Padrão: 0.1064
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.5740 | P75: 0.6324 | P90: 0.6375 | P95: 0.6399
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.5889 | Mediana: 0.6197 | Desvio Padrão: 0.1064
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.5740 | P75: 0.6324 | P90: 0.6375 | P95: 0.6399
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.5682 | Mediana: 0.5822 | Desvio Padrão: 0.0765
+  Min: 0.0000 | Max: 0.6141
+  Percentis - P25: 0.5765 | P75: 0.5888 | P90: 0.6072 | P95: 0.6111
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.5682 | Mediana: 0.5822 | Desvio Padrão: 0.0765
+  Min: 0.0000 | Max: 0.6141
+  Percentis - P25: 0.5765 | P75: 0.5888 | P90: 0.6072 | P95: 0.6111
+-------------------------------------------------- 
+
+--- APP: e2 | CENÁRIO: fs ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 9463525.1200 | Mediana: 10821552.0000 | Desvio Padrão: 4122333.6787
+  Min: 946736.0000 | Max: 14920080.0000
+  Percentis - P25: 4949392.0000 | P75: 13799576.0000 | P90: 14788256.0000 | P95: 14812224.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 985536.3645 | Mediana: 985956.3636 | Desvio Padrão: 5877.1498
+  Min: 914778.6667 | Max: 997068.8000
+  Percentis - P25: 982688.0000 | P75: 988135.2727 | P90: 991248.0000 | P95: 992275.2000
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 6588456.9956 | Mediana: 7531944.0000 | Desvio Padrão: 2198975.0671
+  Min: 0.0000 | Max: 10078544.0000
+  Percentis - P25: 4937408.0000 | P75: 8337868.0000 | P90: 9011968.0000 | P95: 9186335.2000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 740783.8353 | Mediana: 760984.0000 | Desvio Padrão: 222341.9923
+  Min: 0.0000 | Max: 1224764.8000
+  Percentis - P25: 544073.6000 | P75: 982688.0000 | P90: 989878.4000 | P95: 994672.0000
+
+rtt_medio_ms:
+  Observações: 395
+  Média: 1346.6843 | Mediana: 635.2000 | Desvio Padrão: 1930.7467
+  Min: 1.1614 | Max: 13074.1714
+  Percentis - P25: 11.2629 | P75: 1924.5525 | P90: 3736.7335 | P95: 5131.7067
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 2009.7784 | Mediana: 1127.4776 | Desvio Padrão: 2536.9242
+  Min: 1.1614 | Max: 13074.1714
+  Percentis - P25: 13.1414 | P75: 3096.1536 | P90: 6772.0000 | P95: 6772.0000
+
+bc_rtt:
+  Observações: 450
+  Média: 8.1355 | Mediana: 10.1932 | Desvio Padrão: 4.8473
+  Min: 0.1508 | Max: 15.8013
+  Percentis - P25: 2.9377 | P75: 12.3399 | P90: 14.1586 | P95: 14.1586
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.7456 | Mediana: 0.7719 | Desvio Padrão: 0.2155
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.5525 | P75: 0.9951 | P90: 1.0000 | P95: 1.0000
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.7456 | Mediana: 0.7719 | Desvio Padrão: 0.2155
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.5525 | P75: 0.9951 | P90: 1.0000 | P95: 1.0000
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.7667 | Mediana: 0.7979 | Desvio Padrão: 0.1443
+  Min: 0.0000 | Max: 0.9261
+  Percentis - P25: 0.7348 | P75: 0.8396 | P90: 0.9067 | P95: 0.9170
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.7667 | Mediana: 0.7979 | Desvio Padrão: 0.1443
+  Min: 0.0000 | Max: 0.9261
+  Percentis - P25: 0.7348 | P75: 0.8396 | P90: 0.9067 | P95: 0.9170
+-------------------------------------------------- 
+
+--- APP: g | CENÁRIO: fn ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4872534.6133 | Mediana: 5440736.0000 | Desvio Padrão: 2091993.3364
+  Min: 958720.0000 | Max: 7490000.0000
+  Percentis - P25: 2480688.0000 | P75: 7403116.0000 | P90: 7442064.0000 | P95: 7454048.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495447.8175 | Mediana: 496137.6000 | Desvio Padrão: 4297.9979
+  Min: 427736.6154 | Max: 503328.0000
+  Percentis - P25: 493740.8000 | P75: 496936.5333 | P90: 498534.4000 | P95: 498970.1818
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 2432645.4756 | Mediana: 2504656.0000 | Desvio Padrão: 1066684.1004
+  Min: 0.0000 | Max: 4494000.0000
+  Percentis - P25: 1393140.0000 | P75: 3391472.0000 | P90: 3990672.0000 | P95: 4074560.0000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 252243.0024 | Mediana: 251664.0000 | Desvio Padrão: 52785.2896
+  Min: 0.0000 | Max: 503328.0000
+  Percentis - P25: 228785.4545 | P75: 270838.4000 | P90: 297442.8800 | P95: 323568.0000
+
+rtt_medio_ms:
+  Observações: 399
+  Média: 2168.9139 | Mediana: 2272.6000 | Desvio Padrão: 312.3474
+  Min: 500.3500 | Max: 2809.3333
+  Percentis - P25: 2231.4167 | P75: 2283.8333 | P90: 2327.0857 | P95: 2391.3571
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 2197.4183 | Mediana: 2274.2083 | Desvio Padrão: 306.9402
+  Min: 500.3500 | Max: 2809.3333
+  Percentis - P25: 2258.8750 | P75: 2291.1607 | P90: 2452.0000 | P95: 2452.0000
+
+bc_rtt:
+  Observações: 450
+  Média: 1223934579805061.5000 | Mediana: 1273515696738602.0000 | Desvio Padrão: 497448554657912.6250
+  Min: 1033926082902.8300 | Max: 3438250552745777.0000
+  Percentis - P25: 1233660255235414.7500 | P75: 1318752348140361.2500 | P90: 1814046150278145.0000 | P95: 1814046150278145.0000
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.5090 | Mediana: 0.5072 | Desvio Padrão: 0.1058
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.4626 | P75: 0.5457 | P90: 0.5966 | P95: 0.6514
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.5090 | Mediana: 0.5072 | Desvio Padrão: 0.1058
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.4626 | P75: 0.5457 | P90: 0.5966 | P95: 0.6514
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.5062 | Mediana: 0.5027 | Desvio Padrão: 0.0534
+  Min: 0.0000 | Max: 0.6704
+  Percentis - P25: 0.4949 | P75: 0.5277 | P90: 0.5396 | P95: 0.5420
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.5062 | Mediana: 0.5027 | Desvio Padrão: 0.0534
+  Min: 0.0000 | Max: 0.6704
+  Percentis - P25: 0.4949 | P75: 0.5277 | P90: 0.5396 | P95: 0.5420
+-------------------------------------------------- 
+
+--- APP: g | CENÁRIO: fq ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4742015.5378 | Mediana: 5440736.0000 | Desvio Padrão: 2038992.9064
+  Min: 479360.0000 | Max: 7501984.0000
+  Percentis - P25: 2483684.0000 | P75: 5497660.0000 | P90: 7442064.0000 | P95: 7454048.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495898.8682 | Mediana: 496137.6000 | Desvio Padrão: 2799.3760
+  Min: 479360.0000 | Max: 503328.0000
+  Percentis - P25: 494539.7333 | P75: 497336.0000 | P90: 498534.4000 | P95: 500931.2000
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 519093.6178 | Mediana: 527296.0000 | Desvio Padrão: 267143.8292
+  Min: 0.0000 | Max: 2264976.0000
+  Percentis - P25: 275632.0000 | P75: 551264.0000 | P90: 814912.0000 | P95: 826896.0000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 60196.8425 | Mediana: 52729.6000 | Desvio Padrão: 57201.1463
+  Min: 0.0000 | Max: 503328.0000
+  Percentis - P25: 49025.4545 | P75: 55126.4000 | P90: 56724.2667 | P95: 87363.3600
+
+rtt_medio_ms:
+  Observações: 239
+  Média: 40443.7430 | Mediana: 43993.0000 | Desvio Padrão: 9664.9016
+  Min: 5.9650 | Max: 45592.0000
+  Percentis - P25: 43711.0000 | P75: 44137.7500 | P90: 44266.8000 | P95: 44541.1333
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 40531.7633 | Mediana: 43973.3333 | Desvio Padrão: 8860.8528
+  Min: 5.9650 | Max: 45592.0000
+  Percentis - P25: 43586.0000 | P75: 44119.5000 | P90: 44219.5600 | P95: 44413.3000
+
+bc_rtt:
+  Observações: 450
+  Média: 424370036000915587082.0000 | Mediana: 496493278481095000084.0000 | Desvio Padrão: 159506656443154726912.0000
+  Min: 803.4017 | Max: 586313549321029025802.0000
+  Percentis - P25: 476693026423089790066.0000 | P75: 504130353458147753004.0000 | P90: 509411196289112735764.0000 | P95: 519759317200659677204.0000
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.1212 | Mediana: 0.1058 | Desvio Padrão: 0.1140
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.0985 | P75: 0.1106 | P90: 0.1144 | P95: 0.1781
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.1212 | Mediana: 0.1058 | Desvio Padrão: 0.1140
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.0985 | P75: 0.1106 | P90: 0.1144 | P95: 0.1781
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.1303 | Mediana: 0.1146 | Desvio Padrão: 0.0587
+  Min: 0.0000 | Max: 0.5843
+  Percentis - P25: 0.1094 | P75: 0.1269 | P90: 0.1581 | P95: 0.2129
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.1303 | Mediana: 0.1146 | Desvio Padrão: 0.0587
+  Min: 0.0000 | Max: 0.5843
+  Percentis - P25: 0.1094 | P75: 0.1269 | P90: 0.1581 | P95: 0.2129
+-------------------------------------------------- 
+
+--- APP: g | CENÁRIO: fs ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4763773.1556 | Mediana: 5440736.0000 | Desvio Padrão: 2077247.3688
+  Min: 479360.0000 | Max: 7501984.0000
+  Percentis - P25: 2492672.0000 | P75: 6938736.0000 | P90: 7442064.0000 | P95: 7466032.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495972.2854 | Mediana: 496137.6000 | Desvio Padrão: 3293.9224
+  Min: 460385.3333 | Max: 503328.0000
+  Percentis - P25: 494539.7333 | P75: 497880.7273 | P90: 498970.1818 | P95: 500931.2000
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 658614.0089 | Mediana: 515312.0000 | Desvio Padrão: 370440.5425
+  Min: 0.0000 | Max: 3271632.0000
+  Percentis - P25: 491344.0000 | P75: 787948.0000 | P90: 864046.4000 | P95: 1154059.2000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 78525.3762 | Mediana: 69725.0909 | Desvio Padrão: 60466.0156
+  Min: 0.0000 | Max: 527296.0000
+  Percentis - P25: 51930.6667 | P75: 98268.8000 | P90: 98268.8000 | P95: 111930.5600
+
+rtt_medio_ms:
+  Observações: 259
+  Média: 20495.7756 | Mediana: 22640.0000 | Desvio Padrão: 7893.2960
+  Min: 65.5500 | Max: 43075.0000
+  Percentis - P25: 15669.0000 | P75: 23970.5000 | P90: 25538.5067 | P95: 32524.3833
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 19462.3593 | Mediana: 22416.5000 | Desvio Padrão: 7591.1548
+  Min: 65.5500 | Max: 43075.0000
+  Percentis - P25: 11959.6750 | P75: 23965.7500 | P90: 24188.2667 | P95: 29655.0750
+
+bc_rtt:
+  Observações: 450
+  Média: 7992.6310 | Mediana: 9145.6748 | Desvio Padrão: 2854.0090
+  Min: 46.8261 | Max: 16463.8325
+  Percentis - P25: 5195.3156 | P75: 9712.6946 | P90: 9793.8285 | P95: 11765.3406
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.1581 | Mediana: 0.1397 | Desvio Padrão: 0.1202
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.1044 | P75: 0.1962 | P90: 0.2000 | P95: 0.2252
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.1581 | Mediana: 0.1397 | Desvio Padrão: 0.1202
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.1044 | P75: 0.1962 | P90: 0.2000 | P95: 0.2252
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.1702 | Mediana: 0.1678 | Desvio Padrão: 0.0545
+  Min: 0.0000 | Max: 0.5895
+  Percentis - P25: 0.1395 | P75: 0.1831 | P90: 0.1877 | P95: 0.2230
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.1702 | Mediana: 0.1678 | Desvio Padrão: 0.0545
+  Min: 0.0000 | Max: 0.5895
+  Percentis - P25: 0.1395 | P75: 0.1831 | P90: 0.1877 | P95: 0.2230
+-------------------------------------------------- 
+
+--- APP: s | CENÁRIO: fn ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4872987.3422 | Mediana: 5440736.0000 | Desvio Padrão: 2091554.8153
+  Min: 958720.0000 | Max: 7501984.0000
+  Percentis - P25: 2480688.0000 | P75: 7394128.0000 | P90: 7442064.0000 | P95: 7466032.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495613.2361 | Mediana: 496137.6000 | Desvio Padrão: 4039.9321
+  Min: 431424.0000 | Max: 503328.0000
+  Percentis - P25: 493740.8000 | P75: 497336.0000 | P90: 498534.4000 | P95: 500099.5830
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 4111417.4578 | Mediana: 4757648.0000 | Desvio Padrão: 1494076.3263
+  Min: 0.0000 | Max: 6926752.0000
+  Percentis - P25: 2492672.0000 | P75: 5308912.0000 | P90: 5564171.2000 | P95: 6095661.6000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 436295.6621 | Mediana: 480994.1818 | Desvio Padrão: 83311.7450
+  Min: 0.0000 | Max: 599200.0000
+  Percentis - P25: 381290.9333 | P75: 496137.6000 | P90: 498534.4000 | P95: 498970.1818
+
+rtt_medio_ms:
+  Observações: 393
+  Média: 34.7263 | Mediana: 8.5690 | Desvio Padrão: 83.8189
+  Min: 0.4332 | Max: 594.3000
+  Percentis - P25: 3.5915 | P75: 22.6379 | P90: 80.1467 | P95: 152.4150
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 42.3248 | Mediana: 10.5620 | Desvio Padrão: 81.6376
+  Min: 0.4332 | Max: 594.3000
+  Percentis - P25: 4.1784 | P75: 40.2525 | P90: 109.6818 | P95: 138.9287
+
+bc_rtt:
+  Observações: 450
+  Média: 2.3045 | Mediana: 2.2236 | Desvio Padrão: 1.4368
+  Min: -0.8543 | Max: 5.4679
+  Percentis - P25: 1.3800 | P75: 3.3739 | P90: 4.1867 | P95: 4.3722
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.8776 | Mediana: 0.9713 | Desvio Padrão: 0.1652
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.7692 | P75: 1.0000 | P90: 1.0000 | P95: 1.0000
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.8776 | Mediana: 0.9713 | Desvio Padrão: 0.1652
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.7692 | P75: 1.0000 | P90: 1.0000 | P95: 1.0000
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.9019 | Mediana: 0.9475 | Desvio Padrão: 0.1212
+  Min: 0.0000 | Max: 0.9693
+  Percentis - P25: 0.8886 | P75: 0.9529 | P90: 0.9619 | P95: 0.9653
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.9019 | Mediana: 0.9475 | Desvio Padrão: 0.1212
+  Min: 0.0000 | Max: 0.9693
+  Percentis - P25: 0.8886 | P75: 0.9529 | P90: 0.9619 | P95: 0.9653
+-------------------------------------------------- 
+
+--- APP: s | CENÁRIO: fq ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4742335.1111 | Mediana: 5440736.0000 | Desvio Padrão: 2038843.4807
+  Min: 491344.0000 | Max: 7513968.0000
+  Percentis - P25: 2480688.0000 | P75: 5500656.0000 | P90: 7442064.0000 | P95: 7466032.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495908.0479 | Mediana: 496137.6000 | Desvio Padrão: 2846.4122
+  Min: 476963.2000 | Max: 503328.0000
+  Percentis - P25: 493740.8000 | P75: 497880.7273 | P90: 498970.1818 | P95: 500099.5830
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 4223827.3778 | Mediana: 4859512.0000 | Desvio Padrão: 1688027.8061
+  Min: 0.0000 | Max: 7274288.0000
+  Percentis - P25: 2492672.0000 | P75: 5428752.0000 | P90: 6256846.4000 | P95: 6465967.2000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 447966.5199 | Mediana: 477072.1455 | Desvio Padrão: 80305.7276
+  Min: 0.0000 | Max: 640599.2727
+  Percentis - P25: 420311.5636 | P75: 493740.8000 | P90: 498534.4000 | P95: 500931.2000
+
+rtt_medio_ms:
+  Observações: 448
+  Média: 114.1723 | Mediana: 8.7465 | Desvio Padrão: 294.8022
+  Min: 0.4204 | Max: 1740.0000
+  Percentis - P25: 3.5251 | P75: 37.8508 | P90: 323.4521 | P95: 926.7374
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 114.0974 | Mediana: 8.7604 | Desvio Padrão: 294.2017
+  Min: 0.4204 | Max: 1740.0000
+  Percentis - P25: 3.5316 | P75: 37.8636 | P90: 321.7661 | P95: 923.0000
+
+bc_rtt:
+  Observações: 450
+  Média: 1.9346 | Mediana: 1.8524 | Desvio Padrão: 1.2921
+  Min: -0.9254 | Max: 4.4898
+  Percentis - P25: 1.1495 | P75: 2.8014 | P90: 3.8627 | P95: 4.2726
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.8992 | Mediana: 0.9620 | Desvio Padrão: 0.1573
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.8503 | P75: 0.9970 | P90: 1.0000 | P95: 1.0000
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.8992 | Mediana: 0.9620 | Desvio Padrão: 0.1573
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.8503 | P75: 0.9970 | P90: 1.0000 | P95: 1.0000
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.8807 | Mediana: 0.9269 | Desvio Padrão: 0.1488
+  Min: 0.0000 | Max: 0.9564
+  Percentis - P25: 0.9009 | P75: 0.9367 | P90: 0.9457 | P95: 0.9504
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.8807 | Mediana: 0.9269 | Desvio Padrão: 0.1488
+  Min: 0.0000 | Max: 0.9564
+  Percentis - P25: 0.9009 | P75: 0.9367 | P90: 0.9457 | P95: 0.9504
+-------------------------------------------------- 
+
+--- APP: s | CENÁRIO: fs ---
+
+vazao_env_carro_total_bps:
+  Observações: 450
+  Média: 4763160.6400 | Mediana: 5440736.0000 | Desvio Padrão: 2077318.7639
+  Min: 479360.0000 | Max: 7501984.0000
+  Percentis - P25: 2492672.0000 | P75: 6938736.0000 | P90: 7442064.0000 | P95: 7454048.0000
+
+vazao_env_carro_media_bps:
+  Observações: 450
+  Média: 495900.0182 | Mediana: 496137.6000 | Desvio Padrão: 3186.3887
+  Min: 459386.6667 | Max: 503328.0000
+  Percentis - P25: 494612.3636 | P75: 497735.4667 | P90: 498534.4000 | P95: 500059.6364
+
+vazao_rec_servidor_total_bps:
+  Observações: 450
+  Média: 4208434.5956 | Mediana: 4883480.0000 | Desvio Padrão: 1692252.2519
+  Min: 0.0000 | Max: 7082544.0000
+  Percentis - P25: 2480688.0000 | P75: 5440736.0000 | P90: 6243664.0000 | P95: 6436606.4000
+
+vazao_rec_servidor_media_bps:
+  Observações: 450
+  Média: 445464.6538 | Mediana: 478270.5455 | Desvio Padrão: 80207.4166
+  Min: 0.0000 | Max: 515312.0000
+  Percentis - P25: 418840.8000 | P75: 496028.6545 | P90: 498534.4000 | P95: 498774.0800
+
+rtt_medio_ms:
+  Observações: 395
+  Média: 35.9492 | Mediana: 7.8533 | Desvio Padrão: 87.2142
+  Min: 0.4130 | Max: 726.8333
+  Percentis - P25: 2.5506 | P75: 25.3328 | P90: 79.4200 | P95: 169.3016
+
+rtt_medio_ms_interpolated:
+  Observações: 450
+  Média: 68.4666 | Mediana: 10.0123 | Desvio Padrão: 119.5214
+  Min: 0.4130 | Max: 726.8333
+  Percentis - P25: 3.5667 | P75: 56.5388 | P90: 302.0000 | P95: 302.0000
+
+bc_rtt:
+  Observações: 450
+  Média: 2.1627 | Mediana: 2.0577 | Desvio Padrão: 1.4491
+  Min: -0.9246 | Max: 4.8256
+  Percentis - P25: 1.1941 | P75: 3.3202 | P90: 4.3506 | P95: 4.3506
+
+pdr_inst_pacotes:
+  Observações: 450
+  Média: 0.8969 | Mediana: 0.9670 | Desvio Padrão: 0.1606
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.8460 | P75: 0.9952 | P90: 1.0000 | P95: 1.0000
+
+conf_inst_bits:
+  Observações: 450
+  Média: 0.8969 | Mediana: 0.9670 | Desvio Padrão: 0.1606
+  Min: 0.0000 | Max: 1.0000
+  Percentis - P25: 0.8460 | P75: 0.9952 | P90: 1.0000 | P95: 1.0000
+
+pdr_cum_pacotes:
+  Observações: 450
+  Média: 0.8823 | Mediana: 0.9319 | Desvio Padrão: 0.1494
+  Min: 0.0000 | Max: 0.9563
+  Percentis - P25: 0.8996 | P75: 0.9392 | P90: 0.9454 | P95: 0.9508
+
+conf_cum_bits:
+  Observações: 450
+  Média: 0.8823 | Mediana: 0.9319 | Desvio Padrão: 0.1494
+  Min: 0.0000 | Max: 0.9563
+  Percentis - P25: 0.8996 | P75: 0.9392 | P90: 0.9454 | P95: 0.9508
+-------------------------------------------------- 
+
+ === TABELA RESUMO CONSOLIDADA ===  2025-05-29 14:39:42  (America/Sao_Paulo) - RJ
+
+# A tibble: 12 × 18
+   app   cenario total_observacoes vazao_env_total_media vazao_rec_total_media rtt_medio rtt_p95
+   <chr> <chr>               <int>                 <dbl>                 <dbl>     <dbl>   <dbl>
+ 1 e     fn                    450              4872641.              2363351.    2166.    2400.
+ 2 e     fq                    450              4742601.              2763084.    6620.    7563.
+ 3 e     fs                    450              4762814.              3870246.    3646.    5415.
+ 4 e2    fn                    450              9680755.              4823906.    2164.    2384.
+ 5 e2    fq                    450              9424084.              5519431.    3556.    4565.
+ 6 e2    fs                    450              9463525.              6588457     1347.    5132.
+ 7 g     fn                    450              4872535.              2432645.    2169.    2391.
+ 8 g     fq                    450              4742016.               519094.   40444.   44541.
+ 9 g     fs                    450              4763773.               658614.   20496.   32524.
+10 s     fn                    450              4872987.              4111417.      34.7    152.
+11 s     fq                    450              4742335.              4223827.     114.     927.
+12 s     fs                    450              4763161.              4208435.      36.0    169.
+   rtt_interpolated_medio rtt_interpolated_p95 rtt_bc_medio rtt_bc_p95 pdr_inst_media pdr_cum_media
+                    <dbl>                <dbl>        <dbl>      <dbl>          <dbl>         <dbl>
+ 1                 2194.                 2440       8.37e14    1.21e15          0.491         0.490
+ 2                 6628.                 7562.      1.20e13    1.66e13          0.586         0.565
+ 3                 3239.                 5280.      3.24e 3    5.28e 3          0.824         0.777
+ 4                 2191.                 2442       8.32e14    1.22e15          0.505         0.504
+ 5                 3559.                 4561.      1.48e 8    2.52e 8          0.589         0.568
+ 6                 2010.                 6772       8.14e 0    1.42e 1          0.746         0.767
+ 7                 2197.                 2452       1.22e15    1.81e15          0.509         0.506
+ 8                40532.                44413.      4.24e20    5.20e20          0.121         0.130
+ 9                19462.                29655.      7.99e 3    1.18e 4          0.158         0.170
+10                   42.3                 139.      2.3 e 0    4.37e 0          0.878         0.902
+11                  114.                  923       1.93e 0    4.27e 0          0.899         0.881
+12                   68.5                 302       2.16e 0    4.35e 0          0.897         0.882
+   conf_inst_media nas_vazao_env nas_vazao_rec nas_rtt nas_pdr
+             <dbl>         <int>         <int>   <int>   <int>
+ 1            0.49             0             0      55       0
+ 2            0.59             0             0       4       0
+ 3            0.82             0             0      55       0
+ 4            0.5              0             0      55       0
+ 5            0.59             0             0       5       0
+ 6            0.75             0             0      55       0
+ 7            0.51             0             0      51       0
+ 8            0.12             0             0     211       0
+ 9            0.16             0             0     191       0
+10            0.88             0             0      57       0
+11            0.9              0             0       2       0
+12            0.9              0             0      55       0
+
+ === ANÁLISE COMPLETA CONCLUÍDA ===  2025-05-29 14:39:42  (America/Sao_Paulo) - RJ
+
+Total de combinações analisadas: 12 
+=== Duração do processamento ===  92.06  segundos
+
+
+ === encerrado ===  2025-05-29 14:39:42  (America/Sao_Paulo) - RJ
