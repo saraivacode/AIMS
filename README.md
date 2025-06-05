@@ -171,7 +171,7 @@ If you use this code in your research, please cite:
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue to discuss what you would like to change.
 
 ## License
 
@@ -179,7 +179,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Acknowledgments
 
-- Dataset based on SUMO vehicular simulations
+- Dataset based on [saraivacode/framework_its_sdn](https://github.com/saraivacode/framework_its_sdn), which uses the following tools:
+-     [Mininet-WiFi Emulator](https://github.com/intrig-unicamp/mininet-wifi)
+-     [Ryu SDN Controller](https://osrg.github.io/ryu/)
+-     [SUMO Mobility Simulator](https://sumo.dlr.de/docs/Installing.html)
+
 - Federal University of State of Rio de Janeiro (UNIRIO)
 
 ## Contact
