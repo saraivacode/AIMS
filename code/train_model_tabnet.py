@@ -242,6 +242,7 @@ def prepare_features_for_tabnet(X: pd.DataFrame,
 
     return X_processed, preprocessor, cat_idxs, cat_dims, num_cols, cat_cols
 
+
 def create_tabnet_classifier(params: Dict[str, Any], cat_idxs: List[int], cat_dims: List[int],
                              device: str, random_state: int, verbose: int = 0) -> TabNetClassifier:
     """Creates a TabNetClassifier instance with a given configuration.
@@ -260,6 +261,29 @@ def create_tabnet_classifier(params: Dict[str, Any], cat_idxs: List[int], cat_di
     Returns:
         TabNetClassifier: A configured, un-trained TabNet model.
     """
+
+    # Default optimizer and scheduler (original behavior)
+    optimizer_fn = torch.optim.Adam
+    optimizer_params = dict(
+        lr=params.get("lr", 2e-2),
+        weight_decay=params.get("weight_decay", 1e-5)
+    )
+    scheduler_fn = torch.optim.lr_scheduler.ReduceLROnPlateau
+    scheduler_params = dict(mode="min", patience=10, factor=0.5)
+
+    # If the trial requests OneCycleLR, override the scheduler and optimizer
+    if params.get("use_one_cycle_lr", False):
+        optimizer_fn = torch.optim.AdamW
+        scheduler_fn = lambda opt, **kwargs: torch.optim.lr_scheduler.OneCycleLR(
+            opt,
+            max_lr=params.get("lr", 2e-2),
+            pct_start=0.1,
+            epochs=GlobalDefaults.TABNET_MAX_EPOCHS,
+            steps_per_epoch=1,
+            anneal_strategy="cos",
+        )
+        scheduler_params = dict(step_every_batch=False)
+
     clf = TabNetClassifier(
         n_d=params.get("n_d", 8),
         n_a=params.get("n_a", 8),
@@ -267,24 +291,25 @@ def create_tabnet_classifier(params: Dict[str, Any], cat_idxs: List[int], cat_di
         gamma=params.get("gamma", 1.3),
         lambda_sparse=params.get("lambda_sparse", 1e-3),
         mask_type=params.get("mask_type", "sparsemax"),
-        optimizer_fn=torch.optim.Adam,
-        optimizer_params=dict(lr=params.get("lr", 2e-2), weight_decay=1e-5),
-        scheduler_fn=torch.optim.lr_scheduler.ReduceLROnPlateau,
-        scheduler_params=dict(mode="min", patience=10, factor=0.5),
+        optimizer_fn=optimizer_fn,
+        optimizer_params=optimizer_params,
+        scheduler_fn=scheduler_fn,
+        scheduler_params=scheduler_params,
         seed=random_state,
         verbose=verbose,
         device_name=device,
         cat_idxs=cat_idxs,
         cat_dims=cat_dims,
-        cat_emb_dim=1,
-        clip_value=int(2.0)
+        cat_emb_dim=params.get("cat_emb_dim", 1),
+        clip_value=params.get("clip_value", 2.0)
     )
     return clf
 
-def create_optuna_objective_tabnet( X_train: pd.DataFrame, y_train: np.ndarray, groups_train: np.ndarray,
-                                    cat_idxs: List[int], cat_dims: List[int], device: str, random_state: int,
-                                    class_weights_tensor: torch.Tensor, cv_splitter: GroupKFold ) -> callable:
-    """Creates an Optuna objective function for TabNet HPO.
+def create_optuna_objective_tabnet(X_train: pd.DataFrame, y_train: np.ndarray, groups_train: np.ndarray,
+                                   cat_idxs: List[int], cat_dims: List[int], device: str, random_state: int,
+                                   class_weights_tensor: torch.Tensor, cv_splitter: GroupKFold) -> callable:
+    """
+    Creates an Optuna objective function for TabNet HPO.
 
     This factory function encapsulates the training data and configuration, returning a callable objective
     that Optuna can use to find the best hyperparameters via group-aware cross-validation.
@@ -302,48 +327,63 @@ def create_optuna_objective_tabnet( X_train: pd.DataFrame, y_train: np.ndarray, 
 
     Returns:
         A callable objective function for Optuna.
-
     """
-
     def objective(trial: optuna.Trial) -> float:
         """The Optuna objective function to be maximized."""
-        # Define the hyperparameter search space.
+        n_d_value = trial.suggest_int("n_d", 16, 64, step=16)
+        batch_size_value = trial.suggest_categorical("batch_size", [512, 1024, 2048])
+        virtual_bs_ratio_value = trial.suggest_categorical("virtual_bs_ratio", [0.25, 0.5])
+
         params = {
-            "n_d": trial.suggest_categorical("n_d", [8, 16, 32]),
-            "n_a": trial.suggest_categorical("n_a", [8, 16, 32]),
+            "n_d": n_d_value,
+            "n_a": n_d_value, # n_a is kept symmetric to n_d
             "n_steps": trial.suggest_int("n_steps", 3, 5),
-            "gamma": trial.suggest_float("gamma", 1.0, 1.8, step=0.2),
-            "lambda_sparse": trial.suggest_float("lambda_sparse", 1e-4, 1e-3, log=True),
+            "gamma": trial.suggest_float("gamma", 1.0, 1.5, step=0.1),
+            "lambda_sparse": trial.suggest_float("lambda_sparse", 1e-6, 1e-3, log=True),
             "lr": trial.suggest_float("lr", 1e-3, 3e-2, log=True),
-            "mask_type": trial.suggest_categorical("mask_type", ["sparsemax", "entmax"])
+            "weight_decay": trial.suggest_float("weight_decay", 1e-5, 1e-3, log=True),
+            "mask_type": trial.suggest_categorical("mask_type", ["sparsemax", "entmax"]),
+            "cat_emb_dim": trial.suggest_int('cat_emb_dim', 1, 3),
+            "batch_size": batch_size_value,
+            "virtual_batch_size": int(batch_size_value * virtual_bs_ratio_value),
+            "use_one_cycle_lr": True
         }
 
-        # Perform cross-validation to get a robust performance estimate.
         cv_scores = []
-        for train_idx, val_idx in cv_splitter.split(X_train, y_train, groups_train):
+        for fold, (train_idx, val_idx) in enumerate(cv_splitter.split(X_train, y_train, groups_train)):
             X_tr, y_tr = X_train.iloc[train_idx].values, y_train[train_idx]
             X_va, y_va = X_train.iloc[val_idx].values, y_train[val_idx]
 
+            # Use the existing helper function to create the model
             clf = create_tabnet_classifier(params, cat_idxs, cat_dims, device,
                                            random_state, verbose=0)
             try:
                 clf.fit(
                     X_tr, y_tr,
                     eval_set=[(X_va, y_va)],
-                    eval_metric=["accuracy"],
+                    eval_metric=["accuracy", "logloss"],
                     loss_fn=torch.nn.CrossEntropyLoss(weight=class_weights_tensor),
-                    patience=GlobalDefaults.TABNET_PATIENCE, max_epochs=GlobalDefaults.TABNET_MAX_EPOCHS,
-                    batch_size=GlobalDefaults.TABNET_BATCH_SIZE, virtual_batch_size=128,
+                    patience=GlobalDefaults.TABNET_PATIENCE,
+                    max_epochs=GlobalDefaults.TABNET_MAX_EPOCHS,
+                    batch_size=params["batch_size"],
+                    virtual_batch_size=params["virtual_batch_size"],
                     drop_last=False
                 )
                 preds = clf.predict(X_va)
                 cv_scores.append(f1_score(y_va, preds, average="macro"))
+
+                # Report intermediate results for pruning
+                trial.report(np.mean(cv_scores), fold)
+                if trial.should_prune():
+                    raise optuna.exceptions.TrialPruned()
+
             except Exception as e:
-                logger.warning(f"Trial {trial.number} fold failed: {e}")
+                logger.warning(f"Trial {trial.number} fold {fold} failed: {e}")
                 cv_scores.append(0.0)  # Penalize failed trials.
 
         trial.set_user_attr("cv_scores", cv_scores)
-        return np.mean(cv_scores)
+        return np.mean(cv_scores) if cv_scores else 0.0
+
     return objective
 
 def train_final_tabnet_model( best_params: Dict[str, Any], X_train: np.ndarray, y_train: np.ndarray,
@@ -553,9 +593,9 @@ def run_tabnet(csv_path: str, n_splits: int = 5, n_trials: int = 40, random_stat
     print("-" * 60)
 
     # 1) Configure Optuna sampler and study.
-    sampler = optuna.samplers.TPESampler( seed=random_state, n_startup_trials=10,
-                                          n_ei_candidates=24, multivariate=True)
-    study_tb = optuna.create_study(direction="maximize", sampler=sampler, pruner=None)
+    sampler = optuna.samplers.TPESampler(seed=random_state, n_startup_trials=15)
+    pruner = optuna.pruners.MedianPruner(n_startup_trials=10, n_warmup_steps=3) # Add pruner
+    study_tb = optuna.create_study(direction="maximize", sampler=sampler, pruner=pruner) # Pass pruner
 
     # 2) Prepare TabNet objective function and run Optuna.
     device, gpu_name, gpu_memory_gb = configure_device()
