@@ -9,48 +9,75 @@ This script is the central entry point of the AIMS framework, orchestrating the 
 hyperparameter optimization, and evaluation of multiple machine learning models for network slicing
 impact classification in vehicular networks.
 
-The pipeline supports:
-1. Random Forest (RF) – Tree-based ensemble with bagging
-2. TabNet – Deep learning with attention mechanisms for tabular data
-3. CatBoost – Gradient boosting with native categorical feature support
+The pipeline supports three complementary approaches:
+1. Random Forest (RF) – Tree-based ensemble with bagging for robust baseline performance
+2. TabNet – Deep learning with attention mechanisms optimized for tabular data
+3. CatBoost – Gradient boosting with native categorical feature support and advanced regularization
 
 All models are trained and evaluated using:
-- GroupKFold cross-validation (5 splits) to prevent temporal leakage
-- Hyperparameter optimization with Optuna
-- Class-balanced weights to address imbalanced data
-- Consistent train/test split for fair comparison
-- Standardized results management via ResultsManager
+- GroupKFold cross-validation (5 splits) to prevent temporal leakage in time-series data
+- Hyperparameter optimization with Optuna for automated parameter tuning
+- Class-balanced weights to address imbalanced impact level distribution
+- Consistent train/test splits for fair model comparison
+- Comprehensive artifact generation including confusion matrices and feature importance
 
 Key Components
 --------------
-1. **Model Execution**: Runs the training pipelines for:
-    - RandomForestClassifier
-    - CatBoostClassifier
-    - TabNetClassifier
-2. **Argument Parsing**: Flexible command-line interface to:
-    - Specify dataset path
-    - Configure cross-validation and optimization trials
-    - Selectively skip training of specific models
-3. **Workflow Management**: Ensures reproducibility by using a consistent random state and dataset across all models.
-    - *Dataset note*:  
-      The dataset used for the AIMS framework was generated from the experimental setup described in:  
-      T. do Vale Saraiva et al., "An Application-Driven Framework for Intelligent Transportation Systems Using 5G Network Slicing,"
-      IEEE Transactions on Intelligent Transportation Systems, vol. 22, no. 8, pp. 5247–5260, Aug. 2021.  
-      DOI: 10.1109/TITS.2021.3086064.  
-      It was further pre-processed and engineered specifically for the experiments reported in AIMS.
-4. **Results Comparison**: Optionally invokes the comparison module to generate a consolidated report of model results.
+1. **Model Execution**: Orchestrates training pipelines for all three classifiers with error handling
+   and progress tracking for each model type
 
-Usage Example
--------------
+2. **Flexible Configuration**: Command-line interface supporting:
+   - Custom dataset paths and output directories
+   - Configurable cross-validation and optimization parameters
+   - Selective model training (skip specific models as needed)
+   - Test modes for development and debugging
+
+3. **Reproducibility Management**: Ensures consistent results through:
+   - Fixed random seeds across all models and experiments
+   - Standardized data preprocessing and feature engineering
+   - Unified evaluation metrics and reporting formats
+
+4. **Results Analysis**: Integrated comparison system that:
+   - Generates consolidated performance reports across all trained models
+   - Produces comparative visualizations and exportable metrics
+   - Supports both automated and on-demand analysis workflows
+
+Dataset Information
+------------------
+The framework processes vehicular network QoS data derived from the experimental setup described in:
+T. do Vale Saraiva et al., "An Application-Driven Framework for Intelligent Transportation Systems Using 5G Network Slicing,"
+IEEE Transactions on Intelligent Transportation Systems, vol. 22, no. 8, pp. 5247–5260, Aug. 2021.
+DOI: 10.1109/TITS.2021.3086064.
+
+The data has been preprocessed and feature-engineered specifically for impact classification tasks.
+
+Usage Examples
+--------------
 ```bash
-# Train all models with default settings
-python main.py
+# Train all three models with 15 trials:
+python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --n-trials-tabnet 15
 
-# Specify dataset and number of trials
-python main.py --csv ./data/my_dataset.csv --n-trials 50
+# Custom dataset with increased optimization trials
+python main.py --csv ./data/custom_dataset.csv --n-trials 100
 
-# Skip a specific model and run comparison at the end
+# Skip computationally expensive model and generate comparison
 python main.py --skip-tabnet --compare
+
+# Development mode - test comparison logic only
+python main.py --test-comparison-only
+
+# Targeted training with custom output directory
+python main.py --skip-rf --results-dir ./experiments/run_001
+
+# Random Forest
+python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --skip-catboost --skip-tabnet
+
+# CatBoost
+python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --skip-rf --skip-tabnet
+
+# TabNet
+python main.py --compare --csv ../data/aims_dataset.csv --n-trials-tabnet 15 --skip-catboost --skip-rf
+```
 """
 
 import argparse
