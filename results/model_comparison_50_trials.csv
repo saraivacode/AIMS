@@ -1,0 +1,4 @@
+Model,Library,Train Size,Test Size,Features,CV F1-Macro,CV Std,Test Accuracy,Test F1-Macro,F1 Adequate,F1 Warning,F1 Severe,F1 Critical,Device,HPO Trials,HPO Time (s),Fit Time (s),Total Time (s),Parameters,Best Epoch
+CatBoost,catboost v1.2.8,4576,824,25,0.9782,0.0126,0.9272,0.9286,0.993,0.835,0.933,0.953,GPU,50,652.4,2.3,654.8,,29.0
+RandomForest,scikit-learn v1.7.0,4576,824,25,0.9820,0.0059,0.9454,0.9462,0.993,0.892,0.951,0.949,CPU,50,772.2,3.8,777.9,,
+TabNet,pytorch-tabnet v4.1.0,4576,824,25,0.9465,0.0225,0.8350,0.8108,0.946,0.489,0.858,0.951,GPU,50,5962.9,42.4,6007.1,20543.0,99.0
