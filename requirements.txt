@@ -14,6 +14,10 @@ pytorch-tabnet>=4.0.0
 # Deep Learning Backend
 torch>=1.10.0  # Required for TabNet
 
+# Federated Learning (required for --federated mode)
+flwr>=1.5.0            # Flower: FL framework with simulation API
+tensorflow>=2.12.0     # Keras/TF backend for DNN, LSTM, GRU models
+
 # Hyperparameter Optimization
 optuna>=3.0.0
 

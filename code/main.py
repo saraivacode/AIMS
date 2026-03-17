@@ -142,6 +142,39 @@ def parse_arguments() -> argparse.Namespace:
         "--test-comparison-only", action="store_true",
         help="Skip all training and only run the comparison logic.")
 
+    # --- Federated Learning arguments ---
+    parser.add_argument(
+        "--federated", action="store_true",
+        help="Run Federated Learning experiments (DNN, LSTM, GRU with FedAvg/FedProx).")
+
+    parser.add_argument(
+        "--fl-rounds", type=int, default=10,
+        help="Number of FL communication rounds.")
+
+    parser.add_argument(
+        "--fl-local-epochs", type=int, default=5,
+        help="Number of local training epochs per FL round.")
+
+    parser.add_argument(
+        "--fl-clients", type=int, default=3,
+        help="Number of simulated FL clients (RSUs).")
+
+    parser.add_argument(
+        "--fl-strategies", nargs="+", default=["FedAvg", "FedProx"],
+        help="FL aggregation strategies to evaluate.")
+
+    parser.add_argument(
+        "--fl-distributions", nargs="+", default=["IID", "NonIID"],
+        help="Data distribution modes for FL clients.")
+
+    parser.add_argument(
+        "--fl-models", nargs="+", default=["DNN", "LSTM", "GRU"],
+        help="Neural network architectures for FL experiments.")
+
+    parser.add_argument(
+        "--skip-centralized", action="store_true",
+        help="Skip centralized baseline training in FL experiments.")
+
     return parser.parse_args()
 
 
@@ -227,6 +260,39 @@ def train_catboost(args: argparse.Namespace) -> bool:
         return True
     except Exception as e:
         print(f"❌ Error during CatBoost training: {e}")
+        return False
+
+
+def train_federated_learning(args: argparse.Namespace) -> bool:
+    """
+    Wrapper to run the Federated Learning experiment suite and handle exceptions.
+
+    Args:
+        args (argparse.Namespace): Arguments including FL-specific parameters.
+
+    Returns:
+        bool: True on success, False on failure.
+    """
+    try:
+        from federated import run_federated
+        run_federated(
+            csv_path=args.csv,
+            results_dir=args.results_dir / "federated",
+            num_rounds=args.fl_rounds,
+            local_epochs=args.fl_local_epochs,
+            batch_size=32,
+            num_clients=args.fl_clients,
+            strategies=args.fl_strategies,
+            distributions=args.fl_distributions,
+            model_types=args.fl_models,
+            skip_centralized=args.skip_centralized,
+            seed=args.random_state,
+        )
+        return True
+    except Exception as e:
+        print(f"❌ Error during Federated Learning: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 
@@ -343,6 +409,17 @@ def main():
                 print("⚠️  CatBoost training failed.")
         else:
             print("\n[3/3] Skipping CatBoost (--skip-catboost flag).")
+
+    # --- Federated Learning ---
+    if args.federated:
+        step_total = 4 if not args.test_comparison_only else 0
+        print(f"\n[FL] Training Federated Learning models...")
+        print("-" * 60)
+        if train_federated_learning(args):
+            print("✓ Federated Learning experiments completed.")
+            models_trained.append("Federated")
+        else:
+            print("⚠️  Federated Learning experiments failed.")
 
     # --- Final Summary ---
     total_time = time.time() - start_time
