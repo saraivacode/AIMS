@@ -1,0 +1,177 @@
+{
+  "model_info": {
+    "model_name": "DNN_FedAvg_NonIID",
+    "model_type": "DNN",
+    "library": "tensorflow v2.21.0"
+  },
+  "run_info": {
+    "framework_version": "AIMS 1.0.0 + FL",
+    "timestamp_utc": "2026-03-17T04:12:26.446806+00:00",
+    "system": {
+      "python_version": "3.11.14",
+      "platform": "Linux-6.18.5-x86_64-with-glibc2.39",
+      "processor": "x86_64"
+    }
+  },
+  "fl_config": {
+    "mode": "federated",
+    "strategy": "FedAvg",
+    "distribution": "NonIID",
+    "num_clients": 3,
+    "num_rounds": 10,
+    "local_epochs": 5,
+    "batch_size": 32
+  },
+  "metrics": {
+    "final": {
+      "accuracy": 0.9231481552124023,
+      "precision": 0.9122122325676258,
+      "recall": 0.9295803593776899,
+      "f1_macro": 0.9182933012803636,
+      "f1_per_class": [
+        0.9163879598662207,
+        0.8322147651006712,
+        0.9435406698564593,
+        0.981029810298103
+      ]
+    },
+    "per_round": {
+      "accuracy": [
+        {
+          "round": 1,
+          "accuracy": 0.8518518805503845
+        },
+        {
+          "round": 2,
+          "accuracy": 0.8861111402511597
+        },
+        {
+          "round": 3,
+          "accuracy": 0.8990740776062012
+        },
+        {
+          "round": 4,
+          "accuracy": 0.904629647731781
+        },
+        {
+          "round": 5,
+          "accuracy": 0.9101851582527161
+        },
+        {
+          "round": 6,
+          "accuracy": 0.9092592597007751
+        },
+        {
+          "round": 7,
+          "accuracy": 0.9092592597007751
+        },
+        {
+          "round": 8,
+          "accuracy": 0.9231481552124023
+        },
+        {
+          "round": 9,
+          "accuracy": 0.9185185432434082
+        },
+        {
+          "round": 10,
+          "accuracy": 0.9231481552124023
+        }
+      ],
+      "f1_macro": [
+        {
+          "round": 1,
+          "f1_macro": 0.8491372569766165
+        },
+        {
+          "round": 2,
+          "f1_macro": 0.8758811433891228
+        },
+        {
+          "round": 3,
+          "f1_macro": 0.8908636984568152
+        },
+        {
+          "round": 4,
+          "f1_macro": 0.8994675709279154
+        },
+        {
+          "round": 5,
+          "f1_macro": 0.9073424039636773
+        },
+        {
+          "round": 6,
+          "f1_macro": 0.9051490304009739
+        },
+        {
+          "round": 7,
+          "f1_macro": 0.9039346746545192
+        },
+        {
+          "round": 8,
+          "f1_macro": 0.9238710660946752
+        },
+        {
+          "round": 9,
+          "f1_macro": 0.9160148180622711
+        },
+        {
+          "round": 10,
+          "f1_macro": 0.9182933012803636
+        }
+      ],
+      "loss": [
+        {
+          "round": 1,
+          "loss": 0.46098166704177856
+        },
+        {
+          "round": 2,
+          "loss": 0.38370007276535034
+        },
+        {
+          "round": 3,
+          "loss": 0.3239901661872864
+        },
+        {
+          "round": 4,
+          "loss": 0.3237176537513733
+        },
+        {
+          "round": 5,
+          "loss": 0.2993919253349304
+        },
+        {
+          "round": 6,
+          "loss": 0.2784317433834076
+        },
+        {
+          "round": 7,
+          "loss": 0.2833182215690613
+        },
+        {
+          "round": 8,
+          "loss": 0.2645929157733917
+        },
+        {
+          "round": 9,
+          "loss": 0.24397863447666168
+        },
+        {
+          "round": 10,
+          "loss": 0.24052149057388306
+        }
+      ]
+    },
+    "convergence": {
+      "round_85": 1,
+      "round_90": 4,
+      "stability_std": 0.006279939335835183
+    },
+    "history": {}
+  },
+  "performance": {
+    "total_time": 30.1623592376709,
+    "epochs_trained": null
+  }
+}
