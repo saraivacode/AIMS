@@ -15,7 +15,7 @@ from typing import Dict, List, Optional, Tuple
 
 import flwr as fl
 import numpy as np
-from flwr.common import Metrics
+from flwr.common import Metrics, NDArrays, Scalar
 from sklearn.metrics import (
     accuracy_score, f1_score, precision_score, recall_score,
 )
@@ -118,9 +118,51 @@ def run_fl_simulation(
             proximal_mu=proximal_mu,
         )
 
-    # Create initial model parameters
-    init_model = create_model(model_type, input_dim)
-    init_params = fl.common.ndarrays_to_parameters(init_model.get_weights())
+    # Create initial model and use it for server-side evaluation
+    eval_model = create_model(model_type, input_dim)
+    init_params = fl.common.ndarrays_to_parameters(eval_model.get_weights())
+
+    # Server-side evaluation results storage
+    server_eval_results: List[Dict] = []
+
+    def get_evaluate_fn(model, x_test, y_test_arr, mtype):
+        """Return a server-side evaluation function using the global test set."""
+        def evaluate(
+            server_round: int,
+            parameters: NDArrays,
+            config: Dict[str, Scalar],
+        ) -> Optional[Tuple[float, Dict[str, Scalar]]]:
+            model.set_weights(parameters)
+
+            X_input = x_test
+            if mtype.upper() in ("LSTM", "GRU"):
+                X_input = x_test.reshape((x_test.shape[0], 1, x_test.shape[1]))
+
+            loss, accuracy = model.evaluate(X_input, y_test_arr, verbose=0)
+            preds = np.argmax(model.predict(X_input, verbose=0), axis=1)
+            f1 = f1_score(y_test_arr, preds, average="macro", zero_division=0)
+            prec = precision_score(y_test_arr, preds, average="macro", zero_division=0)
+            rec = recall_score(y_test_arr, preds, average="macro", zero_division=0)
+            f1_per_class = f1_score(y_test_arr, preds, average=None, zero_division=0)
+
+            server_eval_results.append({
+                "round": server_round,
+                "loss": float(loss),
+                "accuracy": float(accuracy),
+                "f1_macro": float(f1),
+                "precision": float(prec),
+                "recall": float(rec),
+                "f1_per_class": [float(v) for v in f1_per_class],
+                "predictions": preds.tolist(),
+            })
+
+            return float(loss), {
+                "accuracy": float(accuracy),
+                "f1_macro": float(f1),
+            }
+        return evaluate
+
+    evaluate_fn = get_evaluate_fn(eval_model, X_test, y_test, model_type)
 
     # Configure strategy
     strategy_kwargs = dict(
@@ -130,6 +172,7 @@ def run_fl_simulation(
         min_evaluate_clients=num_clients,
         min_available_clients=num_clients,
         initial_parameters=init_params,
+        evaluate_fn=evaluate_fn,
         evaluate_metrics_aggregation_fn=weighted_average_metrics,
         fit_metrics_aggregation_fn=weighted_average_metrics,
     )
@@ -156,44 +199,39 @@ def run_fl_simulation(
     total_time = time.time() - start_time
     print(f"    Simulation completed in {total_time:.1f}s")
 
-    # Extract per-round metrics from history
+    # Extract per-round metrics from server-side centralized evaluation
     round_accuracies = []
     round_f1s = []
     round_losses = []
 
-    # Distributed evaluate metrics
-    if hasattr(history, "metrics_distributed"):
-        acc_history = history.metrics_distributed.get("accuracy", [])
-        f1_history = history.metrics_distributed.get("f1_macro", [])
-        for r, val in acc_history:
-            round_accuracies.append({"round": r, "accuracy": val})
-        for r, val in f1_history:
-            round_f1s.append({"round": r, "f1_macro": val})
+    for res in server_eval_results:
+        r = res["round"]
+        if r == 0:
+            continue  # Skip initial evaluation (round 0 = before any training)
+        round_accuracies.append({"round": r, "accuracy": res["accuracy"]})
+        round_f1s.append({"round": r, "f1_macro": res["f1_macro"]})
+        round_losses.append({"round": r, "loss": res["loss"]})
 
-    # Distributed losses
-    if hasattr(history, "losses_distributed"):
-        for r, val in history.losses_distributed:
-            round_losses.append({"round": r, "loss": val})
-
-    # Final evaluation on global test set using the trained model
-    final_model = create_model(model_type, input_dim)
-    # Get final parameters from the strategy's last round
-    # Re-create a client to get the final aggregated weights
-    final_client = client_fn("0")
-    if round_accuracies:
-        # The last client_fn call will have the model initialized fresh.
-        # We need to extract parameters from history.
-        # Use the last round's parameters by fitting one more dummy client.
-        pass
-
-    # Evaluate using the last client's model (which has the latest global params)
-    final_metrics = _evaluate_global_model(
-        model_type, input_dim, client_fn, X_test, y_test, num_clients
-    )
+    # Final metrics from the last round's server-side evaluation
+    if server_eval_results:
+        last_eval = server_eval_results[-1]
+        final_metrics = {
+            "accuracy": last_eval["accuracy"],
+            "precision": last_eval["precision"],
+            "recall": last_eval["recall"],
+            "f1_macro": last_eval["f1_macro"],
+            "f1_per_class": last_eval["f1_per_class"],
+        }
+        print(f"    Final test: Acc={final_metrics['accuracy']:.4f}, "
+              f"F1={final_metrics['f1_macro']:.4f}, "
+              f"Prec={final_metrics['precision']:.4f}, "
+              f"Rec={final_metrics['recall']:.4f}")
+    else:
+        final_metrics = {"accuracy": 0, "precision": 0, "recall": 0, "f1_macro": 0, "f1_per_class": []}
+        print("    WARNING: No server evaluation results collected.")
 
     # Compute convergence metrics
     acc_values = [m["accuracy"] for m in round_accuracies] if round_accuracies else []
-    f1_values = [m["f1_macro"] for m in round_f1s] if round_f1s else []
 
     conv_85 = _find_convergence_round(acc_values, 0.85)
     conv_90 = _find_convergence_round(acc_values, 0.90)
@@ -222,55 +260,6 @@ def run_fl_simulation(
             "stability_std": stability,
         },
         "total_time": total_time,
-    }
-
-
-def _evaluate_global_model(
-    model_type: str,
-    input_dim: int,
-    client_fn,
-    X_test: np.ndarray,
-    y_test: np.ndarray,
-    num_clients: int,
-) -> Dict:
-    """
-    Evaluate the final global model on the held-out test set.
-
-    Uses the aggregated weights from the last simulation round by
-    averaging the weights from all clients (which should be synchronized
-    after the last round of evaluation).
-    """
-    # Get weights from client 0 (all clients should have the same global weights
-    # after the last round of evaluate)
-    client = client_fn("0")
-
-    # Prepare test data
-    X_input = X_test
-    if model_type.upper() in ("LSTM", "GRU"):
-        X_input = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
-
-    # Predict
-    preds_proba = client.model.predict(X_input, verbose=0)
-    preds = np.argmax(preds_proba, axis=1)
-
-    acc = accuracy_score(y_test, preds)
-    prec = precision_score(y_test, preds, average="macro", zero_division=0)
-    rec = recall_score(y_test, preds, average="macro", zero_division=0)
-    f1 = f1_score(y_test, preds, average="macro", zero_division=0)
-
-    # Per-class F1
-    f1_per_class = f1_score(y_test, preds, average=None, zero_division=0)
-
-    print(f"    Final test: Acc={acc:.4f}, F1={f1:.4f}, Prec={prec:.4f}, Rec={rec:.4f}")
-
-    return {
-        "accuracy": float(acc),
-        "precision": float(prec),
-        "recall": float(rec),
-        "f1_macro": float(f1),
-        "f1_per_class": [float(v) for v in f1_per_class],
-        "predictions": preds.tolist(),
-        "true_labels": y_test.tolist(),
     }
 
 
