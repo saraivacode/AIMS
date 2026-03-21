@@ -197,6 +197,11 @@ def parse_arguments() -> argparse.Namespace:
              "Use --skip-phase1a or --skip-phase1b to skip individual phases.")
 
     parser.add_argument(
+        "--security-only", action="store_true",
+        help="Run security experiments only (no RF/TabNet/CatBoost). "
+             "Implies --security --skip-rf --skip-tabnet --skip-catboost.")
+
+    parser.add_argument(
         "--skip-phase1a", action="store_true",
         help="Skip Phase 1a (label-flip only) when running --security.")
 
@@ -466,6 +471,13 @@ def main():
     # --federated-only implies --federated and skips all centralized models
     if args.federated_only:
         args.federated = True
+        args.skip_rf = True
+        args.skip_tabnet = True
+        args.skip_catboost = True
+
+    # --security-only implies --security and skips all centralized models
+    if args.security_only:
+        args.security = True
         args.skip_rf = True
         args.skip_tabnet = True
         args.skip_catboost = True

@@ -39,8 +39,8 @@ python main.py --compare --experiment-id "ch6-iscc" --n-trials 15 --n-trials-tab
 # Ch. 7 — Run federated learning experiments (no RF/TabNet/CatBoost)
 python main.py --federated-only --experiment-id "fl-v1"
 
-# Ch. 8 — Run all security experiments
-python main.py --security --security-sensitivity-epochs --experiment-id "security-v1"
+# Ch. 8 — Run all security experiments (no RF/TabNet/CatBoost)
+python main.py --security-only --security-sensitivity-epochs --experiment-id "security-v1"
 
 # Everything at once
 python main.py --federated --security --security-sensitivity-epochs \
@@ -115,12 +115,13 @@ python main.py --federated-only --fl-rounds 30
 ### FL Security (Ch. 8)
 
 ```bash
-python main.py --security --security-sensitivity-epochs
+python main.py --security-only --security-sensitivity-epochs
 ```
 
 | Option | Default | Description |
 |---|---|---|
 | `--security` | — | Run Phase 1a (label-flip) + Phase 1b (label-flip + gradient scaling) with FedAvg/FedProx + Krum/TrimmedMean |
+| `--security-only` | — | Same as `--security` but skips RF/TabNet/CatBoost (implies `--skip-rf --skip-tabnet --skip-catboost`) |
 | `--skip-phase1a` | — | Skip Phase 1a when using `--security` |
 | `--skip-phase1b` | — | Skip Phase 1b when using `--security` |
 | `--security-sensitivity-epochs` | — | Vary local epochs (1, 3, 5, 10) under attack |
