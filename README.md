@@ -13,7 +13,7 @@ The framework supports three research directions, each mapped to a thesis chapte
 |---|---|---|---|
 | **Ch. 6** | Centralized classification | RF, TabNet, CatBoost | HPO with Optuna, GroupKFold CV |
 | **Ch. 7** | Federated classification | DNN, LSTM, GRU | FedAvg/FedProx, IID/NonIID |
-| **Ch. 8** | FL security analysis | DNN, LSTM, GRU | Label-flip, gradient scaling, Krum, TrimmedMean |
+| **Ch. 8** | FL security analysis | DNN, LSTM, GRU | FedAvg/FedProx under label-flip & gradient scaling; Krum, TrimmedMean defenses |
 
 ## Dataset
 
@@ -120,7 +120,7 @@ python main.py --security --security-sensitivity-epochs
 
 | Option | Default | Description |
 |---|---|---|
-| `--security` | — | Run Phase 1a (label-flip) + Phase 1b (label-flip + gradient scaling) |
+| `--security` | — | Run Phase 1a (label-flip) + Phase 1b (label-flip + gradient scaling) with FedAvg/FedProx + Krum/TrimmedMean |
 | `--skip-phase1a` | — | Skip Phase 1a when using `--security` |
 | `--skip-phase1b` | — | Skip Phase 1b when using `--security` |
 | `--security-sensitivity-epochs` | — | Vary local epochs (1, 3, 5, 10) under attack |
