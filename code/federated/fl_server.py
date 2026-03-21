@@ -19,6 +19,7 @@ from sklearn.metrics import (
     accuracy_score, f1_score, precision_score, recall_score,
 )
 
+from .fl_config import FLDefaults
 from .fl_data import split_client_data
 from .fl_models import create_model
 from .fl_security import (
@@ -28,6 +29,8 @@ from .fl_security import (
     scale_gradients,
     trimmed_mean_aggregate,
 )
+
+_DEFAULTS = FLDefaults()
 
 
 def _fedavg_aggregate(
@@ -354,8 +357,9 @@ def run_fl_security_simulation(
         malicious_clients = [0]
 
     scale_str = f"_x{gradient_scale:.0f}" if gradient_scale > 1.0 else ""
+    epochs_str = f"_ep{local_epochs}" if local_epochs != _DEFAULTS.LOCAL_EPOCHS else ""
     config_name = (f"{model_type}_{strategy_name}_{distribution}"
-                   f"_attack-{attack_type}{scale_str}_def-{defense}")
+                   f"_attack-{attack_type}{scale_str}_def-{defense}{epochs_str}")
 
     print(f"\n  Security FL simulation: {config_name}")
     print(f"    Rounds={num_rounds}, LocalEpochs={local_epochs}, "

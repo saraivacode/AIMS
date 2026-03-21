@@ -21,6 +21,38 @@ from .fl_config import FLDefaults
 
 _DEFAULTS = FLDefaults()
 
+# Consistent visual style for security strategy+defense combinations
+_SECURITY_STYLES = {
+    "FedAvg":       {"color": "#1f77b4", "marker": "o",  "linestyle": "-"},
+    "FedProx":      {"color": "#ff7f0e", "marker": "s",  "linestyle": "-"},
+    "Krum":         {"color": "#2ca02c", "marker": "^",  "linestyle": "--"},
+    "TrimmedMean":  {"color": "#d62728", "marker": "D",  "linestyle": "--"},
+}
+
+def _security_label(result: Dict) -> str:
+    """Build a label that distinguishes strategy + defense."""
+    strategy = result.get("strategy", "FedAvg")
+    defense = result.get("defense", strategy)
+    scale = result.get("gradient_scale", 1.0)
+    scale_str = f" x{scale:.0f}" if scale > 1 else ""
+    if defense in ("FedAvg", "FedProx"):
+        return f"{strategy}{scale_str}"
+    return f"{strategy}+{defense}{scale_str}"
+
+def _security_style(result: Dict) -> Dict:
+    """Return color/marker/linestyle for a strategy+defense combination."""
+    strategy = result.get("strategy", "FedAvg")
+    defense = result.get("defense", strategy)
+    base = _SECURITY_STYLES.get(defense, _SECURITY_STYLES["FedAvg"])
+    style = dict(base)
+    # Differentiate FedProx variants with dashed lines when no byzantine defense
+    if strategy == "FedProx" and defense in ("FedAvg", "FedProx"):
+        style["linestyle"] = "-"
+    # FedProx + byzantine defense: use defense color but dashed-dot
+    if strategy == "FedProx" and defense not in ("FedAvg", "FedProx"):
+        style["linestyle"] = "-."
+    return style
+
 
 def plot_convergence(results: List[Dict], output_dir: Path) -> Path:
     """
@@ -188,34 +220,43 @@ def plot_security_c2a_comparison(
         return Path(output_dir)
 
     models = sorted(set(r["model_type"] for r in results))
-    defenses = sorted(set(r.get("defense", "FedAvg") for r in results))
+    # Build unique (strategy, defense) combos preserving order
+    seen = {}
+    for r in results:
+        key = _security_label(r)
+        if key not in seen:
+            seen[key] = r
+    combo_labels = list(seen.keys())
+    combo_results = list(seen.values())
 
-    fig, ax = plt.subplots(figsize=(max(8, 2 * len(models) * len(defenses)), 5))
+    fig, ax = plt.subplots(figsize=(max(8, 2 * len(models) * len(combo_labels)), 5))
     x = np.arange(len(models))
-    width = 0.8 / max(len(defenses), 1)
+    width = 0.8 / max(len(combo_labels), 1)
 
-    for d_idx, defense in enumerate(defenses):
+    for c_idx, (label, ref_r) in enumerate(zip(combo_labels, combo_results)):
+        style = _security_style(ref_r)
         c2a_vals = []
         for model in models:
             matching = [r for r in results
                         if r["model_type"] == model
-                        and r.get("defense") == defense]
+                        and _security_label(r) == label]
             if matching:
                 c2a_vals.append(matching[0].get("final_metrics", {}).get("c2a_rate", 0))
             else:
                 c2a_vals.append(0)
-        offset = (d_idx - len(defenses) / 2 + 0.5) * width
-        bars = ax.bar(x + offset, c2a_vals, width, label=defense, alpha=0.85)
+        offset = (c_idx - len(combo_labels) / 2 + 0.5) * width
+        bars = ax.bar(x + offset, c2a_vals, width, label=label,
+                      color=style["color"], alpha=0.85)
         for bar in bars:
             if bar.get_height() > 0.001:
                 ax.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
                         f"{bar.get_height():.3f}", ha="center", va="bottom", fontsize=7)
 
     ax.set_ylabel("C2A Rate (Critical → Adequate)")
-    ax.set_title("Security: C2A Rate by Model and Defense")
+    ax.set_title("Security: C2A Rate by Model and Strategy")
     ax.set_xticks(x)
     ax.set_xticklabels([m.upper() for m in models])
-    ax.legend(fontsize=8)
+    ax.legend(fontsize=7)
     ax.grid(True, alpha=0.3, axis="y")
 
     plt.tight_layout()
@@ -240,18 +281,25 @@ def plot_security_accuracy_vs_c2a(
         print("    No security results for accuracy vs C2A plot.")
         return Path(output_dir)
 
-    fig, ax = plt.subplots(figsize=(8, 5))
-    defenses = sorted(set(r.get("defense", "FedAvg") for r in results))
-    markers = ["o", "s", "^", "D", "v"]
+    fig, ax = plt.subplots(figsize=(9, 5))
+    # Build unique combo labels
+    seen = {}
+    for r in results:
+        key = _security_label(r)
+        if key not in seen:
+            seen[key] = r
+    combo_labels = list(seen.keys())
+    combo_results = list(seen.values())
 
-    for d_idx, defense in enumerate(defenses):
-        subset = [r for r in results if r.get("defense") == defense]
+    for label, ref_r in zip(combo_labels, combo_results):
+        style = _security_style(ref_r)
+        subset = [r for r in results if _security_label(r) == label]
         accs = [r.get("final_metrics", {}).get("accuracy", 0) for r in subset]
         c2as = [r.get("final_metrics", {}).get("c2a_rate", 0) for r in subset]
-        labels = [r.get("model_type", "?") for r in subset]
-        marker = markers[d_idx % len(markers)]
-        ax.scatter(accs, c2as, label=defense, marker=marker, s=80, alpha=0.85)
-        for i, lbl in enumerate(labels):
+        model_labels = [r.get("model_type", "?") for r in subset]
+        ax.scatter(accs, c2as, label=label, marker=style["marker"],
+                   color=style["color"], s=80, alpha=0.85)
+        for i, lbl in enumerate(model_labels):
             ax.annotate(lbl, (accs[i], c2as[i]), fontsize=7,
                         textcoords="offset points", xytext=(5, 5))
 
@@ -295,9 +343,10 @@ def plot_security_convergence(
             acc_data = r["per_round"]["accuracy"]
             rounds = [d["round"] for d in acc_data]
             accs = [d["accuracy"] for d in acc_data]
-            scale_str = f" x{r.get('gradient_scale', 1):.0f}" if r.get("gradient_scale", 1) > 1 else ""
-            label = f"{r.get('defense', 'FedAvg')}{scale_str}"
-            ax.plot(rounds, accs, marker="o", label=label, markersize=3)
+            label = _security_label(r)
+            style = _security_style(r)
+            ax.plot(rounds, accs, marker=style["marker"], color=style["color"],
+                    linestyle=style["linestyle"], label=label, markersize=3)
 
         ax.set_title(f"{model.upper()} (Under Attack)")
         ax.set_xlabel("Round")
@@ -342,9 +391,10 @@ def plot_security_c2a_convergence(
             c2a_data = r["per_round"]["c2a_rate"]
             rounds = [d["round"] for d in c2a_data]
             c2as = [d["c2a_rate"] for d in c2a_data]
-            scale_str = f" x{r.get('gradient_scale', 1):.0f}" if r.get("gradient_scale", 1) > 1 else ""
-            label = f"{r.get('defense', 'FedAvg')}{scale_str}"
-            ax.plot(rounds, c2as, marker="o", label=label, markersize=3)
+            label = _security_label(r)
+            style = _security_style(r)
+            ax.plot(rounds, c2as, marker=style["marker"], color=style["color"],
+                    linestyle=style["linestyle"], label=label, markersize=3)
 
         ax.set_title(f"{model.upper()} - C2A Rate")
         ax.set_xlabel("Round")
@@ -377,7 +427,14 @@ def plot_sensitivity_epochs(
         return Path(output_dir)
 
     models = sorted(set(r["model_type"] for r in results))
-    defenses = sorted(set(r.get("defense", "FedAvg") for r in results))
+    # Build unique combo labels preserving order
+    seen = {}
+    for r in results:
+        key = _security_label(r)
+        if key not in seen:
+            seen[key] = r
+    combo_labels = list(seen.keys())
+    combo_refs = list(seen.values())
 
     fig, axes = plt.subplots(2, len(models),
                              figsize=(5 * len(models), 8), squeeze=False)
@@ -387,9 +444,10 @@ def plot_sensitivity_epochs(
         ax_c2a = axes[1, m_idx]
         model_results = [r for r in results if r["model_type"] == model]
 
-        for defense in defenses:
+        for label, ref_r in zip(combo_labels, combo_refs):
+            style = _security_style(ref_r)
             subset = sorted(
-                [r for r in model_results if r.get("defense") == defense],
+                [r for r in model_results if _security_label(r) == label],
                 key=lambda r: r.get("local_epochs", 0),
             )
             if not subset:
@@ -398,8 +456,10 @@ def plot_sensitivity_epochs(
             accs = [r.get("final_metrics", {}).get("accuracy", 0) for r in subset]
             c2as = [r.get("final_metrics", {}).get("c2a_rate", 0) for r in subset]
 
-            ax_acc.plot(epochs, accs, marker="o", label=defense, markersize=5)
-            ax_c2a.plot(epochs, c2as, marker="s", label=defense, markersize=5)
+            ax_acc.plot(epochs, accs, marker=style["marker"], color=style["color"],
+                        linestyle=style["linestyle"], label=label, markersize=5)
+            ax_c2a.plot(epochs, c2as, marker=style["marker"], color=style["color"],
+                        linestyle=style["linestyle"], label=label, markersize=5)
 
         ax_acc.set_title(f"{model.upper()} - Accuracy")
         ax_acc.set_xlabel("Local Epochs")

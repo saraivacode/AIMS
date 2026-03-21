@@ -284,7 +284,7 @@ def run_security_phase1a(
 ) -> None:
     """
     Phase 1a: Label-flip attack (Critical→Adequate) with 1 malicious client
-    in 3, testing FedAvg vs Krum vs TrimmedMean for DNN, LSTM, GRU on NonIID.
+    in 3, testing FedAvg/FedProx vs Krum vs TrimmedMean for DNN, LSTM, GRU on NonIID.
     """
     num_rounds = num_rounds or _DEFAULTS.NUM_ROUNDS
     local_epochs = local_epochs or _DEFAULTS.LOCAL_EPOCHS
@@ -303,29 +303,37 @@ def run_security_phase1a(
     print("AIMS FL SECURITY - Phase 1a: Label-Flip Attack")
     print("=" * 70)
     print(f"  Attack: label_flip (Critical→Adequate), 1 malicious client")
-    print(f"  Defenses: FedAvg, Krum, TrimmedMean")
+    print(f"  Strategies: FedAvg, FedProx")
+    print(f"  Defenses: None (baseline), Krum, TrimmedMean")
     print(f"  Models: {model_types}, Distribution: NonIID")
 
     print("\n[Step 1] Loading and preparing data...")
     X_test, y_test, class_weight_dict, partitions_noniid = _prepare_security_data(csv_path, seed)
 
-    defenses = ["FedAvg", "Krum", "TrimmedMean"]
+    strategies_and_defenses = [
+        ("FedAvg",  "FedAvg"),       # FedAvg baseline (no defense)
+        ("FedProx", "FedProx"),      # FedProx baseline (no defense)
+        ("FedAvg",  "Krum"),         # FedAvg + Krum defense
+        ("FedProx", "Krum"),         # FedProx + Krum defense
+        ("FedAvg",  "TrimmedMean"),  # FedAvg + TrimmedMean defense
+        ("FedProx", "TrimmedMean"),  # FedProx + TrimmedMean defense
+    ]
     all_results = []
-    total = len(model_types) * len(defenses)
+    total = len(model_types) * len(strategies_and_defenses)
     exp_num = 0
 
     print(f"\n[Step 2] Running {total} security experiments...")
     for model_type in model_types:
-        for defense in defenses:
+        for strategy_name, defense in strategies_and_defenses:
             exp_num += 1
             print(f"\n{'='*60}")
-            print(f"  Experiment {exp_num}/{total}: {model_type} / {defense}")
+            print(f"  Experiment {exp_num}/{total}: {model_type} / {strategy_name} / {defense}")
             print(f"{'='*60}")
 
             try:
                 result = run_fl_security_simulation(
                     model_type=model_type,
-                    strategy_name="FedAvg",
+                    strategy_name=strategy_name,
                     distribution="NonIID",
                     client_partitions=partitions_noniid,
                     X_test=X_test,
@@ -383,37 +391,45 @@ def run_security_phase1b(
     output_dir.mkdir(parents=True, exist_ok=True)
     results_mgr = FLResultsManager(output_dir)
 
-    defenses = ["FedAvg", "Krum", "TrimmedMean"]
+    strategies_and_defenses = [
+        ("FedAvg",  "FedAvg"),
+        ("FedProx", "FedProx"),
+        ("FedAvg",  "Krum"),
+        ("FedProx", "Krum"),
+        ("FedAvg",  "TrimmedMean"),
+        ("FedProx", "TrimmedMean"),
+    ]
     scale_factors = [2.0, 5.0, 10.0]
 
     print("=" * 70)
     print("AIMS FL SECURITY - Phase 1b: Label-Flip + Gradient Scaling")
     print("=" * 70)
     print(f"  Attack: label_flip + gradient_scaling (factors: {scale_factors})")
-    print(f"  Defenses: {defenses}")
+    print(f"  Strategies: FedAvg, FedProx")
+    print(f"  Defenses: None (baseline), Krum, TrimmedMean")
     print(f"  Models: {model_types}, Distribution: NonIID")
 
     print("\n[Step 1] Loading and preparing data...")
     X_test, y_test, class_weight_dict, partitions_noniid = _prepare_security_data(csv_path, seed)
 
     all_results = []
-    total = len(model_types) * len(defenses) * len(scale_factors)
+    total = len(model_types) * len(strategies_and_defenses) * len(scale_factors)
     exp_num = 0
 
     print(f"\n[Step 2] Running {total} security experiments...")
     for model_type in model_types:
         for scale in scale_factors:
-            for defense in defenses:
+            for strategy_name, defense in strategies_and_defenses:
                 exp_num += 1
                 print(f"\n{'='*60}")
                 print(f"  Experiment {exp_num}/{total}: "
-                      f"{model_type} / scale={scale}x / {defense}")
+                      f"{model_type} / scale={scale}x / {strategy_name} / {defense}")
                 print(f"{'='*60}")
 
                 try:
                     result = run_fl_security_simulation(
                         model_type=model_type,
-                        strategy_name="FedAvg",
+                        strategy_name=strategy_name,
                         distribution="NonIID",
                         client_partitions=partitions_noniid,
                         X_test=X_test,
@@ -473,37 +489,45 @@ def run_security_sensitivity_epochs(
     results_mgr = FLResultsManager(output_dir)
 
     epoch_values = [1, 3, 5, 10]
-    defenses = ["FedAvg", "Krum", "TrimmedMean"]
+    strategies_and_defenses = [
+        ("FedAvg",  "FedAvg"),
+        ("FedProx", "FedProx"),
+        ("FedAvg",  "Krum"),
+        ("FedProx", "Krum"),
+        ("FedAvg",  "TrimmedMean"),
+        ("FedProx", "TrimmedMean"),
+    ]
 
     print("=" * 70)
     print("AIMS FL SECURITY - Sensitivity Analysis: Local Epochs")
     print("=" * 70)
     print(f"  Attack: label_flip (Critical→Adequate), 1 malicious client")
     print(f"  Epoch values: {epoch_values}")
-    print(f"  Defenses: {defenses}")
+    print(f"  Strategies: FedAvg, FedProx")
+    print(f"  Defenses: None (baseline), Krum, TrimmedMean")
     print(f"  Models: {model_types}, Distribution: NonIID")
 
     print("\n[Step 1] Loading and preparing data...")
     X_test, y_test, class_weight_dict, partitions_noniid = _prepare_security_data(csv_path, seed)
 
     all_results = []
-    total = len(model_types) * len(epoch_values) * len(defenses)
+    total = len(model_types) * len(epoch_values) * len(strategies_and_defenses)
     exp_num = 0
 
     print(f"\n[Step 2] Running {total} sensitivity experiments...")
     for model_type in model_types:
         for epochs in epoch_values:
-            for defense in defenses:
+            for strategy_name, defense in strategies_and_defenses:
                 exp_num += 1
                 print(f"\n{'='*60}")
                 print(f"  Experiment {exp_num}/{total}: "
-                      f"{model_type} / epochs={epochs} / {defense}")
+                      f"{model_type} / epochs={epochs} / {strategy_name} / {defense}")
                 print(f"{'='*60}")
 
                 try:
                     result = run_fl_security_simulation(
                         model_type=model_type,
-                        strategy_name="FedAvg",
+                        strategy_name=strategy_name,
                         distribution="NonIID",
                         client_partitions=partitions_noniid,
                         X_test=X_test,

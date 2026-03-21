@@ -192,9 +192,9 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--security", action="store_true",
         help="Run all security experiments: Phase 1a (label-flip) + Phase 1b "
-             "(label-flip + gradient scaling 2x/5x/10x) with FedAvg/Krum/TrimmedMean "
-             "for DNN/LSTM/GRU on NonIID. Use --skip-phase1a or --skip-phase1b to "
-             "skip individual phases.")
+             "(label-flip + gradient scaling 2x/5x/10x) with FedAvg/FedProx + "
+             "Krum/TrimmedMean defenses for DNN/LSTM/GRU on NonIID. "
+             "Use --skip-phase1a or --skip-phase1b to skip individual phases.")
 
     parser.add_argument(
         "--skip-phase1a", action="store_true",
