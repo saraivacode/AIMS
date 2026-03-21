@@ -355,7 +355,9 @@ def main(args: argparse.Namespace) -> None:
     print("-" * 60)
 
     # 1) Save artifacts and get the output directory for results
-    output_dir = save_model_results('random_forest', X, y, groups, class_weights_dict)
+    base_path = str(getattr(args, 'results_dir', '../results'))
+    output_dir = save_model_results('random_forest', X, y, groups, class_weights_dict,
+                                    base_path=base_path)
 
     # 2) Instantiate ResultsManager for handling results and artifacts
     rm = ResultsManager("RandomForest", output_dir)
@@ -564,10 +566,8 @@ def main(args: argparse.Namespace) -> None:
     plot_df = importance_df.head(top_n)
     plt.figure(figsize=(10, 8))
     colors = sns.color_palette("viridis", len(plot_df))
-    try:
-        sns.barplot(x="importance", y="feature",data=plot_df, palette=colors, hue="feature", legend=False)
-    except TypeError:
-        sns.barplot(x="importance", y="feature", data=plot_df, palette=colors) # Fallback for seaborn <0.14
+    sns.barplot(x="importance", y="feature", data=plot_df, palette=colors, hue="feature")
+    plt.legend([], [], frameon=False)
     plt.title(f"Top {top_n} Feature Importance (Random Forest)")
     plt.xlabel("Importance"), plt.ylabel("Feature"), plt.tight_layout()
     plt.savefig(output_dir / "feature_importance_rf.png", dpi=300), plt.close()

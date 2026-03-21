@@ -66,12 +66,12 @@ import seaborn as sns
 import torch
 import catboost
 from catboost import CatBoostClassifier
-from typing import cast
+
 from matplotlib import pyplot as plt
 from optuna.visualization import plot_optimization_history
 from optuna.exceptions import ExperimentalWarning
 import sklearn
-from sklearn.base import clone
+
 from sklearn.metrics import confusion_matrix, f1_score, classification_report
 from sklearn.model_selection import GroupKFold, GroupShuffleSplit, train_test_split
 
@@ -237,9 +237,10 @@ def objective_cb(trial: optuna.Trial, args: argparse.Namespace, X_train: pd.Data
         X_tr, y_tr = X_train.iloc[tr_idx], y_train[tr_idx]
         X_va, y_va = X_train.iloc[va_idx], y_train[va_idx]
 
-        # 3. Create the model for this trial by cloning the base model
-        clf = cast(CatBoostClassifier, clone(base_cb_clf)).set_params(
-            **params, verbose=False)  # Silence CatBoost console output
+        # 3. Create the model for this trial with base config + trial params
+        #    (avoids sklearn.clone() which fails on newer CatBoost versions
+        #     that internally modify class_weights after construction)
+        clf = CatBoostClassifier(**{**base_cb_clf.get_params(), **params, "verbose": False})
 
         # 4. Train the model with an evaluation set for early stopping
         clf.fit( X_tr, y_tr, eval_set=(X_va, y_va),
@@ -390,7 +391,9 @@ def main(args: argparse.Namespace) -> None:
     print("-" * 60)
 
     # 1) Save artifacts and get the output directory for results
-    output_dir = save_model_results('catboost', X, y, groups, class_weights_dict)
+    base_path = str(getattr(args, 'results_dir', '../results'))
+    output_dir = save_model_results('catboost', X, y, groups, class_weights_dict,
+                                    base_path=base_path)
 
     # 2) Instantiate ResultsManager for handling results and artifacts
     rm = ResultsManager("CatBoost", output_dir)
@@ -487,8 +490,8 @@ def main(args: argparse.Namespace) -> None:
     #    Split 10% of the *training* data for internal validation.
     X_tr, X_val, y_tr, y_val = train_test_split(X_train, y_train,test_size=0.10,
                                                 random_state=args.random_state, stratify=y_train)
-    final_cb = cast(CatBoostClassifier, clone(base_cb_clf)).set_params(**best_params, verbose=False,
-                                                                       metric_period=2) # Log every 2 iterations
+    final_cb = CatBoostClassifier(**{**base_cb_clf.get_params(), **best_params,
+                                      "verbose": False, "metric_period": 2}) # Log every 2 iterations
 
     # 2) Final fitting.
     fit_start = time.time()
@@ -604,10 +607,8 @@ def main(args: argparse.Namespace) -> None:
     plot_df = importance_df.head(top_n)
     fig, ax = plt.subplots(figsize=(10, 8))
     colors = sns.color_palette("viridis", len(plot_df))
-    try:
-        sns.barplot(x="importance", y="feature", data=plot_df, palette=colors, hue="feature", legend=False, ax=ax)
-    except TypeError:
-        sns.barplot(x="importance", y="feature", data=plot_df, palette=colors, ax=ax)  # Fallback for seaborn < 0.14
+    sns.barplot(x="importance", y="feature", data=plot_df, palette=colors, hue="feature", ax=ax)
+    ax.legend([], [], frameon=False)
     ax.set_title(f"Top {top_n} Feature Importance (CatBoost)"), ax.set_xlabel("Importance Score")
     ax.set_ylabel("Feature"), plt.tight_layout()
     plt.savefig(output_dir / "feature_importance_catboost.png", dpi=300), plt.close(fig)

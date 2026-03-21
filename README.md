@@ -1,192 +1,189 @@
 # AIMS: Adaptive and Intelligent Management of Slicing for Next-Generation ITS Networks
 
-[![Python 3.8+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview
 
-This repository contains the **AIMS (Adaptive and Intelligent Management of Slicing)** framework for classifying how network slicing policies impact Intelligent Transportation Systems (ITS) applications. The framework uses machine learning to analyze Quality of Service (QoS) metrics and predict impact levels, enabling dynamic resource allocation in vehicular networks.
+**AIMS** is a framework for classifying how network slicing policies impact Intelligent Transportation Systems (ITS) applications. It combines centralized machine learning, federated learning, and security analysis to evaluate vehicular QoS classification under realistic deployment conditions.
 
-## Key Features
+The framework supports three research directions, each mapped to a thesis chapter:
 
-- **Multi-model approach**: Implements three complementary classifiers with different strengths
-  - Random Forest: Tree-based ensemble with bagging for robust baseline performance
-  - TabNet: Deep learning with attention mechanisms optimized for tabular data
-  - CatBoost: Gradient boosting with native categorical feature support and advanced regularization
-- **Temporal-aware validation**: Uses GroupKFold cross-validation (5 splits) to prevent data leakage in time-series data
-- **Feature engineering**: 15+ engineered features from core network metrics
-- **Class-balanced training**: Handles imbalanced impact level distribution across all models
-- **Automated hyperparameter optimization**: Uses Optuna for efficient parameter tuning
-- **Comprehensive evaluation**: Generates confusion matrices, feature importance, and comparative analysis
+| Chapter | Topic | Models | Approach |
+|---|---|---|---|
+| **Ch. 6** | Centralized classification | RF, TabNet, CatBoost | HPO with Optuna, GroupKFold CV |
+| **Ch. 7** | Federated classification | DNN, LSTM, GRU | FedAvg/FedProx, IID/NonIID |
+| **Ch. 8** | FL security analysis | DNN, LSTM, GRU | Label-flip, gradient scaling, Krum, TrimmedMean |
 
 ## Dataset
 
-The framework processes vehicular network QoS data derived from the experimental setup described in T. do Vale Saraiva et al., "An Application-Driven Framework for Intelligent Transportation Systems Using 5G Network Slicing," IEEE Transactions on Intelligent Transportation Systems, vol. 22, no. 8, pp. 5247–5260, Aug. 2021 (based on [saraivacode/framework_its_sdn](https://github.com/saraivacode/framework_its_sdn))
+Vehicular network QoS data from **158 vehicles** over **450 seconds**, with 4 application classes (Safety, Efficiency, Entertainment, Generic) and 15+ engineered features from RTT, PDR, and Throughput metrics.
 
-The dataset includes:
-
-- **158 vehicles** traveling on urban roads with QoS data from up to 15 vehicles communicating simultaneously
-- **450 seconds** of network measurements
-- **4 application classes**: Safety (S), Efficiency (E), Entertainment (E2), Generic (G)
-- **Core metrics**: RTT (latency), PDR (packet delivery ratio), Throughput and over 15 engineered features
+Based on: T. do Vale Saraiva et al., "An Application-Driven Framework for Intelligent Transportation Systems Using 5G Network Slicing," IEEE TITS, vol. 22, no. 8, 2021 ([saraivacode/framework_its_sdn](https://github.com/saraivacode/framework_its_sdn)).
 
 ## Installation
 
-### Prerequisites
-
 ```bash
-# Python Python3.12.4 or higher
-python --version
-
-# Install required packages
+python --version  # 3.12+
 pip install -r requirements.txt
 ```
 
-### Required Libraries
+## Quick Start
+
+```bash
+cd code
+
+# Ch. 6 — Train all centralized models and compare (primary config)
+python main.py --compare --experiment-id "ch6-iscc" --n-trials 15 --n-trials-tabnet 40
+
+# Ch. 7 — Run federated learning experiments (no RF/TabNet/CatBoost)
+python main.py --federated-only --experiment-id "fl-v1"
+
+# Ch. 8 — Run all security experiments
+python main.py --security --security-sensitivity-epochs --experiment-id "security-v1"
+
+# Everything at once
+python main.py --federated --security --security-sensitivity-epochs \
+    --compare --experiment-id "full-run"
+```
+
+## Experiment Isolation
+
+Every run creates an isolated output directory. Results never overwrite each other:
 
 ```
-catboost==1.2.8
-joblib==1.5.1
-matplotlib==3.10.3
-numpy==2.3.2
-optuna==4.4.0
-pandas==2.3.1
-pytorch_tabnet==4.1.0
-scikit_learn==1.7.1
-seaborn==0.13.2
-tabulate==0.9.0
-torch==2.6.0+cu124
+results/
+├── centralized-v1/          ← --experiment-id "centralized-v1"
+│   ├── random_forest/
+│   ├── tabnet/
+│   ├── catboost/
+│   └── model_comparison.{png,csv}
+├── fl-v1/                   ← --experiment-id "fl-v1"
+│   └── federated/
+└── 20260321T143052Z/        ← default (UTC timestamp)
+    └── ...
 ```
+
+If `--experiment-id` is omitted, it defaults to a UTC timestamp (e.g., `20260321T143052Z`).
+
+## CLI Reference
+
+### Global Options
+
+| Option | Default | Description |
+|---|---|---|
+| `--experiment-id` | UTC timestamp | Experiment identifier (subdirectory under `--results-dir`) |
+| `--results-dir` | `../results` | Base results directory |
+| `--csv` | `../data/aims_dataset.csv` | Dataset path |
+| `--random-state` | 42 | Reproducibility seed |
+
+### Centralized Models (Ch. 6)
+
+```bash
+python main.py --compare --n-trials 15 --n-trials-tabnet 40
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--n-trials` | 40 | Optuna trials for RF and CatBoost |
+| `--n-trials-tabnet` | 40 | Optuna trials for TabNet |
+| `--n-splits` | 5 | GroupKFold CV folds |
+| `--skip-rf` | — | Skip Random Forest |
+| `--skip-tabnet` | — | Skip TabNet |
+| `--skip-catboost` | — | Skip CatBoost |
+| `--compare` | — | Generate comparison report after training |
+| `--test-comparison-only` | — | Re-generate comparison without re-training |
+
+### Federated Learning (Ch. 7)
+
+```bash
+python main.py --federated-only --fl-rounds 30
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--federated` | — | Run FL + centralized NN baselines + RF/TabNet/CatBoost |
+| `--federated-only` | — | Run FL + centralized NN baselines only (no RF/TabNet/CatBoost) |
+| `--fl-rounds` | 30 | Communication rounds |
+| `--fl-local-epochs` | 3 | Local training epochs per round |
+| `--fl-clients` | 3 | Simulated FL clients (RSUs) |
+| `--fl-strategies` | `FedAvg FedProx` | Aggregation strategies |
+| `--fl-distributions` | `IID NonIID` | Data distribution modes |
+| `--fl-models` | `DNN LSTM GRU` | Neural architectures |
+| `--skip-centralized` | — | Skip centralized NN baselines |
+
+### FL Security (Ch. 8)
+
+```bash
+python main.py --security --security-sensitivity-epochs
+```
+
+| Option | Default | Description |
+|---|---|---|
+| `--security` | — | Run Phase 1a (label-flip) + Phase 1b (label-flip + gradient scaling) |
+| `--skip-phase1a` | — | Skip Phase 1a when using `--security` |
+| `--skip-phase1b` | — | Skip Phase 1b when using `--security` |
+| `--security-sensitivity-epochs` | — | Vary local epochs (1, 3, 5, 10) under attack |
+
+## Impact Classification
+
+The framework assigns impact levels using application-specific QoS thresholds:
+
+| Level | Label | Description |
+|---|---|---|
+| 0 | Adequate | All QoS requirements met |
+| 1 | Warning | Slight degradation, non-critical apps affected |
+| 2 | Severe | Significant degradation, multiple apps impacted |
+| 3 | Critical | Severe degradation, safety applications at risk |
 
 ## Project Structure
 
 ```
-code/
-├── main.py                    # Main training pipeline
-├── train_model_catboost.py    # CatBoost training script
-├── train_model_rf.py          # Random Forest training script
-├── train_model_tabnet.py      # TabNet training script
-├── preprocess_dataset.py      # Data preprocessing utilities
-├── impact_labeling.py         # Impact level assignment logic
-├── save_utils.py              # Artifact saving utilities
-├── compare_results.py         # Compare output results script
-data/                          # Dataset directory
-└── aims_dataset.csv
-other/
-├── requirements.txt           # Python dependencies
-├── README.md                  # This file
+AIMS/
+├── code/
+│   ├── main.py                    # Main orchestrator (all experiment modes)
+│   ├── train_model_rf.py          # Random Forest pipeline
+│   ├── train_model_tabnet.py      # TabNet pipeline
+│   ├── train_model_catboost.py    # CatBoost pipeline
+│   ├── preprocess_dataset.py      # Data preprocessing
+│   ├── impact_labeling.py         # QoS-to-impact level assignment
+│   ├── save_utils.py              # Artifact saving utilities
+│   ├── results_manager.py         # Results collection and JSON export
+│   ├── compare_results.py         # Model comparison report
+│   └── federated/
+│       ├── fl_main.py             # FL + security experiment orchestrator
+│       ├── fl_config.py           # FL defaults and configuration
+│       ├── fl_data.py             # Data loading, IID/NonIID partitioning
+│       ├── fl_models.py           # DNN, LSTM, GRU model builders (Keras)
+│       ├── fl_server.py           # FedAvg/FedProx aggregation engine
+│       ├── fl_client.py           # Client training simulation
+│       ├── fl_centralized.py      # Centralized NN baselines
+│       ├── fl_security.py         # Attacks (label-flip, gradient scaling),
+│       │                          #   defenses (Krum, TrimmedMean), C2A metric
+│       ├── fl_results.py          # FL results manager (JSON, CSV, LaTeX)
+│       └── fl_visualizations.py   # Convergence, comparison, security plots
+├── data/
+│   └── aims_dataset.csv
+├── results/
+│   └── .stubs/                    # Expected output docs per subdirectory
+├── docs/
+│   └── AIMS_opcoes_referencia.md  # Complete options reference (artifact details)
+└── requirements.txt
 ```
 
-## Usage
+## Detailed Reference
 
-### Quick Start
-
-Train all three models with 15 trials:
-
-```bash
-python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --n-trials-tabnet 15
-```
-
-### Individual Model Training
-
-Train specific models with custom parameters:
-
-```bash
-# Custom dataset with increased optimization trials
-python main.py --csv ./data/custom_dataset.csv --n-trials 100
-
-# Skip computationally expensive model and generate comparison
-python main.py --skip-tabnet --compare
-
-# Development mode - test comparison logic only
-python main.py --test-comparison-only
-
-# Targeted training with custom output directory
-python main.py --skip-rf --results-dir ./experiments/run_001
-
-# Random Forest
-python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --skip-catboost --skip-tabnet
-
-# CatBoost
-python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --skip-rf --skip-tabnet
-
-# TabNet
-python main.py --compare --csv ../data/aims_dataset.csv --n-trials-tabnet 15 --skip-catboost --skip-rf
-```
-
-### Parameters
-
-**Dataset & Core Configuration:**
-- `--csv`: Path to the dataset CSV file (default: ../data/aims_dataset.csv)
-- `--random-state`: Random seed for reproducibility (default: 42)
-- `--results-dir`: Base directory for storing model results (default: ../results)
-
-**Cross-Validation & Optimization:**
-- `--n-splits`: Number of GroupKFold cross-validation splits (default: 5)
-- `--n-trials`: Number of Optuna optimization trials for RandomForest and CatBoost (default: 40)
-- `--n-trials-tabnet`: Number of Optuna trials for TabNet (default: 40)
-
-**Model Selection:**
-- `--skip-rf`: Skip Random Forest training
-- `--skip-tabnet`: Skip TabNet training
-- `--skip-catboost`: Skip CatBoost training
-
-**Analysis & Testing:**
-- `--compare`: Generate comparison report after training completion
-- `--test-comparison-only`: Skip training and run only comparison logic
-
-## Impact Classification
-
-The framework uses a weighted-average approach to assign impact levels based on application-specific QoS thresholds. Each metric (RTT, PDR, throughput) is scored 0-3, then combined using application-specific weights.
-
-**Impact Levels:**
-- **0 (Adequate)**: Adequate performance, all QoS requirements met
-- **1 (Warning)**: Slight degradation, non-critical applications affected
-- **2 (Severe)**: Significant degradation, multiple applications impacted
-- **3 (Critical)**: Severe degradation, safety applications at risk
-
-**Application Weights:**
-
-| Application | Latency | Loss | Throughput | Priority |
-|------------|---------|------|------------|----------|
-| Safety (S) | 0.5 | 0.3 | 0.2 | Critical |
-| Efficiency (E) | 0.3 | 0.4 | 0.3 | High |
-| Entertainment (E2) | 0.2 | 0.3 | 0.5 | Medium |
-| Generic (G) | 0.3 | 0.3 | 0.4 | Low |
-
-## Feature Engineering
-
-The framework generates 15+ features from core metrics including temporal features (rolling mean/std with 3-sample window, rate of change), derived metrics (loss ratio, throughput utilization), and categorical data (one-hot encoded application categories).
-
-## Output Artifacts
-
-The framework generates comprehensive outputs for analysis and deployment:
-
-**Model Files**: Trained models saved in pickle format for deployment and inference
-
-**Performance Analysis**: Training results with metrics, confusion matrices (both raw and normalized), and feature importance visualizations
-
-**Optimization Reports**: Hyperparameter optimization history and training curves for model tuning analysis
-
-**Data Exports**: Processed datasets, group classifications, and class weights for reproducibility
-
-**Comparative Analysis**: Model comparison results and consolidated performance metrics across all approaches
-
+For a complete reference including experiment composition tables, per-artifact inventory, directory tree, artifact counts, and thesis chapter mapping, see **[docs/AIMS_opcoes_referencia.md](docs/AIMS_opcoes_referencia.md)**.
 
 ## Citation
-
-If you use this code in your research, please cite:
 
 ```bibtex
 @article{saraiva2025aims,
   title={AIMS: Adaptive and Intelligent Management of Slicing for Next-Generation ITS Networks},
   author={Saraiva, Tiago do Vale},
-  journal={},
-  year={2025},
-  publisher={}
+  year={2025}
 }
 ```
-
 
 ## License
 
@@ -199,7 +196,6 @@ This project is licensed under the MIT License.
   - [Mininet-WiFi Emulator](https://github.com/intrig-unicamp/mininet-wifi)
   - [Ryu SDN Controller](https://osrg.github.io/ryu/)
   - [SUMO Mobility Simulator](https://sumo.dlr.de/docs/Installing.html)
-
 
 ## Contact
 

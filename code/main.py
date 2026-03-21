@@ -69,6 +69,9 @@ python main.py --test-comparison-only
 # Targeted training with custom output directory
 python main.py --skip-rf --results-dir ./experiments/run_001
 
+# Federated Learning only (skips RF, TabNet, CatBoost)
+python main.py --federated-only --csv ../data/aims_dataset.csv
+
 # Random Forest
 python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --skip-catboost --skip-tabnet
 
@@ -139,8 +142,71 @@ def parse_arguments() -> argparse.Namespace:
         help="Base directory containing model results for comparison.")
 
     parser.add_argument(
+        "--experiment-id", type=str, default=None,
+        help="Experiment identifier used as a subdirectory under --results-dir. "
+             "All outputs are saved under results-dir/<experiment-id>/. "
+             "Defaults to a UTC timestamp, e.g. '20260321T143052Z'.")
+
+    parser.add_argument(
         "--test-comparison-only", action="store_true",
         help="Skip all training and only run the comparison logic.")
+
+    # --- Federated Learning arguments ---
+    parser.add_argument(
+        "--federated", action="store_true",
+        help="Run Federated Learning experiments (DNN, LSTM, GRU with FedAvg/FedProx).")
+
+    parser.add_argument(
+        "--federated-only", action="store_true",
+        help="Run ONLY Federated Learning experiments, skipping all centralized models (RF, TabNet, CatBoost).")
+
+    parser.add_argument(
+        "--fl-rounds", type=int, default=30,
+        help="Number of FL communication rounds.")
+
+    parser.add_argument(
+        "--fl-local-epochs", type=int, default=3,
+        help="Number of local training epochs per FL round.")
+
+    parser.add_argument(
+        "--fl-clients", type=int, default=3,
+        help="Number of simulated FL clients (RSUs).")
+
+    parser.add_argument(
+        "--fl-strategies", nargs="+", default=["FedAvg", "FedProx"],
+        help="FL aggregation strategies to evaluate.")
+
+    parser.add_argument(
+        "--fl-distributions", nargs="+", default=["IID", "NonIID"],
+        help="Data distribution modes for FL clients.")
+
+    parser.add_argument(
+        "--fl-models", nargs="+", default=["DNN", "LSTM", "GRU"],
+        help="Neural network architectures for FL experiments.")
+
+    parser.add_argument(
+        "--skip-centralized", action="store_true",
+        help="Skip centralized baseline training in FL experiments.")
+
+    # --- FL Security arguments ---
+    parser.add_argument(
+        "--security", action="store_true",
+        help="Run all security experiments: Phase 1a (label-flip) + Phase 1b "
+             "(label-flip + gradient scaling 2x/5x/10x) with FedAvg/Krum/TrimmedMean "
+             "for DNN/LSTM/GRU on NonIID. Use --skip-phase1a or --skip-phase1b to "
+             "skip individual phases.")
+
+    parser.add_argument(
+        "--skip-phase1a", action="store_true",
+        help="Skip Phase 1a (label-flip only) when running --security.")
+
+    parser.add_argument(
+        "--skip-phase1b", action="store_true",
+        help="Skip Phase 1b (label-flip + gradient scaling) when running --security.")
+
+    parser.add_argument(
+        "--security-sensitivity-epochs", action="store_true",
+        help="Sensitivity analysis: vary local epochs (1, 3, 5, 10) under label-flip attack.")
 
     return parser.parse_args()
 
@@ -186,7 +252,8 @@ def train_random_forest(args: argparse.Namespace) -> bool:
         return False
 
 
-def train_tabnet(csv_path: Path, n_splits: int, n_trials: int, random_state: int) -> bool:
+def train_tabnet(csv_path: Path, n_splits: int, n_trials: int, random_state: int,
+                 results_dir: Path = None) -> bool:
     """
     Wrapper to run the TabNet training pipeline and handle exceptions.
 
@@ -204,7 +271,8 @@ def train_tabnet(csv_path: Path, n_splits: int, n_trials: int, random_state: int
             csv_path=str(csv_path),
             n_splits=n_splits,
             n_trials=n_trials,
-            random_state=random_state
+            random_state=random_state,
+            results_dir=str(results_dir) if results_dir else None,
         )
         return True
     except Exception as e:
@@ -227,6 +295,101 @@ def train_catboost(args: argparse.Namespace) -> bool:
         return True
     except Exception as e:
         print(f"❌ Error during CatBoost training: {e}")
+        return False
+
+
+def train_federated_learning(args: argparse.Namespace) -> bool:
+    """
+    Wrapper to run the Federated Learning experiment suite and handle exceptions.
+
+    Args:
+        args (argparse.Namespace): Arguments including FL-specific parameters.
+
+    Returns:
+        bool: True on success, False on failure.
+    """
+    try:
+        from federated import run_federated
+        run_federated(
+            csv_path=args.csv,
+            results_dir=args.results_dir / "federated",
+            num_rounds=args.fl_rounds,
+            local_epochs=args.fl_local_epochs,
+            batch_size=32,
+            num_clients=args.fl_clients,
+            strategies=args.fl_strategies,
+            distributions=args.fl_distributions,
+            model_types=args.fl_models,
+            skip_centralized=args.skip_centralized,
+            seed=args.random_state,
+        )
+        return True
+    except Exception as e:
+        print(f"Error during Federated Learning: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def train_security_phase1a(args: argparse.Namespace) -> bool:
+    """Run FL Security Phase 1a experiments."""
+    try:
+        from federated import run_security_phase1a
+        run_security_phase1a(
+            csv_path=args.csv,
+            results_dir=args.results_dir / "federated",
+            num_rounds=args.fl_rounds,
+            local_epochs=args.fl_local_epochs,
+            batch_size=32,
+            model_types=args.fl_models,
+            seed=args.random_state,
+        )
+        return True
+    except Exception as e:
+        print(f"Error during Security Phase 1a: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def train_security_phase1b(args: argparse.Namespace) -> bool:
+    """Run FL Security Phase 1b experiments."""
+    try:
+        from federated import run_security_phase1b
+        run_security_phase1b(
+            csv_path=args.csv,
+            results_dir=args.results_dir / "federated",
+            num_rounds=args.fl_rounds,
+            local_epochs=args.fl_local_epochs,
+            batch_size=32,
+            model_types=args.fl_models,
+            seed=args.random_state,
+        )
+        return True
+    except Exception as e:
+        print(f"Error during Security Phase 1b: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def train_security_sensitivity_epochs(args: argparse.Namespace) -> bool:
+    """Run FL Security Sensitivity Analysis experiments."""
+    try:
+        from federated import run_security_sensitivity_epochs
+        run_security_sensitivity_epochs(
+            csv_path=args.csv,
+            results_dir=args.results_dir / "federated",
+            num_rounds=args.fl_rounds,
+            batch_size=32,
+            model_types=args.fl_models,
+            seed=args.random_state,
+        )
+        return True
+    except Exception as e:
+        print(f"Error during Security Sensitivity Analysis: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 
@@ -282,16 +445,30 @@ def main():
     args = parse_arguments()
     start_time = time.time()
 
+    # Resolve experiment ID and build the final results directory
+    if args.experiment_id is None:
+        args.experiment_id = datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+    args.results_dir = args.results_dir / args.experiment_id
+
     print("=" * 80)
     print("AIMS FRAMEWORK - MODEL TRAINING ORCHESTRATOR")
     print("=" * 80)
     print(f"Start Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print(f"Experiment ID: {args.experiment_id}")
+    print(f"Results Dir: {args.results_dir}")
     print(f"Dataset: {args.csv}")
     print(f"Random State: {args.random_state}")
     print("-" * 80)
 
     if not validate_dataset(args.csv):
         sys.exit(1)
+
+    # --federated-only implies --federated and skips all centralized models
+    if args.federated_only:
+        args.federated = True
+        args.skip_rf = True
+        args.skip_tabnet = True
+        args.skip_catboost = True
 
     models_trained = []
 
@@ -305,7 +482,8 @@ def main():
             n_splits=args.n_splits,
             n_jobs=-1,  # Use all available CPU cores
             random_state=args.random_state,
-            n_trials=args.n_trials
+            n_trials=args.n_trials,
+            results_dir=args.results_dir,
         )
 
         # --- RandomForest Training ---
@@ -324,7 +502,8 @@ def main():
         if not args.skip_tabnet:
             print(f"\n[2/3] Training TabNet Classifier...")
             print("-" * 60)
-            if train_tabnet(args.csv, args.n_splits, args.n_trials_tabnet, args.random_state):
+            if train_tabnet(args.csv, args.n_splits, args.n_trials_tabnet, args.random_state,
+                           results_dir=args.results_dir):
                 print("✓ TabNet training completed.")
                 models_trained.append("TabNet")
             else:
@@ -343,6 +522,45 @@ def main():
                 print("⚠️  CatBoost training failed.")
         else:
             print("\n[3/3] Skipping CatBoost (--skip-catboost flag).")
+
+    # --- Federated Learning ---
+    if args.federated:
+        print(f"\n[FL] Training Federated Learning models...")
+        print("-" * 60)
+        if train_federated_learning(args):
+            print("Federated Learning experiments completed.")
+        else:
+            print("Federated Learning experiments failed.")
+
+    # --- FL Security Experiments ---
+    if args.security:
+        if not args.skip_phase1a:
+            print(f"\n[Security Phase 1a] Running label-flip attack experiments...")
+            print("-" * 60)
+            if train_security_phase1a(args):
+                print("Security Phase 1a experiments completed.")
+            else:
+                print("Security Phase 1a experiments failed.")
+        else:
+            print("\n[Security Phase 1a] Skipping (--skip-phase1a flag).")
+
+        if not args.skip_phase1b:
+            print(f"\n[Security Phase 1b] Running label-flip + gradient scaling experiments...")
+            print("-" * 60)
+            if train_security_phase1b(args):
+                print("Security Phase 1b experiments completed.")
+            else:
+                print("Security Phase 1b experiments failed.")
+        else:
+            print("\n[Security Phase 1b] Skipping (--skip-phase1b flag).")
+
+    if args.security_sensitivity_epochs:
+        print(f"\n[Security Sensitivity] Running epoch sensitivity analysis...")
+        print("-" * 60)
+        if train_security_sensitivity_epochs(args):
+            print("Security Sensitivity Analysis completed.")
+        else:
+            print("Security Sensitivity Analysis failed.")
 
     # --- Final Summary ---
     total_time = time.time() - start_time

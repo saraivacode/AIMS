@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -ex
+
+# This is the master script for the capsule. When you click "Reproducible Run", the code in this file will execute.
+#python -u main.py "$@"
+
+python main.py --compare --csv ../data/aims_dataset.csv --n-trials 15 --n-trials-tabnet 15
