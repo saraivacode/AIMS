@@ -4,21 +4,35 @@
 AIMS Framework - Federated Learning Simulation Orchestrator
 ============================================================
 
-Implements FedAvg and FedProx aggregation strategies using a manual
-simulation loop (no Ray dependency), giving full control over the
-training process and avoiding serialization issues.
+Implements federated learning experiments using the Flower framework
+with Ray-based parallel simulation, supporting FedAvg and FedProx
+strategies with Byzantine-robust aggregation (Krum, TrimmedMean)
+for security experiments.
 """
 
 from __future__ import annotations
 
 import time
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Union
 
+import flwr as fl
 import numpy as np
+from flwr.common import (
+    Context,
+    ndarrays_to_parameters,
+    parameters_to_ndarrays,
+    FitRes,
+    Parameters,
+    Scalar,
+)
+from flwr.server import ServerConfig
+from flwr.server.client_proxy import ClientProxy
+from flwr.server.strategy import FedAvg
 from sklearn.metrics import (
-    accuracy_score, f1_score, precision_score, recall_score,
+    f1_score, precision_score, recall_score,
 )
 
+from .fl_client import AIMSFlowerClient
 from .fl_config import FLDefaults
 from .fl_data import split_client_data
 from .fl_models import create_model
@@ -33,34 +47,100 @@ from .fl_security import (
 _DEFAULTS = FLDefaults()
 
 
-def _fedavg_aggregate(
-    client_weights: List[List[np.ndarray]],
-    client_sizes: List[int],
-) -> List[np.ndarray]:
+# ---------------------------------------------------------------------------
+# Custom Flower strategies for Byzantine-robust aggregation
+# ---------------------------------------------------------------------------
+
+class _KrumStrategy(FedAvg):
+    """FedAvg variant using Krum Byzantine-robust aggregation."""
+
+    def aggregate_fit(
+        self,
+        server_round: int,
+        results: List[Tuple[ClientProxy, FitRes]],
+        failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
+    ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
+        if not results:
+            return None, {}
+
+        client_weights = []
+        client_sizes = []
+        for _, fit_res in results:
+            weights = parameters_to_ndarrays(fit_res.parameters)
+            client_weights.append(weights)
+            client_sizes.append(fit_res.num_examples)
+
+        aggregated = krum_aggregate(client_weights, client_sizes)
+        return ndarrays_to_parameters(aggregated), {}
+
+
+class _TrimmedMeanStrategy(FedAvg):
+    """FedAvg variant using coordinate-wise Trimmed Mean aggregation."""
+
+    def aggregate_fit(
+        self,
+        server_round: int,
+        results: List[Tuple[ClientProxy, FitRes]],
+        failures: List[Union[Tuple[ClientProxy, FitRes], BaseException]],
+    ) -> Tuple[Optional[Parameters], Dict[str, Scalar]]:
+        if not results:
+            return None, {}
+
+        client_weights = []
+        client_sizes = []
+        for _, fit_res in results:
+            weights = parameters_to_ndarrays(fit_res.parameters)
+            client_weights.append(weights)
+            client_sizes.append(fit_res.num_examples)
+
+        aggregated = trimmed_mean_aggregate(client_weights, client_sizes)
+        return ndarrays_to_parameters(aggregated), {}
+
+
+# ---------------------------------------------------------------------------
+# Malicious Flower client for gradient scaling attacks
+# ---------------------------------------------------------------------------
+
+class _MaliciousFlowerClient(AIMSFlowerClient):
     """
-    FedAvg: weighted average of model parameters proportional to dataset size.
+    Flower client that applies gradient scaling attack.
 
-    Parameters
-    ----------
-    client_weights : list of list of np.ndarray
-        Model weights from each client after local training.
-    client_sizes : list of int
-        Number of training samples per client.
-
-    Returns
-    -------
-    list of np.ndarray
-        Aggregated global model weights.
+    Extends AIMSFlowerClient to scale the model update (gradient)
+    by a given factor after local training, amplifying the poisoned
+    contribution during aggregation.
     """
-    total = sum(client_sizes)
-    avg_weights = []
-    for layer_idx in range(len(client_weights[0])):
-        layer_sum = np.zeros_like(client_weights[0][layer_idx])
-        for c_idx, weights in enumerate(client_weights):
-            layer_sum += weights[layer_idx] * (client_sizes[c_idx] / total)
-        avg_weights.append(layer_sum)
-    return avg_weights
 
+    def __init__(self, *args, gradient_scale: float = 1.0, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.gradient_scale = gradient_scale
+
+    def fit(
+        self, parameters: List[np.ndarray], config: Dict
+    ) -> Tuple[List[np.ndarray], int, Dict]:
+        # parameters holds the global weights (not modified by super().fit())
+        global_weights = parameters
+        weights, num_samples, metrics = super().fit(parameters, config)
+        if self.gradient_scale > 1.0:
+            weights = scale_gradients(weights, global_weights, self.gradient_scale)
+        return weights, num_samples, metrics
+
+
+# ---------------------------------------------------------------------------
+# Resource detection
+# ---------------------------------------------------------------------------
+
+def _get_client_resources(num_clients: int) -> Dict[str, float]:
+    """Determine Ray client resources based on available GPUs."""
+    import tensorflow as tf
+    gpus = tf.config.list_physical_devices("GPU")
+    if gpus:
+        return {"num_cpus": 1, "num_gpus": len(gpus) / max(num_clients, 1)}
+    return {"num_cpus": 1, "num_gpus": 0.0}
+
+
+# ---------------------------------------------------------------------------
+# Standard FL simulation (Flower + Ray)
+# ---------------------------------------------------------------------------
 
 def run_fl_simulation(
     model_type: str,
@@ -77,10 +157,11 @@ def run_fl_simulation(
     fedprox_mu: float = 0.1,
 ) -> Dict:
     """
-    Run a single federated learning experiment using manual simulation.
+    Run a single federated learning experiment using Flower simulation with Ray.
 
-    Implements FedAvg and FedProx without external simulation frameworks,
-    avoiding Ray serialization issues while maintaining full FL semantics.
+    Uses the Flower framework's simulation API for parallel client training,
+    with FedAvg aggregation on the server side. FedProx proximal term is
+    applied client-side in AIMSFlowerClient when proximal_mu > 0.
 
     Parameters
     ----------
@@ -115,8 +196,9 @@ def run_fl_simulation(
         Experiment results including per-round metrics and final evaluation.
     """
     config_name = f"{model_type}_{strategy_name}_{distribution}"
-    print(f"\n  Running FL simulation: {config_name}")
-    print(f"    Rounds={num_rounds}, LocalEpochs={local_epochs}, Clients={len(client_partitions)}")
+    print(f"\n  Running FL simulation (Flower): {config_name}")
+    print(f"    Rounds={num_rounds}, LocalEpochs={local_epochs}, "
+          f"Clients={len(client_partitions)}")
 
     num_clients = len(client_partitions)
     input_dim = client_partitions[0][0].shape[1]
@@ -125,81 +207,31 @@ def run_fl_simulation(
     # Pre-split each client's data into train/val
     client_data = []
     for i, (X_c, y_c) in enumerate(client_partitions):
-        X_train, X_val, y_train, y_val = split_client_data(X_c, y_c, test_size=0.2, seed=seed + i)
+        X_train, X_val, y_train, y_val = split_client_data(
+            X_c, y_c, test_size=0.2, seed=seed + i
+        )
         client_data.append((X_train, y_train, X_val, y_val))
 
-    # Initialize global model
-    global_model = create_model(model_type, input_dim)
-    global_weights = global_model.get_weights()
+    # Initial global model parameters
+    initial_model = create_model(model_type, input_dim)
+    initial_parameters = ndarrays_to_parameters(initial_model.get_weights())
+    del initial_model
 
     # Prepare test input (reshape for LSTM/GRU)
     X_test_input = X_test
     if model_type.upper() in ("LSTM", "GRU"):
         X_test_input = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
 
-    # Per-round metrics storage
+    # Per-round metrics (captured by evaluate_fn closure)
     round_metrics: List[Dict] = []
 
-    start_time = time.time()
+    def evaluate_fn(server_round, parameters_ndarrays, config):
+        """Server-side evaluation on global test set after each round."""
+        model = create_model(model_type, input_dim)
+        model.set_weights(parameters_ndarrays)
 
-    for rnd in range(1, num_rounds + 1):
-        client_updated_weights = []
-        client_sizes = []
-
-        # --- Local training on each client ---
-        for c_idx in range(num_clients):
-            X_train, y_train, X_val, y_val = client_data[c_idx]
-
-            # Create fresh client model and load global weights
-            client_model = create_model(model_type, input_dim)
-            client_model.set_weights(global_weights)
-
-            # Prepare input shapes
-            X_tr = X_train
-            if model_type.upper() in ("LSTM", "GRU"):
-                X_tr = X_train.reshape((X_train.shape[0], 1, X_train.shape[1]))
-
-            if use_proximal:
-                # FedProx: train epoch-by-epoch with proximal correction
-                saved_global = [w.copy() for w in global_weights]
-                for _ in range(local_epochs):
-                    client_model.fit(
-                        X_tr, y_train,
-                        epochs=1,
-                        batch_size=batch_size,
-                        class_weight=class_weights,
-                        verbose=0,
-                    )
-                    # Proximal update: w <- w - mu * (w - w_global)
-                    new_w = client_model.get_weights()
-                    prox_w = [
-                        w - fedprox_mu * (w - gw)
-                        for w, gw in zip(new_w, saved_global)
-                    ]
-                    client_model.set_weights(prox_w)
-            else:
-                # FedAvg: standard local training
-                client_model.fit(
-                    X_tr, y_train,
-                    epochs=local_epochs,
-                    batch_size=batch_size,
-                    class_weight=class_weights,
-                    verbose=0,
-                )
-
-            client_updated_weights.append(client_model.get_weights())
-            client_sizes.append(len(X_train))
-
-            # Clean up to free memory
-            del client_model
-
-        # --- Server aggregation (FedAvg weighted average) ---
-        global_weights = _fedavg_aggregate(client_updated_weights, client_sizes)
-        global_model.set_weights(global_weights)
-
-        # --- Server-side evaluation on global test set ---
-        loss, accuracy = global_model.evaluate(X_test_input, y_test, verbose=0)
-        preds = np.argmax(global_model.predict(X_test_input, verbose=0), axis=1)
+        loss, accuracy = model.evaluate(X_test_input, y_test, verbose=0)
+        preds = np.argmax(model.predict(X_test_input, verbose=0), axis=1)
 
         f1 = f1_score(y_test, preds, average="macro", zero_division=0)
         prec = precision_score(y_test, preds, average="macro", zero_division=0)
@@ -207,7 +239,7 @@ def run_fl_simulation(
         f1_per_class = f1_score(y_test, preds, average=None, zero_division=0)
 
         round_metrics.append({
-            "round": rnd,
+            "round": server_round,
             "loss": float(loss),
             "accuracy": float(accuracy),
             "f1_macro": float(f1),
@@ -216,19 +248,64 @@ def run_fl_simulation(
             "f1_per_class": [float(v) for v in f1_per_class],
         })
 
-        if rnd % 5 == 0 or rnd == num_rounds or rnd == 1:
-            print(f"    Round {rnd:3d}/{num_rounds}: "
+        if server_round % 5 == 0 or server_round == num_rounds or server_round == 1:
+            print(f"    Round {server_round:3d}/{num_rounds}: "
                   f"Acc={accuracy:.4f}, F1={f1:.4f}, Loss={loss:.4f}")
+
+        del model
+        return float(loss), {"accuracy": float(accuracy), "f1_macro": float(f1)}
+
+    # Flower strategy: FedAvg aggregation for both FedAvg and FedProx
+    # (the proximal term is applied client-side in AIMSFlowerClient)
+    strategy = FedAvg(
+        fraction_fit=1.0,
+        fraction_evaluate=0.0,  # Server-side evaluation only
+        min_fit_clients=num_clients,
+        min_available_clients=num_clients,
+        evaluate_fn=evaluate_fn,
+        initial_parameters=initial_parameters,
+    )
+
+    # Client factory for Flower simulation
+    def client_fn(context: Context):
+        idx = int(context.node_config["partition-id"])
+        X_train, y_train, X_val, y_val = client_data[idx]
+        return AIMSFlowerClient(
+            model_type=model_type,
+            X_train=X_train, y_train=y_train,
+            X_val=X_val, y_val=y_val,
+            local_epochs=local_epochs,
+            batch_size=batch_size,
+            class_weights=class_weights,
+            client_id=idx,
+            proximal_mu=fedprox_mu if use_proximal else 0.0,
+        ).to_client()
+
+    start_time = time.time()
+    client_resources = _get_client_resources(num_clients)
+
+    # Run Flower simulation with Ray
+    fl.simulation.start_simulation(
+        client_fn=client_fn,
+        num_clients=num_clients,
+        config=ServerConfig(num_rounds=num_rounds),
+        strategy=strategy,
+        ray_init_args={"include_dashboard": False, "ignore_reinit_error": True},
+        client_resources=client_resources,
+        keep_initialised=True,
+    )
 
     total_time = time.time() - start_time
     print(f"    Simulation completed in {total_time:.1f}s")
 
-    # Build per-round arrays
-    round_accuracies = [{"round": m["round"], "accuracy": m["accuracy"]} for m in round_metrics]
-    round_f1s = [{"round": m["round"], "f1_macro": m["f1_macro"]} for m in round_metrics]
-    round_losses = [{"round": m["round"], "loss": m["loss"]} for m in round_metrics]
+    # Build result dict (same format as before for compatibility)
+    round_accuracies = [{"round": m["round"], "accuracy": m["accuracy"]}
+                        for m in round_metrics]
+    round_f1s = [{"round": m["round"], "f1_macro": m["f1_macro"]}
+                 for m in round_metrics]
+    round_losses = [{"round": m["round"], "loss": m["loss"]}
+                    for m in round_metrics]
 
-    # Final metrics from last round
     last = round_metrics[-1] if round_metrics else {}
     final_metrics = {
         "accuracy": last.get("accuracy", 0),
@@ -285,17 +362,31 @@ def _find_convergence_round(
 
 
 # ---------------------------------------------------------------------------
-# Security-aware FL simulation
+# Security-aware FL simulation (Flower + Ray)
 # ---------------------------------------------------------------------------
 
-def _get_aggregator(defense: str):
-    """Return the aggregation function for the given defense name."""
-    if defense.lower() == "krum":
-        return krum_aggregate
-    elif defense.lower() in ("trimmedmean", "trimmed_mean"):
-        return trimmed_mean_aggregate
+def _get_security_strategy(
+    defense: str,
+    num_clients: int,
+    evaluate_fn,
+    initial_parameters,
+) -> FedAvg:
+    """Create the appropriate Flower strategy for the given defense."""
+    common_kwargs = dict(
+        fraction_fit=1.0,
+        fraction_evaluate=0.0,
+        min_fit_clients=num_clients,
+        min_available_clients=num_clients,
+        evaluate_fn=evaluate_fn,
+        initial_parameters=initial_parameters,
+    )
+    defense_lower = defense.lower()
+    if defense_lower == "krum":
+        return _KrumStrategy(**common_kwargs)
+    elif defense_lower in ("trimmedmean", "trimmed_mean"):
+        return _TrimmedMeanStrategy(**common_kwargs)
     else:
-        return _fedavg_aggregate
+        return FedAvg(**common_kwargs)
 
 
 def run_fl_security_simulation(
@@ -320,7 +411,8 @@ def run_fl_security_simulation(
     target_class: int = 0,
 ) -> Dict:
     """
-    Run a federated learning experiment with adversarial attacks and defenses.
+    Run a federated learning experiment with adversarial attacks and defenses
+    using Flower simulation with Ray.
 
     Extends ``run_fl_simulation`` with:
     - Label-flip attack on designated malicious clients
@@ -361,7 +453,7 @@ def run_fl_security_simulation(
     config_name = (f"{model_type}_{strategy_name}_{distribution}"
                    f"_attack-{attack_type}{scale_str}_def-{defense}{epochs_str}")
 
-    print(f"\n  Security FL simulation: {config_name}")
+    print(f"\n  Security FL simulation (Flower): {config_name}")
     print(f"    Rounds={num_rounds}, LocalEpochs={local_epochs}, "
           f"Clients={len(client_partitions)}")
     print(f"    Attack={attack_type}, Scale={gradient_scale}, "
@@ -370,7 +462,6 @@ def run_fl_security_simulation(
     num_clients = len(client_partitions)
     input_dim = client_partitions[0][0].shape[1]
     use_proximal = strategy_name.lower() == "fedprox"
-    aggregator = _get_aggregator(defense)
 
     # Pre-split each client's data; apply label-flip to malicious clients
     client_data = []
@@ -383,70 +474,26 @@ def run_fl_security_simulation(
         )
         client_data.append((X_train, y_train, X_val, y_val))
 
-    # Initialize global model
-    global_model = create_model(model_type, input_dim)
-    global_weights = global_model.get_weights()
+    # Initial global model parameters
+    initial_model = create_model(model_type, input_dim)
+    initial_parameters = ndarrays_to_parameters(initial_model.get_weights())
+    del initial_model
 
     # Prepare test input
     X_test_input = X_test
     if model_type.upper() in ("LSTM", "GRU"):
         X_test_input = X_test.reshape((X_test.shape[0], 1, X_test.shape[1]))
 
+    # Per-round metrics
     round_metrics: List[Dict] = []
-    start_time = time.time()
 
-    for rnd in range(1, num_rounds + 1):
-        client_updated_weights = []
-        client_sizes = []
+    def evaluate_fn(server_round, parameters_ndarrays, config):
+        """Server-side evaluation with security metrics (C2A rate)."""
+        model = create_model(model_type, input_dim)
+        model.set_weights(parameters_ndarrays)
 
-        for c_idx in range(num_clients):
-            X_train, y_train, X_val, y_val = client_data[c_idx]
-
-            client_model = create_model(model_type, input_dim)
-            client_model.set_weights(global_weights)
-
-            X_tr = X_train
-            if model_type.upper() in ("LSTM", "GRU"):
-                X_tr = X_train.reshape((X_train.shape[0], 1, X_train.shape[1]))
-
-            if use_proximal:
-                saved_global = [w.copy() for w in global_weights]
-                for _ in range(local_epochs):
-                    client_model.fit(
-                        X_tr, y_train, epochs=1,
-                        batch_size=batch_size,
-                        class_weight=class_weights, verbose=0,
-                    )
-                    new_w = client_model.get_weights()
-                    prox_w = [w - fedprox_mu * (w - gw)
-                              for w, gw in zip(new_w, saved_global)]
-                    client_model.set_weights(prox_w)
-            else:
-                client_model.fit(
-                    X_tr, y_train, epochs=local_epochs,
-                    batch_size=batch_size,
-                    class_weight=class_weights, verbose=0,
-                )
-
-            updated_w = client_model.get_weights()
-
-            # Apply gradient scaling for malicious clients
-            if c_idx in malicious_clients and gradient_scale > 1.0:
-                updated_w = scale_gradients(
-                    updated_w, global_weights, gradient_scale
-                )
-
-            client_updated_weights.append(updated_w)
-            client_sizes.append(len(X_train))
-            del client_model
-
-        # Server aggregation with selected defense
-        global_weights = aggregator(client_updated_weights, client_sizes)
-        global_model.set_weights(global_weights)
-
-        # Evaluation
-        loss, accuracy = global_model.evaluate(X_test_input, y_test, verbose=0)
-        preds = np.argmax(global_model.predict(X_test_input, verbose=0), axis=1)
+        loss, accuracy = model.evaluate(X_test_input, y_test, verbose=0)
+        preds = np.argmax(model.predict(X_test_input, verbose=0), axis=1)
 
         f1 = f1_score(y_test, preds, average="macro", zero_division=0)
         prec = precision_score(y_test, preds, average="macro", zero_division=0)
@@ -455,7 +502,7 @@ def run_fl_security_simulation(
         c2a = compute_c2a_rate(y_test, preds, source_class, target_class)
 
         round_metrics.append({
-            "round": rnd,
+            "round": server_round,
             "loss": float(loss),
             "accuracy": float(accuracy),
             "f1_macro": float(f1),
@@ -465,9 +512,58 @@ def run_fl_security_simulation(
             "c2a_rate": float(c2a),
         })
 
-        if rnd % 5 == 0 or rnd == num_rounds or rnd == 1:
-            print(f"    Round {rnd:3d}/{num_rounds}: "
+        if server_round % 5 == 0 or server_round == num_rounds or server_round == 1:
+            print(f"    Round {server_round:3d}/{num_rounds}: "
                   f"Acc={accuracy:.4f}, F1={f1:.4f}, C2A={c2a:.4f}")
+
+        del model
+        return float(loss), {
+            "accuracy": float(accuracy),
+            "f1_macro": float(f1),
+            "c2a_rate": float(c2a),
+        }
+
+    # Create strategy based on defense type
+    strategy = _get_security_strategy(
+        defense, num_clients, evaluate_fn, initial_parameters
+    )
+
+    # Client factory (malicious clients get gradient scaling)
+    def client_fn(context: Context):
+        idx = int(context.node_config["partition-id"])
+        X_train, y_train, X_val, y_val = client_data[idx]
+
+        client_kwargs = dict(
+            model_type=model_type,
+            X_train=X_train, y_train=y_train,
+            X_val=X_val, y_val=y_val,
+            local_epochs=local_epochs,
+            batch_size=batch_size,
+            class_weights=class_weights,
+            client_id=idx,
+            proximal_mu=fedprox_mu if use_proximal else 0.0,
+        )
+
+        if idx in malicious_clients and gradient_scale > 1.0:
+            return _MaliciousFlowerClient(
+                gradient_scale=gradient_scale, **client_kwargs
+            ).to_client()
+        else:
+            return AIMSFlowerClient(**client_kwargs).to_client()
+
+    start_time = time.time()
+    client_resources = _get_client_resources(num_clients)
+
+    # Run Flower simulation with Ray
+    fl.simulation.start_simulation(
+        client_fn=client_fn,
+        num_clients=num_clients,
+        config=ServerConfig(num_rounds=num_rounds),
+        strategy=strategy,
+        ray_init_args={"include_dashboard": False, "ignore_reinit_error": True},
+        client_resources=client_resources,
+        keep_initialised=True,
+    )
 
     total_time = time.time() - start_time
     print(f"    Completed in {total_time:.1f}s")
