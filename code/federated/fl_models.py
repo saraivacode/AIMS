@@ -127,6 +127,11 @@ def create_model(model_type: str, input_dim: int, num_classes: int = 4) -> tf.ke
     tf.keras.Model
         Compiled Keras model ready for training.
     """
+    # Ensure memory growth is enabled before creating any model.
+    # Critical for Ray actors in Flower simulation where multiple
+    # clients share the same GPU.
+    configure_tf()
+
     builders = {
         "dnn": build_dnn,
         "lstm": build_lstm,
