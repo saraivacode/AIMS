@@ -112,7 +112,7 @@ def prepare_dataset(
     # Step 7: Time-based group ID generation
     # Create group_id BEFORE dropping timestamp columns
     if "timestamp" in df.columns:
-        df["time_block"] = (df["timestamp"].astype("int64") // int(6e10))
+        df["time_block"] = df["timestamp"].astype("datetime64[ns, UTC]").astype("int64") // int(6e10)
         if "approach" in df.columns:
             df["group_id"] = df["approach"] + "_" + df["time_block"].astype(str)
         # Drop non-predictive timestamp columns AFTER creating group_id
