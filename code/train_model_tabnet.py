@@ -699,7 +699,12 @@ def run_tabnet(csv_path: str, n_splits: int = 5, n_trials: int = 40, random_stat
 
     # 2) Prepare TabNet objective function and run Optuna.
     device, gpu_name, gpu_memory_gb = configure_device()
-    gkf = GroupKFold(n_splits=n_splits)
+    # Cap n_splits at the number of unique groups to avoid ValueError.
+    n_groups = len(np.unique(groups_train))
+    actual_splits = min(n_splits, n_groups)
+    if actual_splits < n_splits:
+        logger.warning(f"n_splits={n_splits} > n_groups={n_groups}. Using n_splits={actual_splits}.")
+    gkf = GroupKFold(n_splits=actual_splits)
     class_weights_tensor = torch.tensor(class_weights_list, dtype=torch.float32, device=device)
 
     # --- Model Instantiation Strategy ---

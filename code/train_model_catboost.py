@@ -217,7 +217,12 @@ def objective_cb(trial: optuna.Trial, args: argparse.Namespace, X_train: pd.Data
         float: The mean cross-validation macro F1-score.
     """
     # Cross-validation strategy that respects groups
-    gkf = GroupKFold(n_splits=args.n_splits)
+    # Cap n_splits at the number of unique groups to avoid ValueError.
+    n_groups = len(np.unique(groups_train))
+    actual_splits = min(args.n_splits, n_groups)
+    if actual_splits < args.n_splits:
+        logger.warning(f"n_splits={args.n_splits} > n_groups={n_groups}. Using n_splits={actual_splits}.")
+    gkf = GroupKFold(n_splits=actual_splits)
 
     # 1. Hyperparameter search space
     params = {
