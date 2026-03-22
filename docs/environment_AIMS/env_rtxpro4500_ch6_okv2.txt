@@ -1,0 +1,6 @@
+python=3.11.0rc1 (main, Aug 12 2022, 10:02:14) [GCC 11.2.0]
+platform=Linux-6.8.0-106-generic-x86_64-with-glibc2.35
+torch_error=No module named 'torch'
+tf=2.14.0
+tf_gpus=[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+protobuf=4.24.3

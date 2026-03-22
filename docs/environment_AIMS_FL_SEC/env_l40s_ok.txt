@@ -1,0 +1,8 @@
+python=3.11.10 (main, Sep  7 2024, 18:35:41) [GCC 11.4.0]
+platform=Linux-6.8.0-60-generic-x86_64-with-glibc2.35
+torch=2.4.1+cu124
+tf=2.18.0
+protobuf=5.29.6
+torch_cuda=True
+tf_gpus=[PhysicalDevice(name='/physical_device:GPU:0', device_type='GPU')]
+torch_device_0=NVIDIA L40S
