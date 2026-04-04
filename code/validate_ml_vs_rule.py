@@ -547,21 +547,35 @@ def run_e4(rf_pipe, cb_clf, X_train, y_train, X_hold, y_hold,
     shap_importance = None
     try:
         import shap
-        logger.info("  Computing SHAP values (CatBoost)...")
-        explainer = shap.TreeExplainer(cb_clf)
-        shap_values = explainer.shap_values(X_hold)
-        if isinstance(shap_values, list):
-            shap_abs = np.mean([np.abs(sv) for sv in shap_values], axis=0)
+        logger.info("  Computing SHAP values (Random Forest)...")
+        # Use RF pipeline: transform X_hold then explain the classifier
+        rf_classifier = rf_pipe.named_steps["classifier"]
+        X_hold_transformed = rf_pipe.named_steps["preprocessor"].transform(X_hold)
+        transformed_feat_names = rf_pipe.named_steps["preprocessor"].get_feature_names_out()
+
+        explainer = shap.TreeExplainer(rf_classifier)
+        X_vals = X_hold_transformed.values if hasattr(X_hold_transformed, "values") \
+                 else X_hold_transformed
+        sv = np.array(explainer.shap_values(X_vals))
+        # sv shape: (n_samples, n_features, n_classes) or (n_classes, n_samples, n_features)
+        if sv.ndim == 3:
+            if sv.shape[0] == X_vals.shape[0]:
+                # (n_samples, n_features, n_classes) — average over classes
+                shap_abs = np.abs(sv).mean(axis=2)  # -> (n_samples, n_features)
+            else:
+                # (n_classes, n_samples, n_features) — average over classes
+                shap_abs = np.abs(sv).mean(axis=0)  # -> (n_samples, n_features)
         else:
-            shap_abs = np.abs(shap_values)
-        mean_shap = shap_abs.mean(axis=0)
-        feat_names = X_hold.columns.tolist()
-        shap_df = pd.DataFrame({"feature": feat_names, "mean_abs_shap": mean_shap})
+            shap_abs = np.abs(sv)
+        mean_shap = shap_abs.mean(axis=0).ravel()  # -> (n_features,)
+        shap_df = pd.DataFrame({"feature": transformed_feat_names, "mean_abs_shap": mean_shap})
         shap_df = shap_df.sort_values("mean_abs_shap", ascending=False)
         shap_df.to_csv(out_dir / "E4_shap_importance.csv", index=False)
 
-        # Core vs non-core importance
-        core_mask = shap_df["feature"].isin(CORE_FEATURES)
+        # Map transformed feature names back to core features
+        core_patterns = CORE_FEATURES + ["num__" + c for c in CORE_FEATURES]
+        core_mask = shap_df["feature"].apply(
+            lambda f: any(f == c or f == f"num__{c}" for c in CORE_FEATURES))
         core_imp = shap_df.loc[core_mask, "mean_abs_shap"].sum()
         total_imp = shap_df["mean_abs_shap"].sum()
         logger.info("  SHAP: Core features = %.1f%%, Others = %.1f%%",
@@ -569,17 +583,18 @@ def run_e4(rf_pipe, cb_clf, X_train, y_train, X_hold, y_hold,
         shap_importance = {"core_pct": core_imp / total_imp * 100,
                            "other_pct": (1 - core_imp / total_imp) * 100}
 
-        # SHAP summary plot
+        # SHAP bar plot
         fig, ax = plt.subplots(figsize=(10, 8))
         top_n = min(20, len(shap_df))
-        colors = ["#e74c3c" if f in CORE_FEATURES else "#3498db"
-                   for f in shap_df["feature"].head(top_n)]
-        ax.barh(range(top_n), shap_df["mean_abs_shap"].head(top_n).values[::-1],
+        plot_feats = shap_df.head(top_n)
+        colors = ["#e74c3c" if any(c in f for c in CORE_FEATURES) else "#3498db"
+                   for f in plot_feats["feature"]]
+        ax.barh(range(top_n), plot_feats["mean_abs_shap"].values[::-1],
                 color=colors[::-1])
         ax.set_yticks(range(top_n))
-        ax.set_yticklabels(shap_df["feature"].head(top_n).values[::-1])
+        ax.set_yticklabels(plot_feats["feature"].values[::-1])
         ax.set_xlabel("Mean |SHAP value|")
-        ax.set_title("E4 — SHAP Feature Importance (CatBoost)\nRed = Core features, Blue = Others")
+        ax.set_title("E4 — SHAP Feature Importance (Random Forest)\nRed = Core features, Blue = Others")
         plt.tight_layout()
         plt.savefig(out_dir / "E4_shap_importance.png")
         plt.close(fig)
@@ -587,7 +602,7 @@ def run_e4(rf_pipe, cb_clf, X_train, y_train, X_hold, y_hold,
     except ImportError:
         logger.warning("  shap not installed — skipping SHAP analysis.")
     except Exception as e:
-        logger.warning("  SHAP computation failed: %s", e)
+        logger.warning("  SHAP computation failed: %s", e, exc_info=True)
 
     logger.info("E4 results saved.")
     return df_e4, shap_importance
