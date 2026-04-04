@@ -5,3 +5,4 @@ catboost_info/
 # Ignore all experiment outputs (generated at runtime), keep only stubs
 results/*/
 !results/.stubs/
+!results/validation_ml_vs_rule/
